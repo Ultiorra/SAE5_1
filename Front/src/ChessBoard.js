@@ -19,7 +19,6 @@ const MyChessboard = () => {
             const moves = chess.moves();
             const move = moves[Math.floor(Math.random() * moves.length)];
             chess.move(move);
-            setFen(chess.fen());
         }, 500);
     };
 
