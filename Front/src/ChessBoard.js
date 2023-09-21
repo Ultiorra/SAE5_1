@@ -1,33 +1,26 @@
-import React, { useState } from 'react';
-import { Chessboard } from 'react-chessboard';
-import {Chess} from 'chess.js';
+import React, { useState } from "react";
+import { Chess } from "chess.js";
+import {Chessboard} from "react-chessboard";
 
-const MyChessboard = () => {
-    const [chess] = useState(new Chess());
+export default function MyChessboard() {
+    const [game, setGame] = useState(new Chess());
 
-    const handleDrop = (sourceSquare, targetSquare) => {
-        const move = chess.move({
+    function onDrop({ sourceSquare, targetSquare }) {
+        const move = game.move({
             from: sourceSquare,
             to: targetSquare,
-            promotion: "q"
         });
 
-        if (move === null) return;
+        if (move === null) {
+            return;
+        }
 
-        // make random legal move for black
-        window.setTimeout(() => {
-            const moves = chess.moves();
-            const move = moves[Math.floor(Math.random() * moves.length)];
-            chess.move(move);
-        }, 500);
-    };
+        setGame(new Chess(game.fen()));
+    }
 
     return (
-        <Chessboard
-            position={chess.fen()}
-            onDrop={(sourceSquare, targetSquare) => handleDrop(sourceSquare, targetSquare)}
-        />
+        <div>
+            <Chessboard position={game.fen()} onPieceDrop={onDrop} />
+        </div>
     );
-};
-
-export default MyChessboard;
+}
