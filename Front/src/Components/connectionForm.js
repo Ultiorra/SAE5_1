@@ -2,14 +2,16 @@ import React, { useState } from 'react';
 import '../css/AuthForm.css';
 import { Button, TextField } from '@mui/material'; // Import MUI components as needed
 
-function AuthForm({ isRegistration }) {
-    const [username, setUsername] = useState('');
+function AuthForm({ isRegistration, setRegistration }) {
+    const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [email, setEmail] = useState(''); // Add email state
 
-    const handleUsernameChange = (e) => {
-        setUsername(e.target.value);
+    const path = "http://localhost/my-app/prochess/";
+
+    const handleLoginChange = (e) => {
+        setLogin(e.target.value);
     };
 
     const handlePasswordChange = (e) => {
@@ -24,12 +26,39 @@ function AuthForm({ isRegistration }) {
         setEmail(e.target.value);
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+
         if (isRegistration) {
-            // TODO : Logic to handle registration
-        } else {
-            // TODO : Logic to handle connection
+            // Logique d'inscription
+            var requestOption = {
+                mode: 'no-cors',
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ login: login, password: password, email: email, confirmPassword: confirmPassword }),
+            }
+            fetch (path + 'sign_in.php', requestOption)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                })
+                .catch(error => {
+                console.log(error);
+            });
+        }
+        else {
+            // Logique d'inscription
+            var requestOption = {
+                mode: 'no-cors',
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ login: login, password: password})
+            }
+            fetch (path + 'login.php', requestOption).then(response => response.json()).then(data => {
+                console.log(data);
+            }).catch(error => {
+                console.log(error);
+            });
         }
     };
 
@@ -39,14 +68,14 @@ function AuthForm({ isRegistration }) {
     return (
         <div className="auth-form-container">
             <h1 className="auth-form-title">{isRegistration ? "S'inscrire" : "Se connecter"}</h1>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} method="POST">
                 <div>
                     <label className="auth-form-label">Nom d'utilisateur {isRegistration ? "" : "ou Email"}:</label>
-                    <input className="auth-form-input" type="text" value={username} onChange={handleUsernameChange} />
+                    <input name="login" className="auth-form-input" type="text" value={login} onChange={handleLoginChange} />
                 </div>
                 <div>
                     <label className="auth-form-label">Mot de passe:</label>
-                    <input className="auth-form-input" type="password" value={password} onChange={handlePasswordChange} />
+                    <input name="password" className="auth-form-input" type="password" value={password} onChange={handlePasswordChange} />
                 </div>
                 {isRegistration && (
                     <div>
@@ -73,6 +102,10 @@ function AuthForm({ isRegistration }) {
                         Mot de passe oublié
                     </button>
                 )}
+
+                <button  className="auth-form-forgot-password" type="button" onClick={() => setRegistration(!isRegistration)}>
+                    {isRegistration ? "Se connecter" : "S'inscrire"}
+                </button>
             </form>
         </div>
     );

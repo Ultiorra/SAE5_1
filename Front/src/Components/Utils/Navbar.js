@@ -14,7 +14,7 @@ const NavBar = () => {
                 </Typography>
                 <div style={{ flexGrow: 1 }}></div>
                 <Button component={Link} to="/" color="inherit">
-                    Connection
+                    Connexion
                 </Button>
                 <Button component={Link} to="/chessboard" color="inherit">
                     Chessboard
