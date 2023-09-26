@@ -3,7 +3,7 @@ import {BrowserRouter as Router, Route} from 'react-router-dom';
 import { Link } from "react-router-dom";
 import { Routes } from "react-router-dom";
 import ConnectionForm from "./Components/connectionForm";
-import MyChessboard from "./ChessBoard";
+import MyChessboard from "./Components/ChessBoard";
 import NavBar from "./Components/Utils/Navbar";
 import * as app from "react";
 
