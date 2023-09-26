@@ -32,14 +32,12 @@ function AuthForm({ isRegistration, setRegistration }) {
         if (isRegistration) {
             // Logique d'inscription
             var requestOption = {
-                mode: 'no-cors',
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ login: login, password: password, email: email, confirmPassword: confirmPassword }),
             }
-            fetch (path + 'sign_in.php', requestOption)
-                .then(response => response.json())
-                .then(data => {
+            console.log(requestOption.body)
+            fetch (path + 'sign_in.php', requestOption).then(response => response.json()).then(data => {
                     console.log(data);
                 })
                 .catch(error => {
@@ -47,9 +45,8 @@ function AuthForm({ isRegistration, setRegistration }) {
             });
         }
         else {
-            // Logique d'inscription
+            // Logique de connexion
             var requestOption = {
-                mode: 'no-cors',
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ login: login, password: password})
@@ -80,12 +77,7 @@ function AuthForm({ isRegistration, setRegistration }) {
                 {isRegistration && (
                     <div>
                         <label className="auth-form-label">Confirmer le mot de passe:</label>
-                        <input
-                            className="auth-form-input"
-                            type="password"
-                            value={confirmPassword}
-                            onChange={handleConfirmPasswordChange}
-                        />
+                        <input className="auth-form-input" type="password" value={confirmPassword} onChange={handleConfirmPasswordChange}/>
                     </div>
                 )}
                 {isRegistration && (
