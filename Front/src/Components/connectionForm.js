@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import '../css/AuthForm.css';
 import { Button, TextField } from '@mui/material'; // Import MUI components as needed
 
-function AuthForm({ isRegistration, setRegistration }) {
+function AuthForm({ isRegistration, setRegistration, isConnected, setConnected}) {
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -30,7 +30,6 @@ function AuthForm({ isRegistration, setRegistration }) {
         e.preventDefault();
 
         if (isRegistration) {
-            // Logique d'inscription
             var requestOption = {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -45,14 +44,16 @@ function AuthForm({ isRegistration, setRegistration }) {
             });
         }
         else {
-            // Logique de connexion
+
             var requestOption = {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ login: login, password: password})
             }
             fetch (path + 'login.php', requestOption).then(response => response.json()).then(data => {
-                console.log(data);
+                if (data.success) {
+                    setConnected(true);
+                }
             }).catch(error => {
                 console.log(error);
             });

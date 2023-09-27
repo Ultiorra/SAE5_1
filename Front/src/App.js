@@ -9,12 +9,13 @@ import * as app from "react";
 
 function App() {
     const  [isRegistration, setRegistration] = React.useState(false);
+    const [isConnected, setConnected] = React.useState(false);
     return (
         <Router>
             <div>
                 < NavBar />
                 <Routes>
-                    <Route path="/" element={<ConnectionForm isRegistration={isRegistration} setRegistration={setRegistration} />} />
+                    <Route path="/" element={<ConnectionForm isRegistration={isRegistration} setRegistration={setRegistration} isConnected={isConnected} setConnected={setConnected} />} />
                     <Route path="/chessboard" element={<MyChessboard />} />
                 </Routes>
             </div>
