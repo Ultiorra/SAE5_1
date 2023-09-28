@@ -6,14 +6,15 @@ import ConnectionForm from "./Components/connectionForm";
 import MyChessboard from "./Components/ChessBoard";
 import NavBar from "./Components/Utils/Navbar";
 import * as app from "react";
-
+import { ToastContainer } from 'react-toastify';
 function App() {
     const  [isRegistration, setRegistration] = React.useState(false);
     const [isConnected, setConnected] = React.useState(false);
     return (
         <Router>
             <div>
-                < NavBar />
+                <ToastContainer />
+                < NavBar isConnected={isConnected}  />
                 <Routes>
                     <Route path="/" element={<ConnectionForm isRegistration={isRegistration} setRegistration={setRegistration} isConnected={isConnected} setConnected={setConnected} />} />
                     <Route path="/chessboard" element={<MyChessboard />} />
