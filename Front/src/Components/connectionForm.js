@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import '../css/AuthForm.css';
-import { Button, TextField } from '@mui/material'; // Import MUI components as needed
-
+import { Button, TextField } from '@mui/material';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function AuthForm({ isRegistration, setRegistration, isConnected, setConnected}) {
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [email, setEmail] = useState(''); // Add email state
+    const [email, setEmail] = useState('');
 
     const path = "http://localhost/my-app/prochess/";
 
@@ -37,14 +38,16 @@ function AuthForm({ isRegistration, setRegistration, isConnected, setConnected})
             }
             console.log(requestOption.body)
             fetch (path + 'sign_in.php', requestOption).then(response => response.json()).then(data => {
-                    console.log(data);
-                })
+                toast('Inscription réussie', { type: 'success', autoClose: 2000, position: toast.POSITION.TOP_CENTER });
+
+            })
                 .catch(error => {
-                console.log(error);
-            });
+                    console.log(error)
+                    toast('Erreur d\'inscription', { type: 'error', autoClose: 2000, position: toast.POSITION.TOP_CENTER });
+
+                });
         }
         else {
-
             var requestOption = {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -53,15 +56,22 @@ function AuthForm({ isRegistration, setRegistration, isConnected, setConnected})
             fetch (path + 'login.php', requestOption).then(response => response.json()).then(data => {
                 if (data.success) {
                     setConnected(true);
+                    console.log('Content-Type')
+                    toast('Connexion réussie', { type: 'success', autoClose: 2000, position: toast.POSITION.TOP_CENTER });
+                }
+                else {
+                    console.log(data)
+                    toast('Erreur de connexion', { type: 'error', autoClose: 2000, position: toast.POSITION.TOP_CENTER });
+
                 }
             }).catch(error => {
-                console.log(error);
+                toast('Erreur de connexion', { type: 'error' }, { autoClose: 2000 }, { position: toast.POSITION.TOP_CENTER });
             });
         }
     };
 
     const handleForgotPassword = () => {
-        // TODO : Logic to handle forgot password
+        //TODO : Logic to handle forgot password
     }
     return (
         <div className="auth-form-container">
