@@ -27,6 +27,9 @@ const NavBar = (isConnected) => {
                 <Button component={Link} to="/chessboard" color="inherit">
                     Chessboard
                 </Button>
+                <Button component={Link} to="/directories" color="inherit">
+                    Directories
+                </Button>
             </Toolbar>
         </AppBar>
     );
