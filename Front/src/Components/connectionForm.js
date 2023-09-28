@@ -36,12 +36,14 @@ function AuthForm({ isRegistration, setRegistration, isConnected, setConnected})
                 body: JSON.stringify({ login: login, password: password, email: email, confirmPassword: confirmPassword }),
             }
             console.log(requestOption.body)
-            fetch (path + 'sign_in.php', requestOption).then(response => response.json()).then(data => {
-                    console.log(data);
-                })
+            fetch (path + 'sign_in.php', requestOption).then(response => {
+                console.log(response.status)
+                if (response.status === 200)
+                    console.log("Creation de compte reussi");
+            })
                 .catch(error => {
-                console.log(error);
-            });
+                    console.log(error);
+                });
         }
         else {
 
@@ -50,9 +52,14 @@ function AuthForm({ isRegistration, setRegistration, isConnected, setConnected})
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ login: login, password: password})
             }
-            fetch (path + 'login.php', requestOption).then(response => response.json()).then(data => {
-                if (data.success) {
+            fetch (path + 'login.php', requestOption).then(response => {
+                console.log(response.status)
+                if (response.status === 200) {
+                    console.log("Connexion reussi");
                     setConnected(true);
+                }
+                else {
+                    console.log("Echec de connexion");
                 }
             }).catch(error => {
                 console.log(error);
