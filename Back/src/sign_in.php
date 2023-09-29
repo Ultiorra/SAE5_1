@@ -6,8 +6,11 @@ header("Content-type:application/json");
 session_start();
 
 $data = json_decode(file_get_contents("php://input"));
-echo "received data : ";
-print_r($data);
+//echo "received data : ";
+//print_r($data);
+$response = [
+    'status' => 'None'
+];
 
 try
 {
@@ -19,14 +22,15 @@ catch (Exception $e)
 }
 
 if (!isset($data->login) || !isset($data->password) || !isset($data->confirmPassword) || !isset($data->email)) {
-    echo('Remplissez correctement. Un ou plusieurs champs n\'est pas set');
-    return;
+    //http_response_code(400);
+    die("Remplissez correctement. Un ou plusieurs champs n\'est pas set\n");
 }
 
 $pseudo = $data->login;
 $email = $data->email;
 $confirmPassword = hash("sha256", $data->confirmPassword);
 $pw = hash("sha256", $data->password);
+
 
 try
 {
@@ -38,14 +42,15 @@ try
     if (strlen($pw) < 8 || $pw != $confirmPassword){
         http_response_code(400);
         $continue = false;
-        print_r("Mot de passe trop court ou non identique");
+        $response['status'] = "Mot de passe trop court ou non identique\n";
+        die("Mot de passe trop court ou non identique\n");
     }
 
     foreach ($utilisateurs as $user) {
         if ($user['login'] === $pseudo){
             $continue = false;
-            print_r("Ce pseudo est déjà utilisé");
             http_response_code(400);
+            die("Ce pseudo est déjà utilisé\n");
         }
     }
 
@@ -62,9 +67,9 @@ try
             'user' => $pseudo,
             'email' => $email,
         ];
-        print_r("Inscription réussie");
         http_response_code(200);
         echo json_encode($response);
+        //die("Inscription réussie");
     }
 }
 catch (Exception $e)
