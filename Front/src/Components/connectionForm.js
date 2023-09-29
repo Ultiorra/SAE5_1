@@ -35,7 +35,7 @@ function AuthForm({ isRegistration, setRegistration, isConnected, setConnected})
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ login: login, password: password, email: email, confirmPassword: confirmPassword }),
             }
-            console.log(requestOption.body)
+            //console.log(requestOption.body)
             fetch (path + 'sign_in.php', requestOption).then(response => {
                 console.log(response.status)
                 if (response.status === 200)

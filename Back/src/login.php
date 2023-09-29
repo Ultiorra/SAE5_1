@@ -1,10 +1,19 @@
 <?php
+header('Access-Control-Allow-Origin: *');
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
+header("Access-Control-Allow-Headers: Content-Disposition, Content-Type, Content-Length, Accept-Encoding");
+header("Content-type:application/json");
 session_start();
-$postData = $_POST;
+
+
+
+$data = json_decode(file_get_contents("php://input"));
+echo "received data : ";
+print_r($data);
 
 try
 {
-  $mysqlConnection = new PDO('mysql:host=localhost;dbname=prochess;charset=utf8', 'root', 'mdp', [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+    $mysqlConnection = new PDO('mysql:host=localhost;dbname=prochess;charset=utf8', 'root', 'mdp', [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
 }
 catch (Exception $e)
 {
@@ -12,9 +21,9 @@ catch (Exception $e)
 }
 
 // Validation du formulaire
-if (isset($_POST['login']) &&  isset($_POST['password']) && !empty($_POST['login']) && !empty($_POST['password'])) {
-    $pseudo = $_POST['login'];
-    $pw = hash("sha256", $_POST['password']);
+if (!isset($data->login) || !isset($data->password) && !empty($data->login) || !empty($data->password)) {
+    $pseudo = $data->login;
+    $pw = hash("sha256", $data->password);
     try
     {
         $userStatement = $mysqlConnection->prepare('SELECT id, login, password FROM user');
@@ -31,16 +40,24 @@ if (isset($_POST['login']) &&  isset($_POST['password']) && !empty($_POST['login
                 http_response_code(200);
                 $response = [
                     'status' => 'success',
-                    'message' => 'Vous êtes connecté',
-                    'user' => $loggedUser
+                    'message' => 'Vous vous etes connecte a votre compte',
+                    'user' => $pseudo,
                 ];
+                //print_r("\nConnexion réussie\n");
                 echo json_encode($response);
-            } else {
-                $errorMessage = sprintf('<h1>Les informations envoyées ne permettent pas de vous identifier : (%s/%s)</h1>',
-                    $_POST['login'],
-                    $_POST['password']
-                );
+                break;
             }
+            else {
+                $errorMessage = sprintf('<h1>Les informations envoyées ne permettent pas de vous identifier : (%s/%s)</h1>',
+                    $data->login,
+                    $data->password
+                );
+                http_response_code(404);
+            }
+        }
+        if (!isset($loggedUser)) {
+            http_response_code(401);
+            print_r($errorMessage);
         }
     }
     catch (Exception $e)
