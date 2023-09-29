@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import '../css/AuthForm.css';
 import { Button, TextField } from '@mui/material'; // Import MUI components as needed
-
+import {  toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function AuthForm({ isRegistration, setRegistration, isConnected, setConnected}) {
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
@@ -39,10 +40,11 @@ function AuthForm({ isRegistration, setRegistration, isConnected, setConnected})
             fetch (path + 'sign_in.php', requestOption).then(response => {
                 console.log(response.status)
                 if (response.status === 200)
-                    console.log("Creation de compte reussi");
+                    toast('Inscription réussie', { type: 'success', autoClose: 2000, position: toast.POSITION.TOP_CENTER });
             })
                 .catch(error => {
-                    console.log(error);
+                    toast('Erreur d\'inscription', { type: 'error', autoClose: 2000, position: toast.POSITION.TOP_CENTER });
+
                 });
         }
         else {
@@ -55,14 +57,16 @@ function AuthForm({ isRegistration, setRegistration, isConnected, setConnected})
             fetch (path + 'login.php', requestOption).then(response => {
                 console.log(response.status)
                 if (response.status === 200) {
-                    console.log("Connexion reussi");
+                    toast('Connexion réussie', { type: 'success', autoClose: 2000, position: toast.POSITION.TOP_CENTER });
                     setConnected(true);
                 }
                 else {
-                    console.log("Echec de connexion");
+                    toast('Erreur de connexion', { type: 'error', autoClose: 2000, position: toast.POSITION.TOP_CENTER });
+
                 }
             }).catch(error => {
-                console.log(error);
+                toast('Erreur de connexion', { type: 'error', autoClose: 2000, position: toast.POSITION.TOP_CENTER });
+
             });
         }
     };
