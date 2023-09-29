@@ -1,3 +1,5 @@
+import {Button, Link} from "@mui/material";
+import MyChessboard from "./ChessBoard";
 
 
 const Directories = () => {
@@ -10,3 +12,5 @@ const Directories = () => {
         </div>
     )
 }
+
+export default Directories;

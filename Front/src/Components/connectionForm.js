@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import '../css/AuthForm.css';
 import { Button, TextField } from '@mui/material'; // Import MUI components as needed
 import {  toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
-function AuthForm({ isRegistration, setRegistration, isConnected, setConnected}) {
+function AuthForm({ isRegistration, setRegistration, isConnected, setConnected, setUser }) {
+    const history = useNavigate();
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -36,13 +38,13 @@ function AuthForm({ isRegistration, setRegistration, isConnected, setConnected})
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ login: login, password: password, email: email, confirmPassword: confirmPassword }),
             }
-            //console.log(requestOption.body)
             fetch (path + 'sign_in.php', requestOption).then(response => {
                 console.log(response.status)
                 if (response.status === 200)
                     toast('Inscription réussie', { type: 'success', autoClose: 2000, position: toast.POSITION.TOP_CENTER });
             })
                 .catch(error => {
+
                     toast('Erreur d\'inscription', { type: 'error', autoClose: 2000, position: toast.POSITION.TOP_CENTER });
 
                 });
@@ -57,14 +59,13 @@ function AuthForm({ isRegistration, setRegistration, isConnected, setConnected})
             fetch (path + 'login.php', requestOption).then(response => {
                 console.log(response.status)
                 if (response.status === 200) {
-                    toast('Connexion réussie', { type: 'success', autoClose: 2000, position: toast.POSITION.TOP_CENTER });
                     setConnected(true);
-                }
-                else {
-                    toast('Erreur de connexion', { type: 'error', autoClose: 2000, position: toast.POSITION.TOP_CENTER });
-
+                    setUser({ login: login, id: 1, email: email, directories: { id: 1, name: 'directory1', ouvertures: 'ouvertures1', nb_tests: 1, nb_success: 1, color: 'white' } });
+                    history('/directories');
+                    toast('Connexion réussie', { type: 'success', autoClose: 2000, position: toast.POSITION.TOP_CENTER });
                 }
             }).catch(error => {
+                console.log(error)
                 toast('Erreur de connexion', { type: 'error', autoClose: 2000, position: toast.POSITION.TOP_CENTER });
 
             });
