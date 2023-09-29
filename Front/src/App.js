@@ -8,6 +8,7 @@ import MyChessboard from "./Components/ChessBoard";
 import NavBar from "./Components/Utils/Navbar";
 import * as app from "react";
 import { ToastContainer } from 'react-toastify';
+
 function App() {
     const  [isRegistration, setRegistration] = React.useState(false);
     const [isConnected, setConnected] = React.useState(false);
