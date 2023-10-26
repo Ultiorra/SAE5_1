@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import '../css/AuthForm.css';
-import { Button, TextField } from '@mui/material'; // Import MUI components as needed
+import { Button  } from '@mui/material'; // Import MUI components as needed
 import {  toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
@@ -42,6 +42,8 @@ function AuthForm({ isRegistration, setRegistration, isConnected, setConnected, 
                 console.log(response.status)
                 if (response.status === 200)
                     toast('Inscription réussie', { type: 'success', autoClose: 2000, position: toast.POSITION.TOP_CENTER });
+                else
+                    toast('Erreur d\'inscription', { type: 'error', autoClose: 2000, position: toast.POSITION.TOP_CENTER });
             })
                 .catch(error => {
 
@@ -51,18 +53,21 @@ function AuthForm({ isRegistration, setRegistration, isConnected, setConnected, 
         }
         else {
 
-            var requestOption = {
+            var requestOptions = {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ login: login, password: password})
             }
-            fetch (path + 'login.php', requestOption).then(response => {
+            fetch (path + 'login.php', requestOptions).then(response => {
                 console.log(response.status)
                 if (response.status === 200) {
                     setConnected(true);
                     setUser({ login: login, id: 1, email: email, directories: { id: 1, name: 'directory1', ouvertures: 'ouvertures1', nb_tests: 1, nb_success: 1, color: 'white' } });
                     history('/directories');
                     toast('Connexion réussie', { type: 'success', autoClose: 2000, position: toast.POSITION.TOP_CENTER });
+                }
+                else {
+                    toast('Erreur de connexion, veuillez vérifier vos identifiants', { type: 'error', autoClose: 2000, position: toast.POSITION.TOP_CENTER });
                 }
             }).catch(error => {
                 console.log(error)

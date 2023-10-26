@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Chessboard } from 'react-chessboard';
 import {Chess} from 'chess.js';
-import Tree from "./Tree";
 import '../css/ChessBoard.css';
 import {Button} from "@mui/material";
 
