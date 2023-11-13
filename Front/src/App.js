@@ -8,6 +8,7 @@ import MyChessboard from "./Components/ChessBoard";
 import NavBar from "./Components/Utils/Navbar";
 import * as app from "react";
 import { ToastContainer } from 'react-toastify';
+import DirectoriesBoard from "./Components/DirectoriesBoard";
 
 function App() {
     const  [isRegistration, setRegistration] = React.useState(false);
@@ -34,6 +35,7 @@ function App() {
                     <Route path="/" element={<ConnectionForm isRegistration={isRegistration} setRegistration={setRegistration} isConnected={isConnected} setConnected={setConnected} setUser={setUser} />} />
                     <Route path="/chessboard" element={<MyChessboard />} />
                     <Route path="/directories" element={<Directories />} />
+                    <Route path="/directoriesboard" element={<DirectoriesBoard />} />
                 </Routes>
             </div>
         </Router>
