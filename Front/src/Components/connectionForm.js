@@ -39,7 +39,7 @@ function AuthForm({ isRegistration, setRegistration, isConnected, setConnected, 
                 body: JSON.stringify({ login: login, password: password, email: email, confirmPassword: confirmPassword }),
             }
             fetch (path + 'sign_in.php', requestOption).then(response => {
-                console.log(response.status)
+                console.log(response)
                 if (response.status === 200)
                     toast('Inscription réussie', { type: 'success', autoClose: 2000, position: toast.POSITION.TOP_CENTER });
                 else
@@ -59,7 +59,7 @@ function AuthForm({ isRegistration, setRegistration, isConnected, setConnected, 
                 body: JSON.stringify({ login: login, password: password})
             }
             fetch (path + 'login.php', requestOptions).then(response => {
-                console.log(response.status)
+                console.log(response.user)
                 if (response.status === 200) {
                     setConnected(true);
                     setUser({ login: login, id: 1, email: email, directories: { id: 1, name: 'directory1', ouvertures: 'ouvertures1', nb_tests: 1, nb_success: 1, color: 'white' } });
