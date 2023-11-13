@@ -30,7 +30,7 @@ function App() {
         <Router>
             <div>
                 <ToastContainer />
-                < NavBar isConnected={isConnected}  />
+                < NavBar isConnected={isConnected} setConnected={setConnected} />
                 <Routes>
                     <Route path="/" element={<ConnectionForm isRegistration={isRegistration} setRegistration={setRegistration} isConnected={isConnected} setConnected={setConnected} setUser={setUser} />} />
                     <Route path="/chessboard" element={<MyChessboard />} />

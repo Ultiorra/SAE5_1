@@ -5,7 +5,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 
-function NavBar({ isConnected }) {
+function NavBar({ isConnected , setConnected }) {
     return (
         <AppBar position="static">
             <Toolbar>
@@ -19,7 +19,7 @@ function NavBar({ isConnected }) {
                             Connexion
                         </Button>
                         :
-                        <Button component={Link} to="/" color="inherit" onClick={() => { isConnected(false) }}>
+                        <Button component={Link} to="/" color="inherit" onClick={() => { setConnected(false) }}>
                             Déconnexion
                         </Button>
                 }
