@@ -1,4 +1,15 @@
+
+## TODO
+
+- [ ] Faire un CSS plus professionnel
+- [ ] Résoudre les problèmes du système de navigation à travers le PGN (sauts de plusieurs coups, impossible de retourner au coup initial après un retour en arrière)
+- [ ] Plusieurs branches en un seul repo (utiliser l'arbe?)
+- [ ] test sur un repo (pouvoir faire des tests sur un repo choisi)
+- [ ] Intégration du backend en PHP
+- [ ] Finaliser le projet ! (joies et confettis) 🎉
+
 # Getting Started with Create React App
+
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
