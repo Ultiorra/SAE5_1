@@ -5,6 +5,8 @@ import {IconButton} from "@mui/material";
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 
+const path = "http://localhost/my-app/prochess/";
+
 const Directories = () => {
     const [selectedDirectory, setSelectedDirectory] = useState(null);
 
@@ -45,6 +47,20 @@ const Directories = () => {
             color: 'white',
         }
     ];
+
+
+    const createDirectory = (name, ouvertures, nb_tests, nb_success, color) => {
+        return {
+            name,
+            ouvertures,
+            nb_tests,
+            nb_success,
+            color
+        };
+    };
+
+    const nouveauRepertoire = createDirectory("Nouveau Répertoire", "Nouvelles Ouvertures", 8, 4.5, "red");
+    console.log(nouveauRepertoire);
 
     return (
         <div>
