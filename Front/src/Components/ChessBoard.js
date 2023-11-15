@@ -3,10 +3,11 @@ import { Chessboard } from 'react-chessboard';
 import { Chess } from 'chess.js';
 import { Button, Card, CardContent, TextField, Select, MenuItem, FormControl, InputLabel } from "@mui/material";
 import '../css/ChessBoard.css';
+import Tree from "./Tree";
 const MyChessboard = () => {
 
    const [pgn, setPgn] = useState("");
-    const [tree, setTree] = useState([]);
+    const tree = new Tree("", {fen: new Chess().fen(), move: null, enfants: []});
     const [chess, setChess] = useState(new Chess());
     const [chessHistory, setChessHistory] = useState([new Chess()]);
     const [currentMoveIndex, setCurrentMoveIndex] = useState(0);
@@ -48,7 +49,7 @@ const MyChessboard = () => {
             setPgn(chess.pgn());
 
 
-            tree.addMove(move);
+            tree.ajouteCoup(move);
 
             setPgn_tree(tree.exportPgn());
 
@@ -114,7 +115,7 @@ const MyChessboard = () => {
                             <TextField
                                 label="PGN actuel"
                                 variant="outlined"
-                                value={chess.history()}
+                                value={pgn_tree}
                                 readOnly
                             />
                             <FormControl variant="outlined" fullWidth>
@@ -141,6 +142,7 @@ const MyChessboard = () => {
                 </div>
                 <p className="pgn">{pgn}</p>
                 <p>{chess.history()}</p>
+
             </div>
         </div>
     );
