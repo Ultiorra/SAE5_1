@@ -5,4 +5,35 @@
 
 .pgn {
     color: #007bff;
+    margin-top: 10px;
+}
+/* Ajoutez ces styles à votre fichier CSS, par exemple ChessBoard.css */
+
+.board-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-end;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.directory-card {
+    height: 200px;
+    margin-bottom: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }

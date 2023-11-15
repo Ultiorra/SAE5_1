@@ -59,11 +59,9 @@ const MyChessboard = () => {
             setPgn(chess.pgn());
 
 
-            tree.addMove(move);
-
-            setPgn_tree(tree.exportPgn());
-
             setFirstreturn(true);
+
+            console.log(chess.history({ verbose: true }));
 
 
         } catch (e) {
