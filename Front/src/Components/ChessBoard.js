@@ -1,22 +1,27 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { Chessboard } from 'react-chessboard';
-import {Chess} from 'chess.js';
+import { Chess } from 'chess.js';
+import { Button, Card, CardContent, TextField, Select, MenuItem, FormControl, InputLabel } from "@mui/material";
 import '../css/ChessBoard.css';
-import {Button} from "@mui/material";
-
 const MyChessboard = () => {
 
    const [pgn, setPgn] = useState("");
-
     const [tree, setTree] = useState([]);
-
     const [chess, setChess] = useState(new Chess());
     const [chessHistory, setChessHistory] = useState([new Chess()]);
     const [currentMoveIndex, setCurrentMoveIndex] = useState(0);
     const [pgn_tree, setPgn_tree] = useState("");
     const [pgnHistory, setPgnHistory] = useState([new Chess().pgn()]);
     const [firstreturn, setFirstreturn] = useState(true);
+    const [directoryName, setDirectoryName] = useState("");
+    const [directoryColor, setDirectoryColor] = useState("white");
 
+    const handleDirectorySubmit = (event) => {
+        event.preventDefault();
+        // Ici, vous pouvez traiter la soumission du formulaire,
+        // comme enregistrer les informations dans une base de données
+        // ou les utiliser pour afficher des informations dans votre application.
+    };
 
 
     const handleDrop = (sourceSquare, targetSquare) => {
@@ -88,18 +93,55 @@ const MyChessboard = () => {
 
 
     return (
-        <div>
+        <div className="board-container">
             <div className="board">
                 <Chessboard
                     position={chess.fen()}
                     onPieceDrop={(sourceSquare, targetSquare) => handleDrop(sourceSquare, targetSquare)}
                 />
             </div>
-            <Button onClick={() => setChess(new Chess())}>Reset</Button>
-            <Button onClick={() => previousMove()}>{'<'}</Button>
-            <Button onClick={() => nextMove()}>{'>'}</Button>
-            <p className="pgn">{pgn}</p>
-            <p>{chess.history()}</p>
+            <div style={{display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center"}}>
+                <Card className="directory-card">
+                    <CardContent>
+                        <form onSubmit={handleDirectorySubmit}>
+                            <TextField
+                                label="Nom du répertoire"
+                                variant="outlined"
+                                value={directoryName}
+                                onChange={(e) => setDirectoryName(e.target.value)}
+                                required
+                            />
+                            <TextField
+                                label="PGN actuel"
+                                variant="outlined"
+                                value={chess.history()}
+                                readOnly
+                            />
+                            <FormControl variant="outlined" fullWidth>
+                                <InputLabel>Couleur du répertoire</InputLabel>
+                                <Select
+                                    value={directoryColor}
+                                    onChange={(e) => setDirectoryColor(e.target.value)}
+                                    label="Couleur du répertoire"
+                                >
+                                    <MenuItem value="white">Blanc</MenuItem>
+                                    <MenuItem value="black">Noir</MenuItem>
+                                </Select>
+                            </FormControl>
+                            <Button type="submit" variant="contained" color="primary">
+                                Enregistrer Répertoire
+                            </Button>
+                        </form>
+                    </CardContent>
+                </Card>
+                <div className="buttons-container">
+                    <Button className="centre " onClick={() => setChess(new Chess())}>Reset</Button>
+                    <Button className="demi-cercle gauche" onClick={() => previousMove()}>{'<'}</Button>
+                    <Button className="demi-cercle droite" onClick={() => nextMove()}>{'>'}</Button>
+                </div>
+                <p className="pgn">{pgn}</p>
+                <p>{chess.history()}</p>
+            </div>
         </div>
     );
 };
