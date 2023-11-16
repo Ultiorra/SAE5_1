@@ -38,9 +38,9 @@ function AuthForm({ isRegistration, setRegistration, isConnected, setConnected, 
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ login: login, password: password, email: email, confirmPassword: confirmPassword }),
             }
-            fetch (path + 'sign_in.php', requestOption).then(response => {
-                console.log(response.status)
-                if (response.status === 200)
+            fetch (path + 'sign_in.php', requestOption).then(response => response.json()).then(data => {
+                console.log(data);
+                if (data.status === 200)
                     toast('Inscription réussie', { type: 'success', autoClose: 2000, position: toast.POSITION.TOP_CENTER });
                 else
                     toast('Erreur d\'inscription', { type: 'error', autoClose: 2000, position: toast.POSITION.TOP_CENTER });
@@ -53,14 +53,14 @@ function AuthForm({ isRegistration, setRegistration, isConnected, setConnected, 
         }
         else {
 
-            var requestOptions = {
+            var requestOption = {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ login: login, password: password})
             }
-            fetch (path + 'login.php', requestOptions).then(response => {
-                console.log(response.status)
-                if (response.status === 200) {
+            fetch (path + 'login.php', requestOption).then(response => response.json()).then(data => {
+                console.log(data);
+                if (data.status === "success") {
                     setConnected(true);
                     setUser({ login: login, id: 1, email: email, directories: { id: 1, name: 'directory1', ouvertures: 'ouvertures1', nb_tests: 1, nb_success: 1, color: 'white' } });
                     history('/directories');
@@ -80,6 +80,7 @@ function AuthForm({ isRegistration, setRegistration, isConnected, setConnected, 
     const handleForgotPassword = () => {
         // TODO : Logic to handle forgot password
     }
+
     return (
         <div className="auth-form-container">
             <h1 className="auth-form-title">{isRegistration ? "S'inscrire" : "Se connecter"}</h1>

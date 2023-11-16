@@ -22,7 +22,7 @@ const MyChessboard = () => {
     const [pgnHistory, setPgnHistory] = useState([new Chess().pgn()]);
     const [firstreturn, setFirstreturn] = useState(true);
     const [directoryName, setDirectoryName] = useState("");
-    const [directoryColor, setDirectoryColor] = useState(0);
+    const [directoryColor, setDirectoryColor] = useState("");
     const openModal = () => {
         setModalIsOpen(true);
     };
@@ -68,8 +68,7 @@ const MyChessboard = () => {
 
     };
 
-    const pushDirectory = async (e) => {
-        //e.preventDefault();
+    const pushDirectory = () => {
 
         var requestOption = {
             method: 'POST',
@@ -121,9 +120,9 @@ const MyChessboard = () => {
         }
     }
 
-    const addDirectory = () => {
+    const addDirectory = (e) => {
+        e.preventDefault()
         if (pgn.length > 0) {
-            // Appel à la fonction createDirectory avec les informations fournies
             const newDirectory = ((name, ouvertures, nb_tests, nb_success, color) => {
                 return {
                     name,
@@ -135,8 +134,8 @@ const MyChessboard = () => {
             })(directoryName, pgn, 0, 0, directoryColor);
 
             console.log('New directory:', newDirectory);
-            pushDirectory().then(r => console.log(r));
-            closeModal(); // Fermer la modal après l'ajout du répertoire
+            pushDirectory();
+            closeModal();
         }
     };
 
@@ -184,7 +183,7 @@ const MyChessboard = () => {
                 contentLabel="Modal"
                 style={customStyles}
             >
-                <h2 style={{marginBottom: '20px'}}>Entrez les informations du répertoire</h2>
+                <h2 style={{ marginBottom: '20px' }}>Entrez les informations du répertoire</h2>
                 <Card className="directory-card">
                     <CardContent>
                         <form onSubmit={addDirectory}>
@@ -194,29 +193,27 @@ const MyChessboard = () => {
                                 value={directoryName}
                                 onChange={(e) => setDirectoryName(e.target.value)}
                                 required
+                                fullWidth
+                                style={{ marginBottom: '10px' }}
                             />
-                            <TextField
-                                label="PGN actuel"
-                                variant="outlined"
-                                value={pgn}
-                                readOnly
-                            />
-                            <FormControl variant="outlined" fullWidth>
+                            {/* Autres champs de formulaire... */}
+                            <FormControl variant="outlined" fullWidth style={{ marginBottom: '10px' }}>
                                 <InputLabel>Couleur du répertoire</InputLabel>
                                 <Select
-                                    value={directoryColor }
+                                    value={directoryColor}
                                     onChange={(e) => setDirectoryColor(e.target.value)}
                                     label="Couleur du répertoire"
+                                    required
                                 >
+                                    <MenuItem value="">Sélectionner</MenuItem>
                                     <MenuItem value="0">Blanc</MenuItem>
                                     <MenuItem value="1">Noir</MenuItem>
                                 </Select>
                             </FormControl>
-                            <div style={ {display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '20px', flexDirection: 'row'}}>
-                                <Button type="submit" variant="contained" color="primary" onClick={addDirectory} style={{marginRight    : '20px', width: '100%', height: '50px'}}>Ajouter Répertoire</Button>
-                                <Button  variant="contained" color="secondary" onClick={closeModal} style={{marginLeft: '20px', width: '100%', height: '50px'} }>Annuler</Button>
+                            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
+                                <Button type="submit" variant="contained" color="primary" style={{ marginRight: '20px', width: '100%', height: '50px' }}>Ajouter Répertoire</Button>
+                                <Button type="button" variant="contained" color="secondary" onClick={closeModal} style={{ marginLeft: '20px', width: '100%', height: '50px' }}>Annuler</Button>
                             </div>
-
                         </form>
                     </CardContent>
                 </Card>
