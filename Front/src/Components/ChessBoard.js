@@ -196,7 +196,12 @@ const MyChessboard = () => {
                                 fullWidth
                                 style={{ marginBottom: '10px' }}
                             />
-                            {/* Autres champs de formulaire... */}
+                            <TextField
+                                label="PGN actuel"
+                                variant="outlined"
+                                value={pgn}
+                                readOnly
+                            />
                             <FormControl variant="outlined" fullWidth style={{ marginBottom: '10px' }}>
                                 <InputLabel>Couleur du répertoire</InputLabel>
                                 <Select
@@ -205,7 +210,6 @@ const MyChessboard = () => {
                                     label="Couleur du répertoire"
                                     required
                                 >
-                                    <MenuItem value="">Sélectionner</MenuItem>
                                     <MenuItem value="0">Blanc</MenuItem>
                                     <MenuItem value="1">Noir</MenuItem>
                                 </Select>
