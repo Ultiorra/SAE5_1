@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import '../css/AuthForm.css';
 import { Button  } from '@mui/material'; // Import MUI components as needed
 import {  toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
-function AuthForm({ isRegistration, setRegistration, isConnected, setConnected, setUser }) {
+function AuthForm({ isRegistration, setRegistration, isConnected, setConnected, setUser, user }) {
     const history = useNavigate();
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
@@ -62,7 +62,8 @@ function AuthForm({ isRegistration, setRegistration, isConnected, setConnected, 
                 console.log(data);
                 if (data.status === "success") {
                     setConnected(true);
-                    setUser({ login: login, id: 1, email: email, directories: { id: 1, name: 'directory1', ouvertures: 'ouvertures1', nb_tests: 1, nb_success: 1, color: 'white' } });
+                    setUser({ login: data.user, id: 1, email: data.email, directories: { id: 1, name: 'directory1', ouvertures: 'ouvertures1', nb_tests: 1, nb_success: 1, color: 'white' } });
+                    //console.log(user);
                     history('/directories');
                     toast('Connexion réussie', { type: 'success', autoClose: 2000, position: toast.POSITION.TOP_CENTER });
                 }
@@ -77,6 +78,9 @@ function AuthForm({ isRegistration, setRegistration, isConnected, setConnected, 
         }
     };
 
+    useEffect(() => {
+        console.log(user);
+    } , [user])
     const handleForgotPassword = () => {
         // TODO : Logic to handle forgot password
     }
