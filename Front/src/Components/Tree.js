@@ -162,7 +162,8 @@ export default class Tree {
         return currentIndex;
     }
     ajouteCoup(parent, coupJoue, moveNb){
-        this.game.load(parent.fen)
+        const fen = parent.fen.toString()
+        this.game.load(fen, true)
         this.game.move(coupJoue)
         let nouveau = new Node(coupJoue, parent, this.game.fen(), moveNb, "");
         parent.addEnfant(nouveau);

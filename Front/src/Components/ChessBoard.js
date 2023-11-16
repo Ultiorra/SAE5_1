@@ -9,6 +9,7 @@ import { Button, Card, CardContent, TextField, Select, MenuItem, FormControl, In
 import Tree from "./Tree";
 
 const MyChessboard = () => {
+
     const path = "http://localhost/my-app/prochess/";
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [pgn, setPgn] = useState("");
@@ -53,9 +54,8 @@ const MyChessboard = () => {
             const updatedPgnHistory = pgnHistory.slice(0, currentMoveIndex + 1);
             updatedPgnHistory.push(updatedChess.pgn());
             setPgnHistory(updatedPgnHistory);
-
+            tree.ajouteCoup(updatedChess , move, currentMoveIndex);
             setPgn(chess.pgn());
-
 
             setFirstreturn(true);
 
