@@ -2,20 +2,18 @@ import React, {useState} from 'react';
 import {Chessboard} from 'react-chessboard';
 import {Chess} from 'chess.js';
 import '../css/ChessBoard.css';
-import {Button} from "@mui/material";
 import createDirectory from "./Directories";
 import Modal from 'react-modal';
 import {toast} from "react-toastify";
+import { Button, Card, CardContent, TextField, Select, MenuItem, FormControl, InputLabel } from "@mui/material";
+import Tree from "./Tree";
 
 const MyChessboard = () => {
-
     const path = "http://localhost/my-app/prochess/";
-
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [pgn, setPgn] = useState("");
-
-    const [tree, setTree] = useState([]);
-
+    const [tree, setTree] = useState(new Tree ("", ""));
+    const [finalPgn, setFinalPgn] = useState("");
     const [chess, setChess] = useState(new Chess());
     const [chessHistory, setChessHistory] = useState([new Chess()]);
     const [currentMoveIndex, setCurrentMoveIndex] = useState(0);
@@ -24,8 +22,6 @@ const MyChessboard = () => {
     const [firstreturn, setFirstreturn] = useState(true);
     const [directoryName, setDirectoryName] = useState("");
     const [directoryColor, setDirectoryColor] = useState(0);
-
-
     const openModal = () => {
         setModalIsOpen(true);
     };
@@ -46,7 +42,9 @@ const MyChessboard = () => {
             });
 
             if (move === null) return;
-
+            const updatedPgn = updatedChess.pgn();
+            setPgn(updatedPgn);
+            setFinalPgn(finalPgn + " " + updatedPgn);
             const updatedHistory = chessHistory.slice(0, currentMoveIndex + 1);
             updatedHistory.push(updatedChess);
             setChessHistory(updatedHistory);
@@ -158,8 +156,9 @@ const MyChessboard = () => {
             border: '1px solid #ccc',
             borderRadius: '8px',
             boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
-            maxWidth: '300px',
+            maxWidth: '500px',
             width: '100%',
+            height: '500px',
             textAlign: 'center'
         }
     };
@@ -186,35 +185,41 @@ const MyChessboard = () => {
                 style={customStyles}
             >
                 <h2 style={{marginBottom: '20px'}}>Entrez les informations du répertoire</h2>
-                <input
-                    type="text"
-                    placeholder="Nom du répertoire"
-                    value={directoryName}
-                    onChange={(e) => setDirectoryName(e.target.value)}
-                    style={{marginBottom: '10px', padding: '5px'}}
-                />
-                <div style={{marginBottom: '20px'}}>
-                    <label style={{marginRight: '10px'}}>
-                        <input
-                            type="radio"
-                            value="black"
-                            checked={directoryColor === "black"}
-                            onChange={() => setDirectoryColor(1)}
-                        />
-                        Noir
-                    </label>
-                    <label>
-                        <input
-                            type="radio"
-                            value="white"
-                            checked={directoryColor === "white"}
-                            onChange={() => setDirectoryColor(0)}
-                        />
-                        Blanc
-                    </label>
-                </div>
-                <button onClick={addDirectory} style={{marginRight: '10px'}}>Ajouter Répertoire</button>
-                <button onClick={closeModal}>Annuler</button>
+                <Card className="directory-card">
+                    <CardContent>
+                        <form onSubmit={addDirectory}>
+                            <TextField
+                                label="Nom du répertoire"
+                                variant="outlined"
+                                value={directoryName}
+                                onChange={(e) => setDirectoryName(e.target.value)}
+                                required
+                            />
+                            <TextField
+                                label="PGN actuel"
+                                variant="outlined"
+                                value={pgn}
+                                readOnly
+                            />
+                            <FormControl variant="outlined" fullWidth>
+                                <InputLabel>Couleur du répertoire</InputLabel>
+                                <Select
+                                    value={directoryColor }
+                                    onChange={(e) => setDirectoryColor(e.target.value)}
+                                    label="Couleur du répertoire"
+                                >
+                                    <MenuItem value="0">Blanc</MenuItem>
+                                    <MenuItem value="1">Noir</MenuItem>
+                                </Select>
+                            </FormControl>
+                            <div style={ {display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '20px', flexDirection: 'row'}}>
+                                <Button type="submit" variant="contained" color="primary" onClick={addDirectory} style={{marginRight    : '20px', width: '100%', height: '50px'}}>Ajouter Répertoire</Button>
+                                <Button  variant="contained" color="secondary" onClick={closeModal} style={{marginLeft: '20px', width: '100%', height: '50px'} }>Annuler</Button>
+                            </div>
+
+                        </form>
+                    </CardContent>
+                </Card>
             </Modal>
         </div>
     );
