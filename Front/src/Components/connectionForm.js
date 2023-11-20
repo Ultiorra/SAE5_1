@@ -34,19 +34,21 @@ function AuthForm({ isRegistration, setRegistration, isConnected, setConnected, 
     };
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!validateEmail(email)) {
-            toast('Veuillez fournir une adresse email valide', { type: 'error', autoClose: 2000, position: toast.POSITION.TOP_CENTER });
-            return;
-        }
+        if(isRegistration){
+            if (!validateEmail(email)) {
+                toast('Veuillez fournir une adresse email valide', { type: 'error', autoClose: 2000, position: toast.POSITION.TOP_CENTER });
+                return;
+            }
 
-        if (password.length < 8) {
-            toast('Le mot de passe doit contenir au moins 8 caractères', { type: 'error', autoClose: 2000, position: toast.POSITION.TOP_CENTER });
-            return;
-        }
+            if (password.length < 8) {
+                toast('Le mot de passe doit contenir au moins 8 caractères', { type: 'error', autoClose: 2000, position: toast.POSITION.TOP_CENTER });
+                return;
+            }
 
-        if (isRegistration && password !== confirmPassword) {
-            toast('Les mots de passe ne correspondent pas', { type: 'error', autoClose: 2000, position: toast.POSITION.TOP_CENTER });
-            return;
+            if (isRegistration && password !== confirmPassword) {
+                toast('Les mots de passe ne correspondent pas', { type: 'error', autoClose: 2000, position: toast.POSITION.TOP_CENTER });
+                return;
+            }
         }
         if (isRegistration) {
             var requestOption = {
