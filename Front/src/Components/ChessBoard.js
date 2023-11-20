@@ -8,7 +8,7 @@ import {toast} from "react-toastify";
 import { Button, Card, CardContent, TextField, Select, MenuItem, FormControl, InputLabel } from "@mui/material";
 import Tree from "./Tree";
 
-const MyChessboard = () => {
+const MyChessboard = ( user , isConnected) => {
 
     const path = "http://localhost/my-app/prochess/";
     const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -73,7 +73,7 @@ const MyChessboard = () => {
         var requestOption = {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({nom: directoryName, ouverture: pgn, couleur: directoryColor, action: 1}),
+            body: JSON.stringify({userid: user.id, nom: directoryName, ouverture: pgn, couleur: directoryColor, action: 1}),
         }
         fetch(path + 'manage_directories.php', requestOption).then(response => {
             console.log(response.status)
@@ -91,6 +91,27 @@ const MyChessboard = () => {
             });
     };
 
+    const getAllDirectories = () => {
+        var requestOption = {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({userid: user.id, action: 2}),
+        }
+        fetch(path + 'manage_directories.php', requestOption).then(response => {
+            console.log(response.status)
+            if (response.status === 200)
+                toast('Récupération des répertoires réussie', {
+                    type: 'success',
+                    autoClose: 2000,
+                    position: toast.POSITION.TOP_CENTER
+                });
+            else
+                toast('Erreur de récupération...', {type: 'error', autoClose: 2000, position: toast.POSITION.TOP_CENTER});
+        })
+            .catch(error => {
+                toast('Erreur de récupération', {type: 'error', autoClose: 2000, position: toast.POSITION.TOP_CENTER});
+            });
+    }
 
     const previousMove = () => {
         if (firstreturn) {

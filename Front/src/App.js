@@ -37,7 +37,7 @@ function App() {
                 < NavBar isConnected={isConnected} setConnected={setConnected} />
                 <Routes>
                     <Route path="/" element={<ConnectionForm isRegistration={isRegistration} setRegistration={setRegistration} isConnected={isConnected} setConnected={setConnected} setUser={setUser} user={user} />} />
-                    <Route path="/chessboard" element={<MyChessboard />} />
+                    <Route path="/chessboard" element={<MyChessboard isConnected={isConnected} user={user} />} />
                     <Route path="/directories" element={<Directories />} />
                     <Route path="/directoriesboard/:value" element={<DirectoriesBoard />} />
                 </Routes>
