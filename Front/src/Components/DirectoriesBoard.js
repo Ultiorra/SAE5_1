@@ -5,7 +5,21 @@ import { Button } from "@mui/material";
 import { useParams } from "react-router-dom";
 
 const DirectoriesBoard = () => {
+    function parsePgn(pgn) {
+        const moves = pgn.split(/\s+\d+\.\s+/).filter((move) => move.trim() !== '');
+        const parsedMoves = [];
+
+        for (let i = 0; i < moves.length; i++) {
+            const currentMove = (i === 0) ? moves[i] : `1. ${moves.slice(0, i + 1).join(' ')}`;
+            parsedMoves.push(currentMove);
+        }
+
+        return parsedMoves;
+    }
+
     const { value } = useParams();
+
+    const {userColor} = "w";
 
     const [tempChess, setTempChess] = useState(new Chess());
 
@@ -16,14 +30,25 @@ const DirectoriesBoard = () => {
     const [updatedChess, setUpdatedChess] = useState(new Chess());
     const [updatedChessCopy, setUpdatedChessCopy] = useState(new Chess());
 
-    // Fonction pour gérer le déplacement des pièces
+    const parsedMoves = parsePgn(value);
+
     const handleDrop = (sourceSquare, targetSquare) => {
         try {
-            // Copie de l'état actuel de l'échiquier pour effectuer des modifications sans altérer l'état actuel
             const updatedChessCopy = new Chess(chess.fen());
             setUpdatedChessCopy(updatedChessCopy);
 
-            // Tentative de réaliser le mouvement sur l'échiquier copié
+
+
+            /*if (updatedChessCopy.turn() === "b") {
+                console.log(updatedChessCopy.moveNumber());
+                const newChess = new Chess();
+                newChess.loadPgn(parsedMoves[updatedChessCopy.moveNumber() - 1], { newlineChar: ':' });
+                console.log(parsedMoves[updatedChessCopy.moveNumber() - 1]);
+                setUpdatedChessCopy(newChess);
+                setTempChess(newChess);
+                return;
+            }*/
+
             const move = updatedChessCopy.move({
                 from: sourceSquare,
                 to: targetSquare,
@@ -40,10 +65,17 @@ const DirectoriesBoard = () => {
             console.log(tempChess.pgn());
 
             if (move !== null) {
-                // Vérification si le PGN reçu en paramètre inclut la position mise à jour
+                if (parsedMoves[chess.moveNumber() - 1].includes(move.san)) {
+                    console.log(chess.moveNumber());
+                    const newChess = new Chess();
+                    newChess.loadPgn(parsedMoves[chess.moveNumber() - 1], {newlineChar: ':'});
+                    console.log(parsedMoves[chess.moveNumber() - 1]);
+                    setUpdatedChessCopy(newChess);
+                    setTempChess(newChess);
+                    return;
+                }
 
             } else {
-                // Le mouvement est invalide
                 console.log("Invalid move");
                 return;
             }
@@ -54,23 +86,15 @@ const DirectoriesBoard = () => {
 
     useEffect(() => {
         if (value.includes(tempChess.pgn())) {
-            // Le mouvement est valide
-
-            // Mise à jour de l'historique des mouvements
             const updatedChessHistory = chessHistory.slice(0, currentMoveIndex + 1);
             updatedChessHistory.push(updatedChessCopy);
 
-            // Mise à jour de l'état actuel de l'échiquier
-
             setPgn(tempChess.pgn());
             setChess(updatedChessCopy);
-            /*setPgn(updatedChessCopy.pgn());*/
 
-            // Mise à jour de l'historique des échiquiers et de l'index du mouvement actuel
             setChessHistory(updatedChessHistory);
             setCurrentMoveIndex(currentMoveIndex + 1);
         } else {
-            // Le mouvement n'est pas valide par rapport au PGN reçu
             console.log("Invalid position");
             return;
         }
@@ -86,8 +110,6 @@ const DirectoriesBoard = () => {
             <p>{pgn}</p>
             <p>VALUE</p>
             <p>{value}</p>
-            {/*<p>temp pgn</p>
-            <p>{tempChess.pgn()}</p>*/}
         </div>
     );
 };
