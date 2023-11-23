@@ -16,18 +16,20 @@ const Directories = (user, isConnected) => {
         console.log(user);
         console.log(user.isConnected);
         if (!user.isConnected) {
+
             navigate('/');
+
         }
         else {
             var requestOption = {
-                method: 'GET',
+                method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({userid: user.user.id, action: 2}),
             }
             fetch(path + 'manage_directories.php', requestOption).then(response => response.json()).then(data => {
                 console.log("data");
                 console.log(data);
-                if (data.status === 200) {
+                if (data.status === "success") {
                     console.log(data);
                 } else
                     toast('Erreur de récupération...', {
