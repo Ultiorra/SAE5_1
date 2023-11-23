@@ -38,7 +38,7 @@ function App() {
                 <Routes>
                     <Route path="/" element={<ConnectionForm isRegistration={isRegistration} setRegistration={setRegistration} isConnected={isConnected} setConnected={setConnected} setUser={setUser} user={user} />} />
                     <Route path="/chessboard" element={<MyChessboard isConnected={isConnected} user={user} />} />
-                    <Route path="/directories" element={<Directories />} />
+                    <Route path="/directories" element={<Directories user={user} isConnected={isConnected} />} />
                     <Route path="/directoriesboard/:value" element={<DirectoriesBoard />} />
                 </Routes>
             </div>

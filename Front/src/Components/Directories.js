@@ -2,13 +2,46 @@ import { Card, CardContent, Typography, Box } from "@mui/material";
 import '../css/Directories.css';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {IconButton} from "@mui/material";
-import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import {Link, useNavigate} from 'react-router-dom';
+import {useEffect, useState} from 'react';
+import {toast} from "react-toastify";
 
 const path = "http://localhost/my-app/prochess/";
 
-const Directories = () => {
+const Directories = (user, isConnected) => {
     const [selectedDirectory, setSelectedDirectory] = useState(null);
+    const navigate = useNavigate();
+    const [userDirectories, setUserDirectories] = useState([]);
+    useEffect(() => {
+        console.log(user);
+        console.log(user.isConnected);
+        if (!user.isConnected) {
+            navigate('/');
+        }
+        else {
+            var requestOption = {
+                method: 'GET',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({userid: user.user.id, action: 2}),
+            }
+            fetch(path + 'manage_directories.php', requestOption).then(response => response.json()).then(data => {
+                console.log("data");
+                console.log(data);
+                if (data.status === 200) {
+                    console.log(data);
+                } else
+                    toast('Erreur de récupération...', {
+                        type: 'error',
+                        autoClose: 2000,
+                        position: toast.POSITION.TOP_CENTER
+                    });
+            }).catch(error => {
+                toast('Erreur de récupération', {type: 'error', autoClose: 2000, position: toast.POSITION.TOP_CENTER});
+            });
+        }
+
+
+    } , []);
 
     const directories = [
         {
@@ -58,9 +91,6 @@ const Directories = () => {
             color
         };
     };
-
-    const nouveauRepertoire = createDirectory("Nouveau Répertoire", "Nouvelles Ouvertures", 8, 4.5, "red");
-    console.log(nouveauRepertoire);
 
     return (
         <div>

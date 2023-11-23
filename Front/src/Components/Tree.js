@@ -63,7 +63,7 @@ export default class Tree {
                     }
                     else {
                         if(node.turn === 'b' && node.move !== "Racine")
-                            exportString += node.moveNbr + ". " + node.move + " "
+                            exportString += node.moveNbr+0.5 + ". " + node.move + " "
                         else if(node.turn === 'w')
                             exportString += node.move + " "
                         if ( node.comment )
@@ -162,7 +162,7 @@ export default class Tree {
         return currentIndex;
     }
     ajouteCoup(parent, coupJoue, moveNb){
-        const fen = parent.fen.toString()
+        const fen = parent.fen;
         this.game.load(fen, true)
         this.game.move(coupJoue)
         let nouveau = new Node(coupJoue, parent, this.game.fen(), moveNb, "");

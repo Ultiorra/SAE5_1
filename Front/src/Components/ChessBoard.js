@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Chessboard} from 'react-chessboard';
 import {Chess} from 'chess.js';
 import '../css/ChessBoard.css';
@@ -7,13 +7,15 @@ import Modal from 'react-modal';
 import {toast} from "react-toastify";
 import { Button, Card, CardContent, TextField, Select, MenuItem, FormControl, InputLabel } from "@mui/material";
 import Tree from "./Tree";
+import Node from "./Node";
 
 const MyChessboard = ( user , isConnected) => {
 
+    const [node, setNode] = useState([]);
     const path = "http://localhost/my-app/prochess/";
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [pgn, setPgn] = useState("");
-    const [tree, setTree] = useState(new Tree ("", ""));
+    const [tree, setTree] = useState(new Tree ("", new Node(  "Racine" , null , "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1")));
     const [finalPgn, setFinalPgn] = useState("");
     const [chess, setChess] = useState(new Chess());
     const [chessHistory, setChessHistory] = useState([new Chess()]);
@@ -43,6 +45,8 @@ const MyChessboard = ( user , isConnected) => {
             });
 
             if (move === null) return;
+
+            const newNode = new Node (move.san , node , chess.fen());
             const updatedPgn = updatedChess.pgn();
             setPgn(updatedPgn);
             setFinalPgn(finalPgn + " " + updatedPgn);
@@ -54,12 +58,15 @@ const MyChessboard = ( user , isConnected) => {
             const updatedPgnHistory = pgnHistory.slice(0, currentMoveIndex + 1);
             updatedPgnHistory.push(updatedChess.pgn());
             setPgnHistory(updatedPgnHistory);
-            tree.ajouteCoup(updatedChess , move, currentMoveIndex);
+            console.log(chess.fen());
+            setNode(tree.ajouteCoup(node , move.san, node.moveNbr +1 ));
             setPgn(chess.pgn());
 
             setFirstreturn(true);
 
             console.log(chess.history({ verbose: true }));
+            console.log(node.moveNbr);
+            console.log(tree.exportPgn()    );
 
 
         } catch (e) {
@@ -120,10 +127,12 @@ const MyChessboard = ( user , isConnected) => {
                 setCurrentMoveIndex(newIndex);
                 setChess(chessHistory[newIndex]);
                 setPgn(pgnHistory[newIndex]);
+                setNode(node.parent);
             }
             setFirstreturn(false);
         } else {
             if (currentMoveIndex > 0) {
+                setNode(node.parent);
                 const newIndex = currentMoveIndex - 1;
                 setCurrentMoveIndex(newIndex);
                 setChess(chessHistory[newIndex]);
@@ -134,6 +143,7 @@ const MyChessboard = ( user , isConnected) => {
 
     const nextMove = () => {
         if (currentMoveIndex < chessHistory.length - 1) {
+            setNode(node.children[0]);
             const newIndex = currentMoveIndex + 1;
             setCurrentMoveIndex(newIndex);
             setChess(chessHistory[newIndex]);
@@ -183,6 +193,9 @@ const MyChessboard = ( user , isConnected) => {
         }
     };
 
+    useEffect(() => {
+        setNode(tree.racine);
+    } , []);
     return (
         <div>
             <div className="board">
@@ -220,7 +233,7 @@ const MyChessboard = ( user , isConnected) => {
                             <TextField
                                 label="PGN actuel"
                                 variant="outlined"
-                                value={pgn}
+                                value={tree.exportPgn()}
                                 readOnly
                             />
                             <FormControl variant="outlined" fullWidth style={{ marginBottom: '10px' }}>

@@ -1,15 +1,15 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import {toast} from "react-toastify";
-
 const path = "http://localhost/my-app/prochess/";
 
 
 function NavBar({isConnected, setConnected}) {
+    const navigate = useNavigate();
     const handleLogout = async (e) => {
         e.preventDefault();
 
@@ -21,6 +21,7 @@ function NavBar({isConnected, setConnected}) {
             console.log(response.status)
             if (response.status === 200){
                 toast('Déconnexion réussie', {type: 'success', autoClose: 2000, position: toast.POSITION.TOP_CENTER});
+                navigate('/');
                 setConnected(false);
             }
             else
