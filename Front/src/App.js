@@ -29,6 +29,7 @@ function App() {
 
     useEffect(() => {
         console.log(user);
+        console.log("test" + isConnected);
     } , [user]);
     return (
         <Router>

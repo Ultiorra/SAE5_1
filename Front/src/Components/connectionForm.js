@@ -80,7 +80,8 @@ function AuthForm({ isRegistration, setRegistration, isConnected, setConnected, 
                 console.log(data);
                 if (data.status === "success") {
                     setConnected(true);
-                    setUser({ login: data.user, id: 1, email: data.email, directories: { id: 1, name: 'directory1', ouvertures: 'ouvertures1', nb_tests: 1, nb_success: 1, color: 'white' } });
+                    console.log(data.iduser +"id");
+                    setUser({ login: data.user, id: data.iduser, email: data.email, directories: { id: 1, name: 'directory1', ouvertures: 'ouvertures1', nb_tests: 1, nb_success: 1, color: 'white' } });
                     //console.log(user);
                     history('/directories');
                     toast('Connexion réussie', { type: 'success', autoClose: 2000, position: toast.POSITION.TOP_CENTER });
