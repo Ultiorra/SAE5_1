@@ -31,6 +31,7 @@ const Directories = (user, isConnected) => {
                 console.log(data);
                 if (data.status === "success") {
                     console.log(data);
+                    setUserDirectories(data.repertoires);
                 } else
                     toast('Erreur de récupération...', {
                         type: 'error',
@@ -155,6 +156,73 @@ const Directories = (user, isConnected) => {
                         </Card>
                     </Link>
                 ))}
+                { userDirectories.map((directory, index) => (
+                    <Link
+                        to={`/directoriesboard/${directory.ouvertures}`}
+                    >
+                        <Card
+                            key={index}
+                            className="directory-card"
+                        >
+
+                            <CardContent  style={{
+                                backgroundColor: '#f5f5f5'
+                            }}>
+                                <IconButton
+                                    className="delete-button"
+                                    onClick={() => console.log('delete')}
+                                >
+                                    <DeleteIcon />
+                                </IconButton>
+                                <Typography variant="h5">{directory.nom}</Typography>
+                                <Box
+                                    display="flex"
+                                    alignItems="center"
+                                    justifyContent="space-between"
+                                    mt={2}
+
+                                >
+                                    <div
+                                        style={{
+                                            width: '10px',
+                                            height: '10px',
+                                            backgroundColor: directory.couleur === "0" ? 'white' : 'black',
+                                            borderRadius: '50%',
+                                            marginRight: '8px',
+                                        }}
+                                    ></div>
+
+
+                                    {
+                                        directory.nb_tests === "0" ? <Typography>
+                                                0% de réussite
+                                            </Typography> :
+                                            <Typography>
+                                                {Number.isInteger(directory.nb_success / directory.nb_tests)
+                                                    ? `${(directory.nb_success / directory.nb_tests) * 100}% de réussite`
+                                                    : `${((directory.nb_success / directory.nb_tests) * 100).toFixed(2)}% de réussite`}
+                                            </Typography>
+                                    }
+
+                                </Box>
+                                <Box
+                                    display="flex"
+                                    alignItems="center"
+                                    justifyContent="space-between"
+                                    mt={2}
+
+                                >
+                                    <Typography variant="caption" align="right">
+                                        {directory.nb_tests} tests
+                                    </Typography>
+                                </Box>
+
+                            </CardContent>
+                        </Card>
+                    </Link>
+                ))
+
+                }
             </div>
         </div>
     );
