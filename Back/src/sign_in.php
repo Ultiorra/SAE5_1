@@ -14,7 +14,7 @@ $response = [
 
 try
 {
-    $mysqlConnection = new PDO('mysql:host=localhost;dbname=prochess;charset=utf8', 'root', 'mdp', [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+    $mysqlConnection = new PDO('mysql:host=localhost;dbname=prochess;charset=utf8', 'root', 'root', [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
 }
 catch (Exception $e)
 {
@@ -31,13 +31,21 @@ $email = $data->email;
 $confirmPassword = hash("sha256", $data->confirmPassword);
 $pw = hash("sha256", $data->password);
 
-
 try
 {
-    $userStatement = $mysqlConnection->prepare('SELECT login FROM user');
-    $userStatement->execute();
-    $utilisateurs = $userStatement->fetchAll();
-    $continue = true;
+    $userStatement = $mysqlConnection->prepare('SELECT login FROM user WHERE login = :login');
+    $userStatement->execute([
+        'login' => $pseudo,
+    ]) or die(print_r($mysqlConnection->errorInfo()));
+    $utilisateur = $userStatement->fetchAll();
+    if (sizeof($utilisateur) > 0){
+        http_response_code(400);
+        die("Ce pseudo est déjà utilisé\n");
+        $continue = false;
+    }
+    else {
+        $continue = true;
+    }
 
     if (strlen($pw) < 8 || $pw != $confirmPassword){
         http_response_code(400);
@@ -46,15 +54,7 @@ try
         die("Mot de passe trop court ou non identique\n");
     }
 
-    foreach ($utilisateurs as $user) {
-        if ($user['login'] === $pseudo){
-            $continue = false;
-            http_response_code(400);
-            die("Ce pseudo est déjà utilisé\n");
-        }
-    }
-
-    if ($continue === true){
+    if ($continue){
         $newuserStatement = $mysqlConnection->prepare('INSERT INTO user (login, password, email) VALUES (:ps, :pw, :em)');
         $newuserStatement->execute([
             'ps' => $pseudo,
@@ -66,6 +66,7 @@ try
             'message' => 'Vous avez creer votre compte',
             'user' => $pseudo,
             'email' => $email,
+            'userid' => $mysqlConnection->lastInsertId(),
         ];
         http_response_code(200);
         echo json_encode($response);

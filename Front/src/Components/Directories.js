@@ -95,6 +95,29 @@ const Directories = (user, isConnected) => {
         };
     };
 
+    const handleDelete = (directoryId) => {
+        var requestOption = {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({userid: user.user.id, idrep: directoryId,action: 3}),
+        }
+        fetch(path + 'manage_directories.php', requestOption).then(response => response.json()).then(data => {
+            console.log("data");
+            console.log(data);
+            if (data.status === "success") {
+                toast('Répertoire supprimé', {type: 'success', autoClose: 2000, position: toast.POSITION.TOP_CENTER});
+                setUserDirectories(userDirectories.filter(directory => directory.id !== directoryId));
+            } else
+                toast('Erreur de supression...', {
+                    type: 'error',
+                    autoClose: 2000,
+                    position: toast.POSITION.TOP_CENTER
+                });
+        }).catch(error => {
+            toast('Erreur de supression', {type: 'error', autoClose: 2000, position: toast.POSITION.TOP_CENTER});
+        });
+    }
+
     return (
         <div>
             <h1>Directories</h1>
@@ -112,8 +135,9 @@ const Directories = (user, isConnected) => {
                                 backgroundColor: '#f5f5f5'
                             }}>
                                 <IconButton
-                                    className="delete-button"
-                                    onClick={() => console.log('delete')}
+                                    onClick={() => {
+                                        handleDelete(directory.id);
+                                    }}
                                 >
                                     <DeleteIcon />
                                 </IconButton>
@@ -157,9 +181,7 @@ const Directories = (user, isConnected) => {
                     </Link>
                 ))}
                 { userDirectories.map((directory, index) => (
-                    <Link
-                        to={`/directoriesboard/${directory.ouvertures}`}
-                    >
+
                         <Card
                             key={index}
                             className="directory-card"
@@ -169,12 +191,16 @@ const Directories = (user, isConnected) => {
                                 backgroundColor: '#f5f5f5'
                             }}>
                                 <IconButton
-                                    className="delete-button"
-                                    onClick={() => console.log('delete')}
+                                    onClick={() => {
+                                        handleDelete(directory.id);
+                                    } }
                                 >
                                     <DeleteIcon />
                                 </IconButton>
                                 <Typography variant="h5">{directory.nom}</Typography>
+                                <Link
+                                    to={`/directoriesboard/${directory.ouvertures}`}
+                                >
                                 <Box
                                     display="flex"
                                     alignItems="center"
@@ -205,6 +231,7 @@ const Directories = (user, isConnected) => {
                                     }
 
                                 </Box>
+                                </Link>
                                 <Box
                                     display="flex"
                                     alignItems="center"
@@ -219,7 +246,6 @@ const Directories = (user, isConnected) => {
 
                             </CardContent>
                         </Card>
-                    </Link>
                 ))
 
                 }
