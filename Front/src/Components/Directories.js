@@ -1,4 +1,4 @@
-import { Card, CardContent, Typography, Box } from "@mui/material";
+import {Card, CardContent, Typography, Box, Button} from "@mui/material";
 import '../css/Directories.css';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {IconButton} from "@mui/material";
@@ -123,9 +123,7 @@ const Directories = (user, isConnected) => {
             <h1>Directories</h1>
             <div className="directories-container">
                 {directories.map((directory, index) => (
-                    <Link
-                        to={`/directoriesboard/${directory.ouvertures}`}
-                    >
+
                         <Card
                             key={index}
                             className="directory-card"
@@ -175,10 +173,20 @@ const Directories = (user, isConnected) => {
                                     {directory.nb_tests} tests
                                 </Typography>
                                 </Box>
+                                <Link
+                                    to={`/directoriesboard/${directory.ouvertures}`}
+                                >
+                                    <Button
+                                    variant="contained"
+                                    color="primary"
+                                    >
+                                        Se tester
+                                    </Button>
 
+                                </Link>
                             </CardContent>
                         </Card>
-                    </Link>
+
                 ))}
                 { userDirectories.map((directory, index) => (
 
@@ -198,9 +206,6 @@ const Directories = (user, isConnected) => {
                                     <DeleteIcon />
                                 </IconButton>
                                 <Typography variant="h5">{directory.nom}</Typography>
-                                <Link
-                                    to={`/directoriesboard/${directory.ouvertures}`}
-                                >
                                 <Box
                                     display="flex"
                                     alignItems="center"
@@ -231,7 +236,6 @@ const Directories = (user, isConnected) => {
                                     }
 
                                 </Box>
-                                </Link>
                                 <Box
                                     display="flex"
                                     alignItems="center"
@@ -243,7 +247,17 @@ const Directories = (user, isConnected) => {
                                         {directory.nb_tests} tests
                                     </Typography>
                                 </Box>
+                                <Link
+                                    to={`/directoriesboard/${directory.ouverture}`}
+                                >
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                    >
+                                        Se tester
+                                    </Button>
 
+                                </Link>
                             </CardContent>
                         </Card>
                 ))
