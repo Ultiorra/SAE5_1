@@ -8,6 +8,7 @@ import {toast} from "react-toastify";
 import { Button, Card, CardContent, TextField, Select, MenuItem, FormControl, InputLabel } from "@mui/material";
 import Tree from "./Tree";
 import Node from "./Node";
+import { Grid } from '@mui/material';
 
 const MyChessboard = ( user , isConnected) => {
 
@@ -201,20 +202,40 @@ const MyChessboard = ( user , isConnected) => {
         setNode(tree.racine);
     } , []);
     return (
-        <div>
-            <div className="board">
-                <Chessboard
-                    position={chess.fen()}
-                    onPieceDrop={(sourceSquare, targetSquare) => handleDrop(sourceSquare, targetSquare)}
-                />
-            </div>
-            <Button onClick={() => setChess(new Chess())}>Reset</Button>
-            <Button onClick={() => previousMove()}>{'<'}</Button>
-            <Button onClick={() => nextMove()}>{'>'}</Button>
-            <Button onClick={() => openModal()}>Create Directory</Button>
-            <p className="pgn">{pgn}</p>
-            <p>{chess.history()}</p>
-            {/* Modal */}
+        <Grid container spacing={2}>
+            <Grid item xs={5.7}>
+
+                    <Chessboard
+                        position={chess.fen()}
+                        onPieceDrop={(sourceSquare, targetSquare) => handleDrop(sourceSquare, targetSquare)}
+                    />
+            </Grid>
+            <Grid item xs={6.3} style={{ backgroundColor: 'lightgray', marginTop:'1%', borderRadius: '8px' }}>
+                <Button onClick={() => setChess(new Chess())}
+                        variant="contained"
+                        color="primary"
+                        style={{ marginRight: '10px' }}>Reset</Button>
+                <Button onClick={() => previousMove()}
+                        variant="contained"
+                        color="primary"
+                        style={{ marginRight: '10px' }}
+                >{'<'}
+                </Button>
+                <Button onClick={() => nextMove()}
+                        variant="contained"
+                        color="primary"
+                        style={{ marginRight: '10px' }}
+                >{'>'}
+                </Button>
+                <Button onClick={() => openModal()}
+                        variant="contained"
+                        color="primary"
+                        style={{ marginRight: '10px' }}
+                >Create Directory
+                </Button>
+                <p className="pgn">PGN actuel : {pgn}</p>
+                {/*<p>{chess.history()}</p>*/}
+            </Grid>
             <Modal
                 isOpen={modalIsOpen}
                 onRequestClose={closeModal}
@@ -260,7 +281,7 @@ const MyChessboard = ( user , isConnected) => {
                     </CardContent>
                 </Card>
             </Modal>
-        </div>
+        </Grid>
     );
 };
 export default MyChessboard;
