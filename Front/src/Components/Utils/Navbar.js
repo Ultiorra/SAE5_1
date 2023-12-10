@@ -35,7 +35,7 @@ function NavBar({isConnected, setConnected}) {
 
     };
     return (
-        <AppBar position="static">
+        <AppBar position="relative">
             <Toolbar>
                 <Typography variant="h6" component={Link} to="/" style={{textDecoration: 'none', color: 'white'}}>
                     ProChess

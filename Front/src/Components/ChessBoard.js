@@ -198,9 +198,21 @@ const MyChessboard = ( user , isConnected) => {
         }
     };
 
+    const reset = () => {
+        console.log("reset")
+        setChess(new Chess());
+        setPgn("");
+        setFinalPgn("");
+        setChessHistory([new Chess()]);
+        setCurrentMoveIndex(0);
+        setPgnHistory([new Chess().pgn()]);
+        setNode(tree.racine);
+    }
+
     useEffect(() => {
         setNode(tree.racine);
     } , []);
+
     return (
         <Grid container spacing={2}>
             <Grid item xs={5.7}>
@@ -210,8 +222,8 @@ const MyChessboard = ( user , isConnected) => {
                         onPieceDrop={(sourceSquare, targetSquare) => handleDrop(sourceSquare, targetSquare)}
                     />
             </Grid>
-            <Grid item xs={6.3} style={{ backgroundColor: 'lightgray', marginTop:'1%', borderRadius: '8px' }}>
-                <Button onClick={() => setChess(new Chess())}
+            <Grid item xs={6.3} className="right-grid">
+                <Button onClick={reset}
                         variant="contained"
                         color="primary"
                         style={{ marginRight: '10px' }}>Reset</Button>

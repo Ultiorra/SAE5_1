@@ -3,6 +3,10 @@
     height: 50%;
 }
 
+body {
+    background-color: antiquewhite;
+}
+
 .pgn {
     color: #007bff;
     margin-top: 10px;
@@ -36,4 +40,12 @@ form {
     display: flex;
     flex-direction: column;
     gap: 15px;
+}
+
+.right-grid{
+    padding-top: 30px;
+    border-radius: 8px;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
 }
