@@ -9,6 +9,7 @@ import NavBar from "./Components/Utils/Navbar";
 import * as app from "react";
 import { ToastContainer } from 'react-toastify';
 import DirectoriesBoard from "./Components/DirectoriesBoard";
+import NotFoundPage from "./Components/NotFound";
 
 function App() {
     const  [isRegistration, setRegistration] = React.useState(false);
@@ -41,6 +42,7 @@ function App() {
                     <Route path="/chessboard" element={<MyChessboard isConnected={isConnected} user={user} />} />
                     <Route path="/directories" element={<Directories user={user} isConnected={isConnected} />} />
                     <Route path="/directoriesboard/:value" element={<DirectoriesBoard />} />
+                    <Route path={"*"} element={<NotFoundPage />} />
                 </Routes>
             </div>
         </Router>
