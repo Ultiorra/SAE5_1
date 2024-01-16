@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {BrowserRouter as Router, Route} from 'react-router-dom';
+import {BrowserRouter as Router, Navigate, Route} from 'react-router-dom';
 import { Link } from "react-router-dom";
 import { Routes } from "react-router-dom";
 import ConnectionForm from "./Components/connectionForm";
@@ -31,6 +31,12 @@ function App() {
     useEffect(() => {
         console.log(user);
         console.log("test" + isConnected);
+        const loggedInUser = localStorage.getItem("user");
+        console.log('loggedInUser from App : ' + loggedInUser);
+        if (loggedInUser) {
+            setConnected(true);
+            //console.log('loggedInUser from App : ' + JSON.parse(loggedInUser.login))
+        }
     } , [user]);
     return (
         <Router>
@@ -38,6 +44,16 @@ function App() {
                 <ToastContainer />
                 < NavBar isConnected={isConnected} setConnected={setConnected} />
                 <Routes>
+                    <Route
+                        path="/"
+                        element={
+                            isConnected ? (
+                                <Navigate to="/directories" />
+                            ) : (
+                                <ConnectionForm isRegistration={isRegistration} setRegistration={setRegistration} isConnected={isConnected} setConnected={setConnected} setUser={setUser} user={user} />
+                            )
+                        }
+                    />
                     <Route path="/" element={<ConnectionForm isRegistration={isRegistration} setRegistration={setRegistration} isConnected={isConnected} setConnected={setConnected} setUser={setUser} user={user} />} />
                     <Route path="/chessboard" element={<MyChessboard isConnected={isConnected} user={user} />} />
                     <Route path="/directories" element={<Directories user={user} isConnected={isConnected} />} />

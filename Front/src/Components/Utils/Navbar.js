@@ -11,6 +11,7 @@ const path = "http://localhost/my-app/prochess/";
 function NavBar({isConnected, setConnected}) {
     const navigate = useNavigate();
     const handleLogout = async (e) => {
+        localStorage.clear();
         e.preventDefault();
 
         var requestOption = {

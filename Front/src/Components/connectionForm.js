@@ -79,10 +79,17 @@ function AuthForm({ isRegistration, setRegistration, isConnected, setConnected, 
             fetch (path + 'login.php', requestOption).then(response => response.json()).then(data => {
                 console.log(data);
                 if (data.status === "success") {
+                    localStorage.clear();
                     setConnected(true);
                     console.log(data.iduser +"id");
                     setUser({ login: data.user, id: data.iduser, email: data.email, directories: { id: 1, name: 'directory1', ouvertures: 'ouvertures1', nb_tests: 1, nb_success: 1, color: 'white' } });
                     //console.log(user);
+                    user.login = data.login;
+                    user.id = data.iduser;
+                    user.email = data.email;
+                    user.password = password;
+                    console.log('user après login : ' + user.login + ' ' + user.password + ' ' + user.id + ' ' + user.email);
+                    localStorage.setItem('user', JSON.stringify(user));
                     history('/directories');
                     toast('Connexion réussie', { type: 'success', autoClose: 2000, position: toast.POSITION.TOP_CENTER });
                 }
