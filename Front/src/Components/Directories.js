@@ -48,35 +48,35 @@ const Directories = (user, isConnected) => {
 
     const directories = [
         {
-            name: 'directory1',
+            name: 'Directory 1',
             ouvertures: '1. f3 f5 2. Nc3 Nf6 3. e4 fxe4 4. fxe4 e5 5. Nf3 Nc6 6. d3 Bc5 7. d4 Bxd4 8. Nxd4 exd4\',',
             nb_tests: 1,
             nb_success: 1,
             color: 'white',
         },
         {
-            name: 'directory2',
+            name: 'Directory 2',
             ouvertures: '1. f3 f5 2. Nc3 Nf6 3. e4 fxe4 4. fxe4 e5 5. Nf3 Nc6 6. d3 Bc5 7. d4 Bxd4 8. Nxd4 exd4 9. Nd5 O-O\',',
             nb_tests: 2,
             nb_success: 1,
             color: 'black',
         },
         {
-            name: 'directory3',
+            name: 'Directory 3',
             ouvertures: '1. f3 f5 2. Nc3 Nf6 3. e4 fxe4 4. fxe4 e5 5. Nf3 Nc6 6. d3 Bc5 7. d4 Bxd4 8. Nxd4 exd4 9. Nd5 O-O\',',
             nb_tests: 3,
             nb_success: 1,
             color: 'white',
         },
         {
-            name: 'directory4',
+            name: 'Directory 4',
             ouvertures: '1. f3 f5 2. Nc3 Nf6 3. e4 fxe4 4. fxe4 e5 5. Nf3 Nc6 6. d3 Bc5 7. d4 Bxd4 8. Nxd4 exd4 9. Nd5 O-O\',',
             nb_tests: 4,
             nb_success: 0,
             color: 'black',
         },
         {
-            name: 'directory5',
+            name: 'Directory 5',
             ouvertures: '1. f3 f5 2. Nc3 Nf6 3. e4 fxe4 4. fxe4 e5 5. Nf3 Nc6 6. d3 Bc5 7. d4 Bxd4 8. Nxd4 exd4 9. Nd5 O-O\',',
             nb_tests: 4,
             nb_success: 0,

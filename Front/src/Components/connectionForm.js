@@ -112,7 +112,10 @@ function AuthForm({ isRegistration, setRegistration, isConnected, setConnected, 
     }
 
     return (
-        <div className="auth-form-container">
+        <div className="auth-form-container" style={{
+            alignContent: 'center',
+            alignItems: 'center',
+        }}>
             <h1 className="auth-form-title">{isRegistration ? "S'inscrire" : "Se connecter"}</h1>
             <form onSubmit={handleSubmit} method="POST">
                 <div>

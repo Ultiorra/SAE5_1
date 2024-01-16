@@ -5,6 +5,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import {toast} from "react-toastify";
+
 const path = "http://localhost/my-app/prochess/";
 
 
@@ -20,17 +21,20 @@ function NavBar({isConnected, setConnected}) {
         }
         fetch(path + 'logout.php', requestOption).then(response => {
             console.log(response.status)
-            if (response.status === 200){
+            if (response.status === 200) {
                 toast('Déconnexion réussie', {type: 'success', autoClose: 2000, position: toast.POSITION.TOP_CENTER});
                 navigate('/');
                 setConnected(false);
-            }
-            else
+            } else
                 toast('Erreur de déconnexion', {type: 'error', autoClose: 2000, position: toast.POSITION.TOP_CENTER});
         })
             .catch(error => {
 
-                toast('Erreur de déconnexion...', {type: 'error', autoClose: 2000, position: toast.POSITION.TOP_CENTER});
+                toast('Erreur de déconnexion...', {
+                    type: 'error',
+                    autoClose: 2000,
+                    position: toast.POSITION.TOP_CENTER
+                });
 
             });
 
@@ -48,17 +52,18 @@ function NavBar({isConnected, setConnected}) {
                             Connexion
                         </Button>
                         :
-                        <Button component={Link} to="/" color="inherit" onClick={handleLogout}>
-                            Déconnexion
-                        </Button>
+                        <>
+                            <Button component={Link} to="/" color="inherit" onClick={handleLogout}>
+                                Déconnexion
+                            </Button>
+                            <Button component={Link} to="/chessboard" color="inherit">
+                                Chessboard
+                            </Button>
+                            <Button component={Link} to="/directories" color="inherit">
+                                Directories
+                            </Button>
+                        </>
                 }
-
-                <Button component={Link} to="/chessboard" color="inherit">
-                    Chessboard
-                </Button>
-                <Button component={Link} to="/directories" color="inherit">
-                    Directories
-                </Button>
             </Toolbar>
         </AppBar>
     );

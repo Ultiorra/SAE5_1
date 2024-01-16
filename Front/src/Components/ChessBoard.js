@@ -223,6 +223,7 @@ const MyChessboard = ( user , isConnected) => {
                     />
             </Grid>
             <Grid item xs={6.3} className="right-grid">
+                <br></br>
                 <Button onClick={reset}
                         variant="contained"
                         color="primary"
