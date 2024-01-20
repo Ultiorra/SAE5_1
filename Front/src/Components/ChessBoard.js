@@ -85,7 +85,7 @@ const MyChessboard = ( user , isConnected) => {
         var requestOption = {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({userid: user.user.id, nom: directoryName, ouverture: pgn, couleur: directoryColor, action: 1}),
+            body: JSON.stringify({userid: user.user.id, nom: directoryName, ouverture: tree.exportPgn(), couleur: directoryColor, action: 1}),
         }
         fetch(path + 'manage_directories.php', requestOption).then(response => {
             console.log(response.status)

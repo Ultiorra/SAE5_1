@@ -251,7 +251,14 @@ const DirectoriesBoard = () => {
     const {value} = useParams();
     const [value2 , setValue2] = useState(value.slice(0, -2));
 
-    const userColor = value.slice(-1);
+    let userColor = value.slice(-1);
+
+    if (userColor === "1") {
+        userColor = "b";
+    }
+    else {
+        userColor = "w";
+    }
 
 
 
