@@ -12,39 +12,44 @@ const Directories = (user, isConnected) => {
     const [selectedDirectory, setSelectedDirectory] = useState(null);
     const navigate = useNavigate();
     const [userDirectories, setUserDirectories] = useState([]);
+
     useEffect(() => {
-        console.log(user);
-        console.log(user.isConnected);
         if (!user.isConnected) {
-
             navigate('/');
-
+        } else {
+            console.log("user" + user.user.login + " " + user.user.id + " " + user.user.email + " " + user.user.password)
+            fetchUserDirectories();
         }
-        else {
-            var requestOption = {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({userid: user.user.id, action: 2}),
-            }
-            fetch(path + 'manage_directories.php', requestOption).then(response => response.json()).then(data => {
-                console.log("data");
-                console.log(data);
-                if (data.status === "success") {
-                    console.log(data);
+    }, []);
+
+    const fetchUserDirectories = () => {
+        var requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ userid: user.user.id, action: 2 }),
+        };
+
+        fetch(path + 'manage_directories.php', requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
                     setUserDirectories(data.repertoires);
-                } else
+                } else {
                     toast('Erreur de récupération...', {
                         type: 'error',
                         autoClose: 2000,
-                        position: toast.POSITION.TOP_CENTER
+                        position: toast.POSITION.TOP_CENTER,
                     });
-            }).catch(error => {
-                toast('Erreur de récupération', {type: 'error', autoClose: 2000, position: toast.POSITION.TOP_CENTER});
+                }
+            })
+            .catch(error => {
+                toast('Erreur de récupération', {
+                    type: 'error',
+                    autoClose: 2000,
+                    position: toast.POSITION.TOP_CENTER,
+                });
             });
-        }
-
-
-    } , []);
+    };
 
     const directories = [
         {
@@ -118,9 +123,10 @@ const Directories = (user, isConnected) => {
         });
     }
 
+
     return (
         <div>
-            <h1>Directories</h1>
+            <h1>Directories de {user.user.login}</h1>
             <div className="directories-container">
                 {directories.map((directory, index) => (
 

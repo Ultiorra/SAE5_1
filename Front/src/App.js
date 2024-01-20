@@ -34,6 +34,11 @@ function App() {
         const loggedInUser = localStorage.getItem("user");
         console.log('loggedInUser from App : ' + loggedInUser);
         if (loggedInUser) {
+            user.id = JSON.parse(loggedInUser).id;
+            user.login = JSON.parse(loggedInUser).login;
+            user.email = JSON.parse(loggedInUser).email;
+            user.password = JSON.parse(loggedInUser).password;
+            console.log('user dans app : ' + user.login + ' ' + user.password + ' ' + user.id + ' ' + user.email);
             setConnected(true);
             //console.log('loggedInUser from App : ' + JSON.parse(loggedInUser.login))
         }
