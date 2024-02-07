@@ -11,6 +11,7 @@ import { ToastContainer } from 'react-toastify';
 import DirectoriesBoard from "./Components/DirectoriesBoard";
 import NotFoundPage from "./Components/NotFound";
 import ApiExport from "./Components/ApiExport";
+import ProfilEditPage from "./Components/ProfilEditPage";
 
 function App() {
     const  [isRegistration, setRegistration] = React.useState(false);
@@ -66,7 +67,7 @@ function App() {
                     <Route path="/directories" element={<Directories user={user} isConnected={isConnected} />} />
                     <Route path="/directoriesboard/:value" element={<DirectoriesBoard />} />
                     <Route path="/ApiExport" element={<ApiExport />} user={user} />
-                    <Route path="/profile/edit" element={<ProfileEditPage user={user} />} />
+                    <Route path="/profile/edit" element={<ProfilEditPage user={user} />} />
                     <Route path={"*"} element={<NotFoundPage />} />
                 </Routes>
             </div>
