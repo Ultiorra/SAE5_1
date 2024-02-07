@@ -26,7 +26,8 @@ function App() {
             nb_tests: '',
             nb_success: '',
             color: '',
-        }
+        },
+        lichess_name: '',
     });
 
     useEffect(() => {
@@ -64,7 +65,8 @@ function App() {
                     <Route path="/chessboard" element={<MyChessboard isConnected={isConnected} user={user} />} />
                     <Route path="/directories" element={<Directories user={user} isConnected={isConnected} />} />
                     <Route path="/directoriesboard/:value" element={<DirectoriesBoard />} />
-                    <Route path="/ApiExport" element={<ApiExport />} />
+                    <Route path="/ApiExport" element={<ApiExport />} user={user} />
+                    <Route path="/profile/edit" element={<ProfileEditPage user={user} />} />
                     <Route path={"*"} element={<NotFoundPage />} />
                 </Routes>
             </div>

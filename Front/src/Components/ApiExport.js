@@ -1,20 +1,25 @@
 import React, {useEffect, useRef, useState} from 'react';
 import { Link } from 'react-router-dom';
 import {Typography, Button, Container, Card, CardContent} from '@mui/material';
-
-const ApiExportPage = () => {
-    const headers = {
-    Authorization: 'Bearer lip_L42O6q9qHzfcXl9VZjWQ',
-};
-
+import {toast} from "react-toastify";
+const ApiExportPage = (user ) => {
+    useEffect(() => {
+        if (!user.isConnected) {
+            navigate('/');
+        }
+    }, []);
     const [bool, setBool] =useState(true);
     const isMounted = useRef(true);
     const [parsedGames, setGamesData] = useState([]);
     useEffect(() => {
         const fetchGames = async () => {
-            const username = 'german11'; // Replace with the desired username
-            const maxGames = 10; // Set the max number of games
+            const username = user.user.lichess_name ? user.user.lichess_name : '';
+            const maxGames = 10;
 
+            if (!username) {
+                toast('Erreur de récupération verifier vote nom lichess sur la page profil', {type: 'error', autoClose: 2000, position: toast.POSITION.TOP_CENTER});
+                return;
+            }
             const response = await fetch(`https://lichess.org/api/games/user/${username}?max=${maxGames}`, {
                 headers: {
                     Authorization: 'Bearer lip_L42O6q9qHzfcXl9VZjWQ',
@@ -22,16 +27,16 @@ const ApiExportPage = () => {
             });
 
             if (response) {
-                const data = await response.text(); // Parse JSON response
+                const data = await response.text();
                 const games = data.split('\n\n\n');
                 console.log(games);
                 const parsedGames = games.map(game => {
                     const lines = game.split('\n');
-                    if (lines.length < 10) return null; // Skip games with missing data (e.g. aborted games
+                    if (lines.length < 10) return null;
                     console.log(lines);
                     const whitePlayer = lines[4].substring(lines[4].indexOf('"') + 1, lines[4].lastIndexOf('"'));
                     const pgn = lines[17]
-                    const color = username === whitePlayer ? 'white' : 'black'; // Determine player color
+                    const color = username === whitePlayer ? 'white' : 'black';
 
                     return { pgn, color };
                 });
