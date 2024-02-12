@@ -1,5 +1,6 @@
 import React, {useEffect,  useState} from 'react';
 import {useNavigate} from "react-router-dom";
+import {toast} from "react-toastify";
 function ProfileEditPage({ user }) {
     const navigate = useNavigate();
     const [editedUser, setEditedUser] = useState(user);
@@ -28,15 +29,14 @@ function ProfileEditPage({ user }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("Profil mis à jour :", editedUser);
+        console.log(editedUser);
     };
 
     const handleChangePassword = () => {
         if (newPassword === confirmPassword) {
-            console.log("Mot de passe mis à jour :", newPassword);
             handleCloseChangePasswordModal();
         } else {
-            alert("Les mots de passe ne correspondent pas.");
+            toast('Les mots de passe ne correspondent pas', { type: 'error', autoClose: 2000, position: toast.POSITION.TOP_CENTER });
         }
     };
 

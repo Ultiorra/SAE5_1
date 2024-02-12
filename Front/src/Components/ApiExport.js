@@ -2,20 +2,45 @@ import React, {useEffect, useRef, useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import {Typography, Button, Container, Card, CardContent} from '@mui/material';
 import {toast} from "react-toastify";
-const ApiExportPage = (user ) => {
-    const navigate = useNavigate();
 
+const ApiExportPage = (user ) => {
+    const path = "http://localhost/my-app/prochess/";
+    const navigate = useNavigate();
+/*
     useEffect(() => {
         if (!user.isConnected) {
             navigate('/');
         }
-    }, []);
+    }, []);*/
+    const pushDirectory = (directoryName, pgn, directoryColor) => {
+
+        var requestOption = {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({userid: user.user.id, nom: directoryName, ouverture: pgn, couleur: directoryColor, action: 1}),
+        }
+        fetch(path + 'manage_directories.php', requestOption).then(response => {
+            console.log(response.status)
+            if (response.status === 200)
+                toast('Création de répertoire réussie', {
+                    type: 'success',
+                    autoClose: 2000,
+                    position: toast.POSITION.TOP_CENTER
+                });
+            else
+                toast('Erreur de création...', {type: 'error', autoClose: 2000, position: toast.POSITION.TOP_CENTER});
+        })
+            .catch(error => {
+                toast('Erreur de création', {type: 'error', autoClose: 2000, position: toast.POSITION.TOP_CENTER});
+            });
+    };
     const [bool, setBool] =useState(true);
     const isMounted = useRef(true);
     const [parsedGames, setGamesData] = useState([]);
     useEffect(() => {
         const fetchGames = async () => {
-            const username = user.user.lichess_name ? user.user.lichess_name : '';
+            const username = "german11"
+                //user.user.lichess_name ? user.user.lichess_name : '';
             const maxGames = 10;
 
             if (!username) {
@@ -36,11 +61,13 @@ const ApiExportPage = (user ) => {
                     const lines = game.split('\n');
                     if (lines.length < 10) return null;
                     console.log(lines);
-                    const whitePlayer = lines[4].substring(lines[4].indexOf('"') + 1, lines[4].lastIndexOf('"'));
+                    const whitePlayer = lines[3].substring(lines[3].indexOf('"') + 1, lines[3].lastIndexOf('"'));
                     const pgn = lines[17]
                     const color = username === whitePlayer ? 'white' : 'black';
-
-                    return { pgn, color };
+                    const ennemy = color === 'white' ? lines[4].substring(lines[4].indexOf('"') + 1, lines[4].lastIndexOf('"')) : whitePlayer;
+                    const date = lines[2].substring(lines[2].indexOf('"') + 1, lines[2].lastIndexOf('"'));
+                    const dateFormated = date.substring(8,10) + '/' + date.substring(5, 7) + '/' + date.substring(0, 4) ;
+                    return { pgn, color , ennemy, dateFormated };
                 });
 
                 setGamesData(parsedGames);
@@ -61,7 +88,7 @@ const ApiExportPage = (user ) => {
     return (
         <Container>
             <Typography variant="h2" gutterBottom>
-                Bienvenue sur la page d'exportation de l'API
+                Bienvenue sur l'historique de vos parties lichess
             </Typography>
             <div className="parsed-games-container">
                 {parsedGames.map((game, index) => (
@@ -77,11 +104,11 @@ const ApiExportPage = (user ) => {
                                     marginRight: '8px',
                                 }}
                             ></div>
-                            <pre>PGN: {game.pgn}</pre>
+                            <pre>{'Partie du ' + game.dateFormated + ' contre ' + game.ennemy}</pre>
                             <Button
                                 variant="contained"
                                 color="primary"
-                                onClick={() => console.log('Save directory')}
+                                onClick={() => pushDirectory('Partie du ' + game.dateFormated + ' contre ' + game.ennemy, game.pgn, game.color)}
                             >
                                 Sauvegarder
                             </Button>
