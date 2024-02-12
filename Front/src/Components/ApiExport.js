@@ -1,8 +1,10 @@
 import React, {useEffect, useRef, useState} from 'react';
-import { Link } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import {Typography, Button, Container, Card, CardContent} from '@mui/material';
 import {toast} from "react-toastify";
 const ApiExportPage = (user ) => {
+    const navigate = useNavigate();
+
     useEffect(() => {
         if (!user.isConnected) {
             navigate('/');

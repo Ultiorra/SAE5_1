@@ -1,5 +1,7 @@
 import React, {useEffect,  useState} from 'react';
+import {useNavigate} from "react-router-dom";
 function ProfileEditPage({ user }) {
+    const navigate = useNavigate();
     const [editedUser, setEditedUser] = useState(user);
     const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
     const [newPassword, setNewPassword] = useState('');
