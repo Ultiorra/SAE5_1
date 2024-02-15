@@ -27,8 +27,9 @@ const Directories = (user, isConnected) => {
             console.log("loggedInUser login " + loggedInUser.login);
             setCurrentUser(JSON.parse(loggedInUser))
             console.log("currentUser id " + currentUser.id)
+            console.log("loggedInUser id " + JSON.parse(loggedInUser).id)
             console.log("user id " + user.id)
-            fetchUserDirectories(currentUser.id);
+            fetchUserDirectories(JSON.parse(loggedInUser).id);
         }
     }, []);
 
