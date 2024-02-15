@@ -11,24 +11,35 @@ const path = "http://localhost/my-app/prochess/";
 const Directories = (user, isConnected) => {
     const [selectedDirectory, setSelectedDirectory] = useState(null);
     const navigate = useNavigate();
+    const [currentUser, setCurrentUser] = useState(user);
     const [userDirectories, setUserDirectories] = useState([]);
 
     useEffect(() => {
-        if (!user.isConnected) {
+        /*if (!user.isConnected) {
             navigate('/');
         } else {
             console.log("user" + user.user.login + " " + user.user.id + " " + user.user.email + " " + user.user.password)
             fetchUserDirectories();
+        }*/
+        const loggedInUser = localStorage.getItem("user");
+        if (loggedInUser) {
+            console.log("loggedInUser" + loggedInUser);
+            console.log("loggedInUser login " + loggedInUser.login);
+            setCurrentUser(JSON.parse(loggedInUser))
+            console.log("currentUser id " + currentUser.id)
+            console.log("user id " + user.id)
+            fetchUserDirectories(currentUser.id);
         }
     }, []);
 
-    const fetchUserDirectories = () => {
+    const fetchUserDirectories = (userId) => {
+        console.log("fetchUserDirectories" + userId)
         var requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ userid: user.user.id, action: 2 }),
+            body: JSON.stringify({ userid: userId, action: 2 }),
         };
-
+        console.log(path + 'manage_directories.php' + requestOptions.body)
         fetch(path + 'manage_directories.php', requestOptions)
             .then(response => response.json())
             .then(data => {
@@ -43,6 +54,7 @@ const Directories = (user, isConnected) => {
                 }
             })
             .catch(error => {
+                console.log(error)
                 toast('Erreur de récupération', {
                     type: 'error',
                     autoClose: 2000,
@@ -104,7 +116,7 @@ const Directories = (user, isConnected) => {
         var requestOption = {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({userid: user.user.id, idrep: directoryId,action: 3}),
+            body: JSON.stringify({userid: currentUser.id, idrep: directoryId,action: 3}),
         }
         fetch(path + 'manage_directories.php', requestOption).then(response => response.json()).then(data => {
             console.log("data");
@@ -126,7 +138,7 @@ const Directories = (user, isConnected) => {
 
     return (
         <div>
-            <h1>Directories de {user.user.login}</h1>
+            <h1>Directories de {currentUser.login}</h1>
             <div className="directories-container">
                 {directories.map((directory, index) => (
 

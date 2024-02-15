@@ -7,11 +7,16 @@ function ProfileEditPage({ user }) {
     const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const path = "http://localhost/my-app/prochess/";
+
     useEffect(() => {
-        if (!user.isConnected) {
-            navigate('/');
+        //console.log('\n' + user + '\n');
+        const loggedInUser = localStorage.getItem("user");
+        if (loggedInUser) {
+            setEditedUser(JSON.parse(loggedInUser));
         }
-    }, []);
+    } , [user])
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setEditedUser({ ...editedUser, [name]: value });
@@ -29,7 +34,32 @@ function ProfileEditPage({ user }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(editedUser);
+        var requestOption = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: user.id, login: editedUser.login, email: editedUser.email, lichess_name: editedUser.lichess_name }),
+        }
+        fetch (path + 'edit_user.php', requestOption).then(response => response.json()).then(data => {
+            console.log(data);
+            if (data.status === "success") {
+                const loggedInUser = localStorage.getItem("user");
+                console.log('loggedInUser from ProfilEditPage : \n' + loggedInUser + '\n');
+                const newUser = JSON.parse(loggedInUser);
+                newUser.login = editedUser.login;
+                newUser.email = editedUser.email;
+                newUser.lichess_name = editedUser.lichess_name;
+                console.log('newUser dans ProfilEditPage : \n' + JSON.stringify(newUser) + '\n')
+                localStorage.setItem("user", JSON.stringify(newUser));
+                toast('Profil modifié', { type: 'success', autoClose: 2000, position: toast.POSITION.TOP_CENTER });
+            }
+            else {
+                toast('Erreur de mise à jour', { type: 'error', autoClose: 2000, position: toast.POSITION.TOP_CENTER });
+            }
+        }).catch(error => {
+            console.log(error)
+            toast('Erreur de mise à jour', { type: 'error', autoClose: 2000, position: toast.POSITION.TOP_CENTER });
+
+        });
     };
 
     const handleChangePassword = () => {

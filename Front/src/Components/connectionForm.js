@@ -89,6 +89,7 @@ function AuthForm({ isRegistration, setRegistration, isConnected, setConnected, 
                     user.id = data.iduser;
                     user.email = data.email;
                     user.password = password;
+                    user.lichess_name = data.lichess_name;
                     console.log('user après login : ' + user.login + ' ' + user.password + ' ' + user.id + ' ' + user.email);
                     localStorage.setItem('user', JSON.stringify(user));
                     history('/directories');

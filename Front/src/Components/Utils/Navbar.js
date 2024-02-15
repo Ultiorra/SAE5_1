@@ -62,6 +62,9 @@ function NavBar({isConnected, setConnected}) {
                             <Button component={Link} to="/directories" color="inherit">
                                 Directories
                             </Button>
+                            <Button component={Link} to="/profile/edit" color="inherit">
+                                Edit Profile
+                            </Button>
                         </>
                 }
             </Toolbar>
