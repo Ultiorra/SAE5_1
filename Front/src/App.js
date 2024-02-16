@@ -66,7 +66,7 @@ function App() {
                     <Route path="/chessboard" element={<MyChessboard isConnected={isConnected} user={user} />} />
                     <Route path="/directories" element={<Directories user={user} isConnected={isConnected} />} />
                     <Route path="/directoriesboard/:value" element={<DirectoriesBoard />} />
-                    <Route path="/ApiExport" element={<ApiExport />} user={user} />
+                    <Route path="/api/export" element={<ApiExport />} user={user} />
                     <Route path="/profile/edit" element={<ProfilEditPage user={user} />} />
                     <Route path={"*"} element={<NotFoundPage />} />
                 </Routes>

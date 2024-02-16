@@ -5,7 +5,11 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import {toast} from "react-toastify";
-
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import HistoryIcon from '@mui/icons-material/History';
+import LogoutIcon from '@mui/icons-material/Logout';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import FolderIcon from '@mui/icons-material/Folder';
 const path = "http://localhost/my-app/prochess/";
 
 
@@ -47,23 +51,29 @@ function NavBar({isConnected, setConnected}) {
                 </Typography>
                 <div style={{flexGrow: 1}}></div>
                 {
-                    !isConnected ?
+                    isConnected ?
                         <Button component={Link} to="/" color="inherit">
                             Connexion
                         </Button>
                         :
                         <>
-                            <Button component={Link} to="/" color="inherit" onClick={handleLogout}>
-                                Déconnexion
-                            </Button>
+
                             <Button component={Link} to="/chessboard" color="inherit">
-                                Chessboard
+                                <DashboardIcon/> Chessboard
                             </Button>
                             <Button component={Link} to="/directories" color="inherit">
-                                Directories
+                                <FolderIcon/> Directories
+                            </Button>
+                            <Button component={Link} to="/api/export" color="inherit">
+                                <HistoryIcon/> Lichess history
                             </Button>
                             <Button component={Link} to="/profile/edit" color="inherit">
-                                Edit Profile
+
+                                <AccountBoxIcon/> Profile
+                            </Button>
+
+                            <Button component={Link} to="/" color="inherit" onClick={handleLogout}>
+                                <LogoutIcon/> Logout
                             </Button>
                         </>
                 }

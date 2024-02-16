@@ -6,12 +6,19 @@ import {toast} from "react-toastify";
 const ApiExportPage = (user ) => {
     const path = "http://localhost/my-app/prochess/";
     const navigate = useNavigate();
-/*
+    const [editedUser, setEditedUser] = useState(user);
+    useEffect(() => {
+        //console.log('\n' + user + '\n');
+        const loggedInUser = localStorage.getItem("user");
+        if (loggedInUser) {
+            setEditedUser(JSON.parse(loggedInUser));
+        }
+    } , [user])
     useEffect(() => {
         if (!user.isConnected) {
             navigate('/');
         }
-    }, []);*/
+    }, []);
     const pushDirectory = (directoryName, pgn, directoryColor) => {
 
         var requestOption = {
@@ -39,7 +46,7 @@ const ApiExportPage = (user ) => {
     const [parsedGames, setGamesData] = useState([]);
     useEffect(() => {
         const fetchGames = async () => {
-            const username = "german11"
+            const username = editedUser.lichess_name ? editedUser.lichess_name :  "german11"
                 //user.user.lichess_name ? user.user.lichess_name : '';
             const maxGames = 10;
 

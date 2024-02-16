@@ -1,6 +1,8 @@
 import React, {useEffect,  useState} from 'react';
 import {useNavigate} from "react-router-dom";
 import {toast} from "react-toastify";
+import {Button} from "@mui/material";
+import "../css/ProfilePage.css";
 function ProfileEditPage({ user }) {
     const navigate = useNavigate();
     const [editedUser, setEditedUser] = useState(user);
@@ -72,7 +74,7 @@ function ProfileEditPage({ user }) {
 
     return (
         <div>
-            <h1>Modifier le profil</h1>
+            <h1 >Modifier le profil</h1>
             <form onSubmit={handleSubmit}>
                 <label>
                     Nom d'utilisateur:
@@ -88,9 +90,11 @@ function ProfileEditPage({ user }) {
                     <input type="text" name="lichess_name" value={editedUser.lichess_name} onChange={handleChange} />
                 </label>
 
-                <button type="button" onClick={handleOpenChangePasswordModal}>Modifier mot de passe</button>
+                <Button variant="contained"
+                        color="primary"  type="button" onClick={handleOpenChangePasswordModal}>Modifier mot de passe</Button>
 
-                <button type="submit">Enregistrer les modifications</button>
+                <Button   variant="contained"
+                          color="primary" type="submit">Enregistrer les modifications</Button>
             </form>
 
             {showChangePasswordModal && (
@@ -106,7 +110,10 @@ function ProfileEditPage({ user }) {
                             Confirmer le mot de passe:
                             <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
                         </label>
-                        <button onClick={handleChangePassword}>Confirmer</button>
+                        <Button    variant="contained"
+                                  color="primary" onClick={handleChangePassword}>
+                            Confirmer
+                        </Button>
                     </div>
                 </div>
             )}
