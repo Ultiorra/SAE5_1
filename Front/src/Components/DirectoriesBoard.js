@@ -6,6 +6,8 @@ import { useParams } from "react-router-dom";
 import {etEE} from "@mui/material/locale";
 
 const DirectoriesBoard = () => {
+
+    function updateDirectory(){}
     function parsedMove(pgn) {
         let parsedPgn = [];
         let pgnArray = pgn.split(" ");
@@ -361,6 +363,7 @@ const DirectoriesBoard = () => {
                     console.log("Coup invalide");
                     console.log("newPgn : " + newPgn)
                     setErreur(erreur + 1);
+                    updateDirectory();
                     return;
                 }
                 updatedChessCopy.loadPgn(newPgn);
@@ -379,6 +382,7 @@ const DirectoriesBoard = () => {
             } else {
                 console.log("Coup invalide");
                 setErreur(erreur + 1);
+                updateDirectory();
                 return;
             }
         }catch (e) {

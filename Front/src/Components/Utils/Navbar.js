@@ -51,7 +51,7 @@ function NavBar({isConnected, setConnected}) {
                 </Typography>
                 <div style={{flexGrow: 1}}></div>
                 {
-                    isConnected ?
+                    !isConnected ?
                         <Button component={Link} to="/" color="inherit">
                             Connexion
                         </Button>
