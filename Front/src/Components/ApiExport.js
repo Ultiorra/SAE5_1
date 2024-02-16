@@ -11,20 +11,17 @@ const ApiExportPage = (user ) => {
         //console.log('\n' + user + '\n');
         const loggedInUser = localStorage.getItem("user");
         if (loggedInUser) {
+            console.log("editedUser :" + loggedInUser)
+            console.log(JSON.parse(loggedInUser))
             setEditedUser(JSON.parse(loggedInUser));
         }
-    } , [user])
-    useEffect(() => {
-        if (!user.isConnected) {
-            navigate('/');
-        }
-    }, []);
+    } , [])
     const pushDirectory = (directoryName, pgn, directoryColor) => {
 
         var requestOption = {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({userid: user.user.id, nom: directoryName, ouverture: pgn, couleur: directoryColor, action: 1}),
+            body: JSON.stringify({userid: editedUser.id, nom: directoryName, ouverture: pgn, couleur: directoryColor == "white" ? 0 : 1, action: 1}),
         }
         fetch(path + 'manage_directories.php', requestOption).then(response => {
             console.log(response.status)
@@ -46,8 +43,15 @@ const ApiExportPage = (user ) => {
     const [parsedGames, setGamesData] = useState([]);
     useEffect(() => {
         const fetchGames = async () => {
-            const username = editedUser.lichess_name ? editedUser.lichess_name :  "german11"
+            const loggedInUser = localStorage.getItem("user");
+            if (loggedInUser) {
+                console.log("editedUser 2222 :" + loggedInUser)
+                console.log(JSON.parse(loggedInUser))
+                setEditedUser(JSON.parse(loggedInUser));
+            }
+            const username = JSON.parse(loggedInUser).lichess_name ? JSON.parse(loggedInUser).lichess_name :  null
                 //user.user.lichess_name ? user.user.lichess_name : '';
+            console.log("ici" + editedUser.lichess_name)
             const maxGames = 10;
 
             if (!username) {
@@ -90,7 +94,7 @@ const ApiExportPage = (user ) => {
             isMounted.current = false;
         };
 
-    } , []);
+    } , [editedUser]);
 
     return (
         <Container>
