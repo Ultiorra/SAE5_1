@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Chessboard} from 'react-chessboard';
 import {Chess} from 'chess.js';
+import {DirectoryForm} from "./DirectoryForm";
 import '../css/ChessBoard.css';
 import createDirectory from "./Directories";
 import Modal from 'react-modal';
@@ -222,6 +223,7 @@ const MyChessboard = ( user , isConnected) => {
                         onPieceDrop={(sourceSquare, targetSquare) => handleDrop(sourceSquare, targetSquare)}
                     />
             </Grid>
+            <DirectoryForm pgn={pgn} />
             <Grid item xs={6.3} className="right-grid">
                 <br></br>
                 <Button onClick={reset}
