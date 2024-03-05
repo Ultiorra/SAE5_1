@@ -1,18 +1,17 @@
 import {Button, Card, CardContent, FormControl, InputLabel, MenuItem, Select, TextField} from "@mui/material";
 import Modal from "react-modal";
-import React, {useState} from "react";
+import React, {useState,useEffect} from "react";
 import {toast} from "react-toastify";
 
 
-const DirectoryForm = ({ user, isOpen, closeModal }) => {
-
+const DirectoryForm = ({ user, isOpen, closeModal, initPgn= null }) => {
     const path = "http://localhost/my-app/prochess/";
     //const [modalIsOpen, setIsOpen] = React.useState(false);
     //const [directoryName, setDirectoryName] = React.useState("");
     //const [directoryColor, setDirectoryColor] = React.useState("0");
     const [directoryName, setDirectoryName] = useState("");
     const [directoryColor, setDirectoryColor] = useState("");
-    const [pgn, setPgn] = useState("");
+    const [pgn, setPgn] = useState(initPgn);
     const customStyles = {
         overlay: {
             backgroundColor: 'rgba(0, 0, 0, 0.5)'
@@ -35,10 +34,12 @@ const DirectoryForm = ({ user, isOpen, closeModal }) => {
             textAlign: 'center'
         }
     };
-
+    console.log('initPgn : ' + pgn);
+    useEffect(() => {
+        setPgn(pgn);
+    }, [pgn]);
     const addDirectory = (e) => {
-        e.preventDefault()
-        console.log(user.id)
+        e.preventDefault();
         if (pgn.length > 0) {
             const newDirectory = ((name, ouvertures, nb_tests, nb_success, color) => {
                 return {
@@ -49,8 +50,6 @@ const DirectoryForm = ({ user, isOpen, closeModal }) => {
                     color
                 };
             })(directoryName, pgn, 0, 0, directoryColor);
-
-            console.log('New directory:', newDirectory);
             pushDirectory();
             closeModal();
         }
@@ -66,16 +65,16 @@ const DirectoryForm = ({ user, isOpen, closeModal }) => {
         fetch(path + 'manage_directories.php', requestOption).then(response => {
             console.log(response.status)
             if (response.status === 200)
-                toast('CrÃ©ation de rÃ©pertoire rÃ©ussie', {
+                toast('CrÃ©ation de répertoire rÃ©ussie', {
                     type: 'success',
                     autoClose: 2000,
                     position: toast.POSITION.TOP_CENTER
                 });
             else
-                toast('Erreur de crÃ©ation...', {type: 'error', autoClose: 2000, position: toast.POSITION.TOP_CENTER});
+                toast('Erreur de création...', {type: 'error', autoClose: 2000, position: toast.POSITION.TOP_CENTER});
         })
             .catch(error => {
-                toast('Erreur de crÃ©ation', {type: 'error', autoClose: 2000, position: toast.POSITION.TOP_CENTER});
+                toast('Erreur de création', {type: 'error', autoClose: 2000, position: toast.POSITION.TOP_CENTER});
             });
     };
 
@@ -87,12 +86,12 @@ const DirectoryForm = ({ user, isOpen, closeModal }) => {
             contentLabel="Modal"
             style={customStyles}
         >
-            <h2 style={{ marginBottom: '20px' }}>Entrez les informations du rÃ©pertoire</h2>
+            <h2 style={{ marginBottom: '20px' }}>Entrez les informations du répertoire</h2>
             <Card className="directory-card">
                 <CardContent>
                     <form onSubmit={addDirectory}>
                         <TextField
-                            label="Nom du rÃ©pertoire"
+                            label="Nom du répertoire"
                             variant="outlined"
                             value={directoryName}
                             onChange={(e) => setDirectoryName(e.target.value)}
@@ -103,17 +102,19 @@ const DirectoryForm = ({ user, isOpen, closeModal }) => {
                         <TextField
                             label="PGN actuel"
                             variant="outlined"
-                            value={pgn}
+                            value={pgn !== "" && pgn !== null ? pgn : initPgn !== null ? initPgn : ""}
                             onChange={(e) => setPgn(e.target.value)}
                             required
                             fullWidth
+
+                            disabled={initPgn !== null}
                         />
                         <FormControl variant="outlined" fullWidth style={{ marginBottom: '10px' }}>
-                            <InputLabel>Couleur du rÃ©pertoire</InputLabel>
+                            <InputLabel>Couleur du répertoire</InputLabel>
                             <Select
                                 value={directoryColor}
                                 onChange={(e) => setDirectoryColor(e.target.value)}
-                                label="Couleur du rÃ©pertoire"
+                                label="Couleur du répertoire"
                                 required
                             >
                                 <MenuItem value="0">Blanc</MenuItem>

@@ -15,7 +15,6 @@ const MyChessboard = ( user , isConnected) => {
 
     const [node, setNode] = useState([]);
     const path = "http://localhost/my-app/prochess/";
-    const [modalIsOpen, setModalIsOpen] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
     const [pgn, setPgn] = useState("");
     const [tree, setTree] = useState(new Tree ("", new Node(  "Racine" , null , "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1")));
@@ -28,13 +27,11 @@ const MyChessboard = ( user , isConnected) => {
     const [firstreturn, setFirstreturn] = useState(true);
     const [directoryName, setDirectoryName] = useState("");
     const [directoryColor, setDirectoryColor] = useState("");
-    const openModal = () => {
-        setModalIsOpen(true);
-    };
+
 
     // Fonction pour fermer la modal
     const closeModal = () => {
-        setModalIsOpen(false);
+        setModalOpen(false);
     };
 
     useEffect(() => {
@@ -67,7 +64,7 @@ const MyChessboard = ( user , isConnected) => {
             setPgnHistory(updatedPgnHistory);
             console.log(chess.fen());
             setNode(tree.ajouteCoup(node , move.san, node.moveNbr +1 ));
-            setPgn(chess.pgn());
+            setPgn(tree.exportPgn());
 
             setFirstreturn(true);
 
@@ -255,6 +252,7 @@ const MyChessboard = ( user , isConnected) => {
                 user={user}
                 isOpen={modalOpen}
                 closeModal={closeModal}
+                initPgn={pgn}
             />
             {/*<Modal
                 isOpen={modalIsOpen}
