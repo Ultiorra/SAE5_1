@@ -4,8 +4,9 @@ import React from "react";
 import {toast} from "react-toastify";
 
 
-const DirectoryForm = ({pgn}) => {
+const DirectoryForm = ({pgn, user}) => {
 
+    const path = "http://localhost/my-app/prochess/";
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [directoryName, setDirectoryName] = React.useState("");
     const [directoryColor, setDirectoryColor] = React.useState("0");
@@ -66,7 +67,7 @@ const DirectoryForm = ({pgn}) => {
             isOpen={modalIsOpen}
             onRequestClose={closeModal}
             contentLabel="Modal"
-            style={customStyles}
+            //style={customStyles}
         >
             <h2 style={{ marginBottom: '20px' }}>Entrez les informations du rÃ©pertoire</h2>
             <Card className="directory-card">
@@ -84,7 +85,7 @@ const DirectoryForm = ({pgn}) => {
                         <TextField
                             label="PGN actuel"
                             variant="outlined"
-                            value={tree.exportPgn()}
+                            value={pgn}
                             readOnly
                         />
                         <FormControl variant="outlined" fullWidth style={{ marginBottom: '10px' }}>
