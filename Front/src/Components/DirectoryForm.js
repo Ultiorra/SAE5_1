@@ -1,14 +1,18 @@
 import {Button, Card, CardContent, FormControl, InputLabel, MenuItem, Select, TextField} from "@mui/material";
 import Modal from "react-modal";
-import React from "react";
+import React, {useState} from "react";
 import {toast} from "react-toastify";
 
 
-const DirectoryForm = ({pgn,  user}) => {
+const DirectoryForm = ({ user, isOpen, closeModal }) => {
+
     const path = "http://localhost/my-app/prochess/";
-    const [modalIsOpen, setIsOpen] = React.useState(false);
-    const [directoryName, setDirectoryName] = React.useState("");
-    const [directoryColor, setDirectoryColor] = React.useState("0");
+    //const [modalIsOpen, setIsOpen] = React.useState(false);
+    //const [directoryName, setDirectoryName] = React.useState("");
+    //const [directoryColor, setDirectoryColor] = React.useState("0");
+    const [directoryName, setDirectoryName] = useState("");
+    const [directoryColor, setDirectoryColor] = useState("");
+    const [pgn, setPgn] = useState("");
     const customStyles = {
         overlay: {
             backgroundColor: 'rgba(0, 0, 0, 0.5)'
@@ -31,16 +35,10 @@ const DirectoryForm = ({pgn,  user}) => {
             textAlign: 'center'
         }
     };
-    function openModal() {
-        setIsOpen(true);
-    }
-
-    function closeModal() {
-        setIsOpen(false);
-    }
 
     const addDirectory = (e) => {
         e.preventDefault()
+        console.log(user.id)
         if (pgn.length > 0) {
             const newDirectory = ((name, ouvertures, nb_tests, nb_success, color) => {
                 return {
@@ -84,7 +82,7 @@ const DirectoryForm = ({pgn,  user}) => {
 
     return (
         <Modal
-            isOpen={modalIsOpen}
+            isOpen={isOpen}
             onRequestClose={closeModal}
             contentLabel="Modal"
             style={customStyles}
@@ -106,7 +104,9 @@ const DirectoryForm = ({pgn,  user}) => {
                             label="PGN actuel"
                             variant="outlined"
                             value={pgn}
-                            readOnly
+                            onChange={(e) => setPgn(e.target.value)}
+                            required
+                            fullWidth
                         />
                         <FormControl variant="outlined" fullWidth style={{ marginBottom: '10px' }}>
                             <InputLabel>Couleur du rÃ©pertoire</InputLabel>

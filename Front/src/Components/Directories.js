@@ -17,6 +17,7 @@ import {Link, useNavigate} from 'react-router-dom';
 import React, {useEffect, useState} from 'react';
 import {toast} from "react-toastify";
 import Modal from "react-modal";
+import DirectoryForm from "./DirectoryForm";
 
 const path = "http://localhost/my-app/prochess/";
 
@@ -218,9 +219,7 @@ const Directories = (user, isConnected) => {
             <Button
                 variant="contained"
                 color="primary"
-                onClick={() => {
-
-                }}
+                onClick={ () => setModalOpen(true)}
             > Ajouter un répertoire
             </Button>
             <div className="directories-container">
@@ -366,7 +365,12 @@ const Directories = (user, isConnected) => {
 
                 }
             </div>
-            <Modal
+            <DirectoryForm
+                user={currentUser}
+                isOpen={modalOpen}
+                closeModal={closeModal}
+            />
+            {/*<Modal
                 isOpen={modalOpen}
                 onRequestClose={closeModal}
                 contentLabel="Modal"
@@ -410,7 +414,7 @@ const Directories = (user, isConnected) => {
                         </form>
                     </CardContent>
                 </Card>
-            </Modal>
+            </Modal>*/}
         </div>
     );
 }

@@ -16,6 +16,7 @@ const MyChessboard = ( user , isConnected) => {
     const [node, setNode] = useState([]);
     const path = "http://localhost/my-app/prochess/";
     const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [modalOpen, setModalOpen] = useState(false);
     const [pgn, setPgn] = useState("");
     const [tree, setTree] = useState(new Tree ("", new Node(  "Racine" , null , "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1")));
     const [finalPgn, setFinalPgn] = useState("");
@@ -223,7 +224,6 @@ const MyChessboard = ( user , isConnected) => {
                         onPieceDrop={(sourceSquare, targetSquare) => handleDrop(sourceSquare, targetSquare)}
                     />
             </Grid>
-            <DirectoryForm pgn={pgn}  user={user} />
             <Grid item xs={6.3} className="right-grid">
                 <br></br>
                 <Button onClick={reset}
@@ -242,7 +242,7 @@ const MyChessboard = ( user , isConnected) => {
                         style={{ marginRight: '10px' }}
                 >{'>'}
                 </Button>
-                <Button onClick={() => openModal()}
+                <Button onClick={() => setModalOpen(true)}
                         variant="contained"
                         color="primary"
                         style={{ marginRight: '10px' }}
@@ -251,7 +251,12 @@ const MyChessboard = ( user , isConnected) => {
                 <p className="pgn">PGN actuel : {pgn}</p>
                 {/*<p>{chess.history()}</p>*/}
             </Grid>
-            <Modal
+            <DirectoryForm
+                user={user}
+                isOpen={modalOpen}
+                closeModal={closeModal}
+            />
+            {/*<Modal
                 isOpen={modalIsOpen}
                 onRequestClose={closeModal}
                 contentLabel="Modal"
@@ -295,7 +300,7 @@ const MyChessboard = ( user , isConnected) => {
                         </form>
                     </CardContent>
                 </Card>
-            </Modal>
+            </Modal>*/}
         </Grid>
     );
 };
