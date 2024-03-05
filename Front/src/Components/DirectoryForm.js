@@ -4,13 +4,33 @@ import React from "react";
 import {toast} from "react-toastify";
 
 
-const DirectoryForm = ({pgn, user}) => {
-
+const DirectoryForm = ({pgn,  user}) => {
     const path = "http://localhost/my-app/prochess/";
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [directoryName, setDirectoryName] = React.useState("");
     const [directoryColor, setDirectoryColor] = React.useState("0");
-
+    const customStyles = {
+        overlay: {
+            backgroundColor: 'rgba(0, 0, 0, 0.5)'
+        },
+        content: {
+            top: '50%',
+            left: '50%',
+            right: 'auto',
+            bottom: 'auto',
+            marginRight: '-50%',
+            transform: 'translate(-50%, -50%)',
+            backgroundColor: 'white',
+            padding: '20px',
+            border: '1px solid #ccc',
+            borderRadius: '8px',
+            boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
+            maxWidth: '500px',
+            width: '100%',
+            height: '500px',
+            textAlign: 'center'
+        }
+    };
     function openModal() {
         setIsOpen(true);
     }
@@ -67,7 +87,7 @@ const DirectoryForm = ({pgn, user}) => {
             isOpen={modalIsOpen}
             onRequestClose={closeModal}
             contentLabel="Modal"
-            //style={customStyles}
+            style={customStyles}
         >
             <h2 style={{ marginBottom: '20px' }}>Entrez les informations du rÃ©pertoire</h2>
             <Card className="directory-card">
@@ -101,7 +121,7 @@ const DirectoryForm = ({pgn, user}) => {
                             </Select>
                         </FormControl>
                         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
-                            <Button type="submit" variant="contained" color="primary" style={{ marginRight: '20px', width: '100%', height: '50px' }}>Ajouter RÃ©pertoire</Button>
+                            <Button type="submit" variant="contained" color="primary" style={{ marginRight: '20px', width: '100%', height: '50px' }}>Ajouter Répertoire</Button>
                             <Button type="button" variant="contained" color="secondary" onClick={closeModal} style={{ marginLeft: '20px', width: '100%', height: '50px' }}>Annuler</Button>
                         </div>
                     </form>
@@ -111,5 +131,4 @@ const DirectoryForm = ({pgn, user}) => {
     );
 }
 
-DirectoryForm.displayName = 'DirectoryForm';
 export default DirectoryForm;
