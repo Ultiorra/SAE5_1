@@ -135,7 +135,7 @@ const MyChessboard = ( user , isConnected) => {
         if (node.parent) {
             setNode(node.parent);
             setChess(new Chess(node.parent.fen));
-            setPgn(node.parent.move);
+            setPgn(tree.exportPgn());
         }/*
         if (firstreturn) {
             if (currentMoveIndex > 0) {
@@ -175,7 +175,7 @@ const MyChessboard = ( user , isConnected) => {
             const childNode = node.enfants[childIndex];
             setNode(childNode);
             setChess(new Chess(childNode.fen));
-            setPgn(childNode.move);
+            setPgn(tree.exportPgn());
         }
         /*
         if (currentMoveIndex < chessHistory.length - 1) {
