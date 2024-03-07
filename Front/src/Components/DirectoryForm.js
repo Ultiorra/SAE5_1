@@ -106,7 +106,6 @@ const DirectoryForm = ({ user, isOpen, closeModal, initPgn= null }) => {
                             onChange={(e) => setPgn(e.target.value)}
                             required
                             fullWidth
-
                             disabled={initPgn !== null}
                         />
                         <FormControl variant="outlined" fullWidth style={{ marginBottom: '10px' }}>

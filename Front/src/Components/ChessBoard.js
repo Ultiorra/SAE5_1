@@ -60,8 +60,15 @@ const MyChessboard = ( user , isConnected) => {
             setCurrentMoveIndex(currentMoveIndex + 1);
 
             const updatedPgnHistory = pgnHistory.slice(0, currentMoveIndex + 1);
+
             updatedPgnHistory.push(updatedChess.pgn());
             setPgnHistory(updatedPgnHistory);
+            const existingChild = node.enfants.find(child => child.move === move.san);
+            if (existingChild) {
+                const childIndex = node.enfants.indexOf(existingChild);
+                nextMove(childIndex);
+                return;
+            }
             console.log(chess.fen());
             setNode(tree.ajouteCoup(node , move.san, node.moveNbr +1 ));
             setPgn(tree.exportPgn());
@@ -125,6 +132,11 @@ const MyChessboard = ( user , isConnected) => {
     }
 
     const previousMove = () => {
+        if (node.parent) {
+            setNode(node.parent);
+            setChess(new Chess(node.parent.fen));
+            setPgn(node.parent.move);
+        }/*
         if (firstreturn) {
             if (currentMoveIndex > 0) {
                 const newIndex = currentMoveIndex;
@@ -142,17 +154,38 @@ const MyChessboard = ( user , isConnected) => {
                 setChess(chessHistory[newIndex]);
                 setPgn(pgnHistory[newIndex]);
             }
-        }
+        }*/
     };
-
+/*
     const nextMove = () => {
         if (currentMoveIndex < chessHistory.length - 1) {
-            setNode(node.children[0]);
+            console.log(node);
+            setNode(node.enfants[0]);
             const newIndex = currentMoveIndex + 1;
             setCurrentMoveIndex(newIndex);
             setChess(chessHistory[newIndex]);
             setPgn(pgnHistory[newIndex]);
         }
+    }*/
+
+    const nextMove = ( childIndex) => {
+        console.log("childIndex : " + childIndex);
+        console.log( node.enfants);
+        if (node.enfants && node.enfants[childIndex]) {
+            const childNode = node.enfants[childIndex];
+            setNode(childNode);
+            setChess(new Chess(childNode.fen));
+            setPgn(childNode.move);
+        }
+        /*
+        if (currentMoveIndex < chessHistory.length - 1) {
+            console.log(node);
+            setNode(node.enfants[childIndex]);
+            const newIndex = currentMoveIndex + 1;
+            setCurrentMoveIndex(newIndex);
+            setChess(chessHistory[newIndex]);
+            setPgn(pgnHistory[newIndex]);
+        }*/
     }
 
     const addDirectory = (e) => {
@@ -233,12 +266,24 @@ const MyChessboard = ( user , isConnected) => {
                         style={{ marginRight: '10px' }}
                 >{'<'}
                 </Button>
+                { /*
                 <Button onClick={() => nextMove()}
                         variant="contained"
                         color="primary"
                         style={{ marginRight: '10px' }}
-                >{'>'}
-                </Button>
+                >{'>'}  </Button>*/}
+                    {
+                        node.enfants?.map((child, index) => (
+                            <Button onClick={() => nextMove(index)}
+                                    variant="contained"
+                                    color="primary"
+                                    style={{ marginRight: '10px' }}
+                            >{child.move}
+                            </Button>
+                        ))
+
+                    }
+
                 <Button onClick={() => setModalOpen(true)}
                         variant="contained"
                         color="primary"
@@ -254,51 +299,6 @@ const MyChessboard = ( user , isConnected) => {
                 closeModal={closeModal}
                 initPgn={pgn}
             />
-            {/*<Modal
-                isOpen={modalIsOpen}
-                onRequestClose={closeModal}
-                contentLabel="Modal"
-                style={customStyles}
-            >
-                <h2 style={{ marginBottom: '20px' }}>Entrez les informations du répertoire</h2>
-                <Card className="directory-card">
-                    <CardContent>
-                        <form onSubmit={addDirectory}>
-                            <TextField
-                                label="Nom du répertoire"
-                                variant="outlined"
-                                value={directoryName}
-                                onChange={(e) => setDirectoryName(e.target.value)}
-                                required
-                                fullWidth
-                                style={{ marginBottom: '10px' }}
-                            />
-                            <TextField
-                                label="PGN actuel"
-                                variant="outlined"
-                                value={tree.exportPgn()}
-                                readOnly
-                            />
-                            <FormControl variant="outlined" fullWidth style={{ marginBottom: '10px' }}>
-                                <InputLabel>Couleur du répertoire</InputLabel>
-                                <Select
-                                    value={directoryColor}
-                                    onChange={(e) => setDirectoryColor(e.target.value)}
-                                    label="Couleur du répertoire"
-                                    required
-                                >
-                                    <MenuItem value="0">Blanc</MenuItem>
-                                    <MenuItem value="1">Noir</MenuItem>
-                                </Select>
-                            </FormControl>
-                            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
-                                <Button type="submit" variant="contained" color="primary" style={{ marginRight: '20px', width: '100%', height: '50px' }}>Ajouter Répertoire</Button>
-                                <Button type="button" variant="contained" color="secondary" onClick={closeModal} style={{ marginLeft: '20px', width: '100%', height: '50px' }}>Annuler</Button>
-                            </div>
-                        </form>
-                    </CardContent>
-                </Card>
-            </Modal>*/}
         </Grid>
     );
 };
