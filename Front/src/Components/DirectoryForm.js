@@ -2,6 +2,7 @@ import {Button, Card, CardContent, FormControl, InputLabel, MenuItem, Select, Te
 import Modal from "react-modal";
 import React, {useState,useEffect} from "react";
 import {toast} from "react-toastify";
+import {wait} from "@testing-library/user-event/dist/utils";
 
 
 const DirectoryForm = ({ userId, isOpen, closeModal, initPgn= null }) => {
@@ -34,7 +35,8 @@ const DirectoryForm = ({ userId, isOpen, closeModal, initPgn= null }) => {
             textAlign: 'center'
         }
     };
-    console.log('initPgn : ' + pgn);
+    console.log('pgn : ' + pgn);
+    console.log('initPgn : ' + initPgn);
     useEffect(() => {
         setPgn(pgn);
     }, [pgn]);
@@ -54,9 +56,24 @@ const DirectoryForm = ({ userId, isOpen, closeModal, initPgn= null }) => {
             pushDirectory();
             closeModal();
         }
+        else if (initPgn.length > 0) {
+            const newDirectory = ((name, ouvertures, nb_tests, nb_success, color) => {
+                return {
+                    name,
+                    ouvertures,
+                    nb_tests,
+                    nb_success,
+                    color
+                };
+            })(directoryName, initPgn, 0, 0, directoryColor);
+            pushDirectory();
+            closeModal();
+        }
         else {
             toast('Veuillez entrer un PGN', {type: 'error', autoClose: 2000, position: toast.POSITION.TOP_CENTER});
         }
+        wait(2000)
+        window.location.reload();
     };
 
     const pushDirectory = () => {
