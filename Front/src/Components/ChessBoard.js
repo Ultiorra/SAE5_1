@@ -247,14 +247,14 @@ const MyChessboard = ( user , isConnected) => {
 
     return (
         <Grid container spacing={2}>
-            <Grid item xs={5.7}>
+            <Grid item xs={4}>
 
                     <Chessboard
                         position={chess.fen()}
                         onPieceDrop={(sourceSquare, targetSquare) => handleDrop(sourceSquare, targetSquare)}
                     />
             </Grid>
-            <Grid item xs={6.3} className="right-grid">
+            <Grid item xs={8} className="right-grid">
                 <br></br>
                 <Button onClick={reset}
                         variant="contained"
@@ -294,7 +294,7 @@ const MyChessboard = ( user , isConnected) => {
                 {/*<p>{chess.history()}</p>*/}
             </Grid>
             <DirectoryForm
-                user={user}
+                userId={user.user.id}
                 isOpen={modalOpen}
                 closeModal={closeModal}
                 initPgn={pgn}

@@ -4,7 +4,7 @@ import React, {useState,useEffect} from "react";
 import {toast} from "react-toastify";
 
 
-const DirectoryForm = ({ user, isOpen, closeModal, initPgn= null }) => {
+const DirectoryForm = ({ userId, isOpen, closeModal, initPgn= null }) => {
     const path = "http://localhost/my-app/prochess/";
     //const [modalIsOpen, setIsOpen] = React.useState(false);
     //const [directoryName, setDirectoryName] = React.useState("");
@@ -39,6 +39,7 @@ const DirectoryForm = ({ user, isOpen, closeModal, initPgn= null }) => {
         setPgn(pgn);
     }, [pgn]);
     const addDirectory = (e) => {
+        console.log("userId : " + userId);
         e.preventDefault();
         if (pgn.length > 0) {
             const newDirectory = ((name, ouvertures, nb_tests, nb_success, color) => {
@@ -53,14 +54,17 @@ const DirectoryForm = ({ user, isOpen, closeModal, initPgn= null }) => {
             pushDirectory();
             closeModal();
         }
+        else {
+            toast('Veuillez entrer un PGN', {type: 'error', autoClose: 2000, position: toast.POSITION.TOP_CENTER});
+        }
     };
 
     const pushDirectory = () => {
-
+        console.log("dans pushDirectory")
         var requestOption = {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({userid: user.user.id, nom: directoryName, ouverture: pgn, couleur: directoryColor, action: 1}),
+            body: JSON.stringify({userid: userId, nom: directoryName, ouverture: pgn, couleur: directoryColor, action: 1}),
         }
         fetch(path + 'manage_directories.php', requestOption).then(response => {
             console.log(response.status)

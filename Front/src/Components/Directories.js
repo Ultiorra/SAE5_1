@@ -366,7 +366,7 @@ const Directories = (user, isConnected) => {
                 }
             </div>
             <DirectoryForm
-                user={currentUser}
+                userId={currentUser.id}
                 isOpen={modalOpen}
                 closeModal={closeModal}
             />
