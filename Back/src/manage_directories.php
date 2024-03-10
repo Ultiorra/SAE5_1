@@ -217,6 +217,42 @@ switch ($action){
             die('Erreur : ' . $e->getMessage());
         }
         break;
+    case 5:
+        //echo update repo stats
+        try{
+            if (!isset($data->idrep) || !isset($data->reussi)){
+                //http_response_code(400);
+                die("Remplissez correctement. Un ou plusieurs champs n\'est pas set\n");
+            }
+            $idrep = $data->idrep;
+            $getStats = $mysqlConnection->prepare('SELECT nb_tests, nb_reussites FROM repertoires WHERE id = :idrep');
+            $getStats->execute([
+                'idrep' => $idrep,
+            ]) or die(print_r($mysqlConnection->errorInfo()));
+            $result = $getStats->fetchAll();
+            $nb_tests = $result[0]['nb_tests'] + 1;
+            $nb_reussites = $result[0]['nb_reussites'];
+            if ($data->reussi == 1){
+                $nb_reussites = $result[0]['nb_reussites'] + 1;
+            }
+            $updateStats = $mysqlConnection->prepare('UPDATE repertoires SET nb_tests = :nb_tests, nb_reussites = :nb_reussites WHERE id = :idrep');
+            $updateStats->execute([
+                'idrep' => $idrep,
+                'nb_tests' => $nb_tests,
+                'nb_reussites' => $nb_reussites,
+            ]) or die(print_r($mysqlConnection->errorInfo()));
+            $response = [
+                'status' => 'success',
+                'message' => 'Vous avez mis a jour les stats de votre repertoire',
+            ];
+            http_response_code(200);
+            echo json_encode($response);
+        }
+        catch (Exception $e)
+        {
+            die('Erreur : ' . $e->getMessage());
+        }
+        break;
 }
 
 ?>

@@ -53,7 +53,7 @@ const DirectoryForm = ({ userId, isOpen, closeModal, initPgn= null }) => {
                     color
                 };
             })(directoryName, pgn, 0, 0, directoryColor);
-            pushDirectory();
+            pushDirectory(pgn);
             closeModal();
         }
         else if (initPgn.length > 0) {
@@ -66,23 +66,25 @@ const DirectoryForm = ({ userId, isOpen, closeModal, initPgn= null }) => {
                     color
                 };
             })(directoryName, initPgn, 0, 0, directoryColor);
-            pushDirectory();
+            pushDirectory(initPgn);
             closeModal();
         }
         else {
             toast('Veuillez entrer un PGN', {type: 'error', autoClose: 2000, position: toast.POSITION.TOP_CENTER});
         }
-        wait(2000)
-        window.location.reload();
+        //uniquement si la page est Directories
+        //wait(2000)
+        //window.location.reload();
     };
 
-    const pushDirectory = () => {
+    const pushDirectory = (ouverture) => {
         console.log("dans pushDirectory")
         var requestOption = {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({userid: userId, nom: directoryName, ouverture: pgn, couleur: directoryColor, action: 1}),
+            body: JSON.stringify({userid: userId, nom: directoryName, ouverture: ouverture, couleur: directoryColor, action: 1}),
         }
+        console.log('body : ' + requestOption.body)
         fetch(path + 'manage_directories.php', requestOption).then(response => {
             console.log(response.status)
             if (response.status === 200)

@@ -1,13 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import { Chessboard } from 'react-chessboard';
-import { Chess } from 'chess.js';
+import React, {useEffect, useState} from 'react';
+import {Chessboard} from 'react-chessboard';
+import {Chess} from 'chess.js';
 import {Button, Dialog, DialogActions, DialogContent, DialogTitle} from "@mui/material";
-import { useParams } from "react-router-dom";
+import {useParams} from "react-router-dom";
 import {etEE} from "@mui/material/locale";
+import {toast} from "react-toastify";
 
 const DirectoriesBoard = () => {
 
-    function updateDirectory(){}
+    const path = "http://localhost/my-app/prochess/";
+
+    function updateDirectory() {
+    }
+
     function parsedMove(pgn) {
         let parsedPgn = [];
         let pgnArray = pgn.split(" ");
@@ -46,7 +51,7 @@ const DirectoriesBoard = () => {
                     oldouvert = false;
                 }
 
-                if(!(pgnArray[j].includes("(")) && !(pgnArray[j].includes(")")) && !(pgnArray[j].includes("."))) {
+                if (!(pgnArray[j].includes("(")) && !(pgnArray[j].includes(")")) && !(pgnArray[j].includes("."))) {
                     //vérifier que pgnArray[j] est inclue dans parsePgn(i-1)
                     for (let k = 0; k < parsedPgn[i - 1].length; k++) {
                         if (parsedPgn[i - 1][k].includes(pgnArray[j])) {
@@ -58,22 +63,20 @@ const DirectoriesBoard = () => {
                 if (pgnArray[j].includes(stageVisited[i])) {
                     let ouvert = false;
                     let h = j;
-                    move.push(pgnArray[j+1]);
-                    while (move.length < 2 && h+1 !== pgnArray.length) {
+                    move.push(pgnArray[j + 1]);
+                    while (move.length < 2 && h + 1 !== pgnArray.length) {
                         ++h;
-                        if(oldouvert && pgnArray[h].includes(")") && ouvert == false) {
+                        if (oldouvert && pgnArray[h].includes(")") && ouvert == false) {
                             h = pgnArray.length - 1;
-                        }
-                        else {
+                        } else {
                             if (!pgnArray[j].includes("(") && !pgnArray[h].includes(".") && !pgnArray[h].includes(")") && !pgnArray[h].includes("(") && ouvert == false) {
-                                if(!(pgnArray[h] === move[0])) {
+                                if (!(pgnArray[h] === move[0])) {
                                     move.push(pgnArray[h]);
                                 }
 
-                            }
-                            else if (pgnArray[j].includes("(")) {
+                            } else if (pgnArray[j].includes("(")) {
 
-                                if(!(pgnArray[h] === move[0])) {
+                                if (!(pgnArray[h] === move[0])) {
                                     move.push(pgnArray[h]);
                                 }
 
@@ -156,9 +159,6 @@ const DirectoriesBoard = () => {
                 previousMove = pgnArray[j - 1];
 
 
-
-
-
                 if (pgnArray[j].includes(stageVisited[i])) {
                     if (j !== 0) {
                         if (pgnArray[j - 1] !== ")") {
@@ -172,7 +172,6 @@ const DirectoriesBoard = () => {
                     let h = j + 1;
                     let allfind = false;
                     let base = pgnArray[j] + " " + pgnArray[j + 1] + " ";
-
 
 
                     while (allfind === false && h + 1 !== pgnArray.length) {
@@ -223,8 +222,7 @@ const DirectoriesBoard = () => {
                             }
 
                         }
-                    }
-                    else {
+                    } else {
                         for (let l = 0; l < moves.length; l++) {
                             let resu = moves[l].join(" ") + " ";
                             parsedPgn[i].push(resu.replace(/\(|\)/g, ""));
@@ -233,9 +231,8 @@ const DirectoriesBoard = () => {
                 }
             }
         }
-        return(parsedPgn);
+        return (parsedPgn);
     }
-
 
 
     function removeLastMove(pgn) {
@@ -251,17 +248,16 @@ const DirectoriesBoard = () => {
 
 
     const {value} = useParams();
-    const [value2 , setValue2] = useState(value.slice(0, -2));
+    const [value2, setValue2] = useState(value.split("&")[0].slice(0, -2));
+    const [id, setId] = useState(value.split("&")[1].split("=")[1]);
 
     let userColor = value.slice(-1);
 
     if (userColor === "1") {
         userColor = "b";
-    }
-    else {
+    } else {
         userColor = "w";
     }
-
 
 
     /*setValue2(value2.slice(0, -2));*/
@@ -279,19 +275,54 @@ const DirectoriesBoard = () => {
     const [currentMoveIndex, setCurrentMoveIndex] = useState(0);
     const [updatedChessCopy, setUpdatedChessCopy] = useState(new Chess());
     const [open, setOpen] = useState(false);
-
     let parsedMoves;
 
-    if(userColor === "b") {
+    if (userColor === "b") {
         parsedMoves = parsedMove_noir(value2);
         console.log("noir")
-    }
-    else {
+    } else {
         parsedMoves = parsedMove(value2);
     }
 
     console.log(parsedMoves);
 
+    function openingSuccess() {
+        setOpen(true);
+        updateDirectoryStats()
+    }
+
+    function updateDirectoryStats() {
+        var requestOptions = {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({reussi: 1, idrep: id, action: 5}),
+        }
+        fetch(path + 'manage_directories.php', requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "success") {
+                    toast('Statistiques mises à jour', {
+                        type: 'success',
+                        autoClose: 2000,
+                        position: toast.POSITION.TOP_CENTER
+                    });
+                } else {
+                    toast('Erreur de mise à jour', {
+                        type: 'error',
+                        autoClose: 2000,
+                        position: toast.POSITION.TOP_CENTER
+                    });
+                }
+            }).catch(error => {
+            console.log(error)
+            toast('Erreur de récupération', {
+                type: 'error',
+                autoClose: 2000,
+                position: toast.POSITION.TOP_CENTER,
+            });
+        });
+
+    }
 
     //si la couleur est noir alors charger sur le board removeLastMove(parsedMoves[0][0])
     if (userColor === "b" && chess.pgn() === "") {
@@ -316,21 +347,22 @@ const DirectoriesBoard = () => {
                 for (let i = 0; i < parsedMoves[currentMoveIndex].length; i++) {
                     if (parsedMoves[currentMoveIndex][i].includes(updatedChessCopy.pgn())) {
 
-                        if(currentMoveIndex+1 === parsedMoves.length) {
+                        if (currentMoveIndex + 1 === parsedMoves.length) {
 
                             etat = 1;
-                            setOpen(true);
-                        }
-                        else {
+                            openingSuccess()
+                            //setOpen(true);
+                        } else {
                             let suite = false;
-                            for (let j = 0; j < parsedMoves[currentMoveIndex+1].length; j++) {
-                                if (parsedMoves[currentMoveIndex+1][j].includes(updatedChessCopy.pgn())) {
+                            for (let j = 0; j < parsedMoves[currentMoveIndex + 1].length; j++) {
+                                if (parsedMoves[currentMoveIndex + 1][j].includes(updatedChessCopy.pgn())) {
                                     suite = true;
                                 }
                             }
                             if (suite === false) {
                                 etat = 1;
-                                setOpen(true);
+                                //setOpen(true);
+                                openingSuccess()
                                 console.log("fini")
                             }
                         }
@@ -343,7 +375,7 @@ const DirectoriesBoard = () => {
                             newPgn = parsedMoves[currentMoveIndex][i];
                         } else {
                             for (let j = 0; j < parsedMoves[currentMoveIndex + 1].length; j++) {
-                                console.log("parsedMoves[currentMoveIndex+1][j] : " + parsedMoves[currentMoveIndex+1][j])
+                                console.log("parsedMoves[currentMoveIndex+1][j] : " + parsedMoves[currentMoveIndex + 1][j])
                                 console.log("parsedMoves[currentMoveIndex][i] : " + parsedMoves[currentMoveIndex][i])
                                 let pgn_temp = parsedMoves[currentMoveIndex][i].replace(/\s+$/, '')
                                 if (parsedMoves[currentMoveIndex + 1][j].includes(pgn_temp)) {
@@ -377,15 +409,13 @@ const DirectoriesBoard = () => {
                 setPgn(updatedChessCopy.pgn());
 
 
-
-
             } else {
                 console.log("Coup invalide");
                 setErreur(erreur + 1);
                 updateDirectory();
                 return;
             }
-        }catch (e) {
+        } catch (e) {
             console.log(e);
         }
     }

@@ -108,6 +108,7 @@ const Directories = (user, isConnected) => {
             .then(data => {
                 if (data.status === 'success') {
                     setUserDirectories(data.repertoires);
+                    console.log("userDirectories" + JSON.stringify(data.repertoires))
                 } else {
                     toast('Erreur de récupération...', {
                         type: 'error',
@@ -275,7 +276,7 @@ const Directories = (user, isConnected) => {
                                 </Typography>
                                 </Box>
                                 <Link
-                                    to={`/directoriesboard/${directory.ouvertures}${directory.color}`}
+                                    to={`/directoriesboard/${directory.ouvertures}${directory.color}&id=${directory.id}`}
                                 >
                                     <Button
                                     variant="contained"
@@ -349,7 +350,7 @@ const Directories = (user, isConnected) => {
                                     </Typography>
                                 </Box>
                                 <Link
-                                    to={`/directoriesboard/${directory.ouverture}`}
+                                    to={`/directoriesboard/${directory.ouverture}${directory.couleur}&id=${directory.id}`}
                                 >
                                     <Button
                                         variant="contained"
