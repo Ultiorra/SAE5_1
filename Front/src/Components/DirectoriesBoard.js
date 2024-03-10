@@ -14,7 +14,7 @@ const DirectoriesBoard = () => {
         let stageVisited = [];
 
         for (let i = 0; i < pgnArray.length; i++) {
-            if (pgnArray[i] == "") {
+            if (pgnArray[i] === "") {
                 pgnArray.splice(i, 1);
             }
         }
