@@ -226,142 +226,142 @@ const Directories = (user, isConnected) => {
             <div className="directories-container">
                 {directories.map((directory, index) => (
 
-                        <Card
-                            key={index}
-                            className="directory-card"
-                        >
+                    <Card
+                        key={index}
+                        className="directory-card"
+                    >
 
-                            <CardContent  style={{
-                                backgroundColor: '#f5f5f5'
-                            }}>
-                                <IconButton
-                                    onClick={() => {
-                                        handleDelete(directory.id);
+                        <CardContent  style={{
+                            backgroundColor: '#f5f5f5'
+                        }}>
+                            <IconButton
+                                onClick={() => {
+                                    handleDelete(directory.id);
+                                }}
+                            >
+                                <DeleteIcon />
+                            </IconButton>
+                            <Typography variant="h5">{directory.name}</Typography>
+                            <Box
+                                display="flex"
+                                alignItems="center"
+                                justifyContent="space-between"
+                                mt={2}
+
+                            >
+                                <div
+                                    style={{
+                                        width: '10px',
+                                        height: '10px',
+                                        backgroundColor: directory.color,
+                                        borderRadius: '50%',
+                                        marginRight: '8px',
                                     }}
-                                >
-                                    <DeleteIcon />
-                                </IconButton>
-                                <Typography variant="h5">{directory.name}</Typography>
-                                <Box
-                                    display="flex"
-                                    alignItems="center"
-                                    justifyContent="space-between"
-                                    mt={2}
+                                ></div>
+                                <Typography>
+                                    {Number.isInteger(directory.nb_success / directory.nb_tests)
+                                        ? `${(directory.nb_success / directory.nb_tests) * 100}% de réussite`
+                                        : `${((directory.nb_success / directory.nb_tests) * 100).toFixed(2)}% de réussite`}
+                                </Typography>
+                            </Box>
+                            <Box
+                                display="flex"
+                                alignItems="center"
+                                justifyContent="space-between"
+                                mt={2}
 
-                                >
-                                    <div
-                                        style={{
-                                            width: '10px',
-                                            height: '10px',
-                                            backgroundColor: directory.color,
-                                            borderRadius: '50%',
-                                            marginRight: '8px',
-                                        }}
-                                    ></div>
-                                    <Typography>
-                                        {Number.isInteger(directory.nb_success / directory.nb_tests)
-                                            ? `${(directory.nb_success / directory.nb_tests) * 100}% de réussite`
-                                            : `${((directory.nb_success / directory.nb_tests) * 100).toFixed(2)}% de réussite`}
-                                    </Typography>
-                                </Box>
-                                <Box
-                                    display="flex"
-                                    alignItems="center"
-                                    justifyContent="space-between"
-                                    mt={2}
-
-                                >
+                            >
                                 <Typography variant="caption" align="right">
                                     {directory.nb_tests} tests
                                 </Typography>
-                                </Box>
-                                <Link
-                                    to={`/directoriesboard/${directory.ouvertures}${directory.color}&id=${directory.id}`}
-                                >
-                                    <Button
+                            </Box>
+                            <Link
+                                to={`/directoriesboard/${directory.ouvertures}${directory.color}&id=${directory.id}`}
+                            >
+                                <Button
                                     variant="contained"
                                     color="primary"
-                                    >
-                                        Se tester
-                                    </Button>
+                                >
+                                    Se tester
+                                </Button>
 
-                                </Link>
-                            </CardContent>
-                        </Card>
+                            </Link>
+                        </CardContent>
+                    </Card>
 
                 ))}
                 { userDirectories.map((directory, index) => (
 
-                        <Card
-                            key={index}
-                            className="directory-card"
-                        >
+                    <Card
+                        key={index}
+                        className="directory-card"
+                    >
 
-                            <CardContent  style={{
-                                backgroundColor: '#f5f5f5'
-                            }}>
-                                <IconButton
-                                    onClick={() => {
-                                        handleDelete(directory.id);
-                                    } }
+                        <CardContent  style={{
+                            backgroundColor: '#f5f5f5'
+                        }}>
+                            <IconButton
+                                onClick={() => {
+                                    handleDelete(directory.id);
+                                } }
+                            >
+                                <DeleteIcon />
+                            </IconButton>
+                            <Typography variant="h5">{directory.nom}</Typography>
+                            <Box
+                                display="flex"
+                                alignItems="center"
+                                justifyContent="space-between"
+                                mt={2}
+
+                            >
+                                <div
+                                    style={{
+                                        width: '10px',
+                                        height: '10px',
+                                        backgroundColor: directory.couleur === "0" ? 'white' : 'black',
+                                        borderRadius: '50%',
+                                        marginRight: '8px',
+                                    }}
+                                ></div>
+
+
+                                {
+                                    directory.nb_tests === "0" ? <Typography>
+                                            0% de réussite
+                                        </Typography> :
+                                        <Typography>
+                                            {Number.isInteger(directory.nb_success / directory.nb_tests)
+                                                ? `${(directory.nb_success / directory.nb_tests) * 100}% de réussite`
+                                                : `${((directory.nb_success / directory.nb_tests) * 100).toFixed(2)}% de réussite`}
+                                        </Typography>
+                                }
+
+                            </Box>
+                            <Box
+                                display="flex"
+                                alignItems="center"
+                                justifyContent="space-between"
+                                mt={2}
+
+                            >
+                                <Typography variant="caption" align="right">
+                                    {directory.nb_tests} tests
+                                </Typography>
+                            </Box>
+                            <Link
+                                to={`/directoriesboard/${directory.ouverture}${directory.couleur}&id=${directory.id}`}
+                            >
+                                <Button
+                                    variant="contained"
+                                    color="primary"
                                 >
-                                    <DeleteIcon />
-                                </IconButton>
-                                <Typography variant="h5">{directory.nom}</Typography>
-                                <Box
-                                    display="flex"
-                                    alignItems="center"
-                                    justifyContent="space-between"
-                                    mt={2}
+                                    Se tester
+                                </Button>
 
-                                >
-                                    <div
-                                        style={{
-                                            width: '10px',
-                                            height: '10px',
-                                            backgroundColor: directory.couleur === "0" ? 'white' : 'black',
-                                            borderRadius: '50%',
-                                            marginRight: '8px',
-                                        }}
-                                    ></div>
-
-
-                                    {
-                                        directory.nb_tests === "0" ? <Typography>
-                                                0% de réussite
-                                            </Typography> :
-                                            <Typography>
-                                                {Number.isInteger(directory.nb_success / directory.nb_tests)
-                                                    ? `${(directory.nb_success / directory.nb_tests) * 100}% de réussite`
-                                                    : `${((directory.nb_success / directory.nb_tests) * 100).toFixed(2)}% de réussite`}
-                                            </Typography>
-                                    }
-
-                                </Box>
-                                <Box
-                                    display="flex"
-                                    alignItems="center"
-                                    justifyContent="space-between"
-                                    mt={2}
-
-                                >
-                                    <Typography variant="caption" align="right">
-                                        {directory.nb_tests} tests
-                                    </Typography>
-                                </Box>
-                                <Link
-                                    to={`/directoriesboard/${directory.ouverture}${directory.couleur}&id=${directory.id}`}
-                                >
-                                    <Button
-                                        variant="contained"
-                                        color="primary"
-                                    >
-                                        Se tester
-                                    </Button>
-
-                                </Link>
-                            </CardContent>
-                        </Card>
+                            </Link>
+                        </CardContent>
+                    </Card>
                 ))
 
                 }

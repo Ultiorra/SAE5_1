@@ -251,7 +251,8 @@ const DirectoriesBoard = () => {
     const [value2, setValue2] = useState(value.split("&")[0].slice(0, -2));
     const [id, setId] = useState(value.split("&")[1].split("=")[1]);
 
-    let userColor = value.slice(-1);
+    let userColor = value.split("&")[0].slice(-1);
+    console.log("userColor : " + userColor);
 
     if (userColor === "1") {
         userColor = "b";
