@@ -260,12 +260,17 @@ const MyChessboard = ( user , isConnected) => {
                         variant="contained"
                         color="primary"
                         style={{ marginRight: '10px' }}>Reset</Button>
-                <Button onClick={() => previousMove()}
-                        variant="contained"
-                        color="primary"
-                        style={{ marginRight: '10px' }}
-                >{'<'}
-                </Button>
+                {
+                    node.parent && node.parent.moveNbr > 1 && (
+                        <Button onClick={() => previousMove()}
+                                variant="contained"
+                                color="primary"
+                                style={{ marginRight: '10px' }}
+                        >{'<'}
+                        </Button>
+                    )
+                }
+
                 { /*
                 <Button onClick={() => nextMove()}
                         variant="contained"
