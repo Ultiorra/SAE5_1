@@ -8,6 +8,8 @@ import {toast} from "react-toastify";
 
 const DirectoriesBoard = () => {
 
+    const [numberTry, setNumberTry] = useState(0);
+    const [numberSuccess, setNumberSuccess] = useState(0);
     const path = "http://localhost/my-app/prochess/";
 
     function updateDirectory() {
@@ -289,7 +291,8 @@ const DirectoriesBoard = () => {
 
     function openingSuccess() {
         setOpen(true);
-        updateDirectoryStats()
+
+        updateDirectoryStatsStatic()
     }
 
     function updateDirectoryStats() {
@@ -297,6 +300,38 @@ const DirectoriesBoard = () => {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({reussi: erreur > 0 ? 0 : 1, idrep: id, action: 5}),
+        }
+        fetch(path + 'manage_directories.php', requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "success") {
+                    toast('Statistiques mises à jour', {
+                        type: 'success',
+                        autoClose: 2000,
+                        position: toast.POSITION.TOP_CENTER
+                    });
+                } else {
+                    toast('Erreur de mise à jour', {
+                        type: 'error',
+                        autoClose: 2000,
+                        position: toast.POSITION.TOP_CENTER
+                    });
+                }
+            }).catch(error => {
+            console.log(error)
+            toast('Erreur de récupération', {
+                type: 'error',
+                autoClose: 2000,
+                position: toast.POSITION.TOP_CENTER,
+            });
+        });
+
+    }
+    function updateDirectoryStatsStatic() {
+        var requestOptions = {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({action: 6, idrep: id,nb_tests: numberTry, nb_reussites: numberSuccess}),
         }
         fetch(path + 'manage_directories.php', requestOptions)
             .then(response => response.json())
@@ -352,6 +387,7 @@ const DirectoriesBoard = () => {
 
                             etat = 1;
                             openingSuccess()
+
                             //setOpen(true);
                         } else {
                             let suite = false;
@@ -396,6 +432,7 @@ const DirectoriesBoard = () => {
                     console.log("Coup invalide");
                     console.log("newPgn : " + newPgn)
                     setErreur(erreur + 1);
+                    setNumberTry(numberTry + 1);
                     updateDirectory();
                     return;
                 }
@@ -408,11 +445,14 @@ const DirectoriesBoard = () => {
                 setChessHistory(updatedChessHistory);
                 setCurrentMoveIndex(currentMoveIndex + 1);
                 setPgn(updatedChessCopy.pgn());
+                setNumberSuccess(numberSuccess + 1);
+                setNumberTry(numberTry + 1);
 
 
             } else {
                 console.log("Coup invalide");
                 setErreur(erreur + 1);
+                setNumberTry(numberTry + 1);
                 updateDirectory();
                 return;
             }
@@ -424,6 +464,7 @@ const DirectoriesBoard = () => {
     useEffect(() => {
         if (etat === 1) {
             setOpen(true);
+
         }
     }, [etat]);
 
@@ -449,6 +490,8 @@ const DirectoriesBoard = () => {
                 />
             </div>
             <p>Erreur : {erreur}</p>
+            <p>Nombre de tentatives : {numberTry}</p>
+            <p>Nombre de réussites : {numberSuccess}</p>
             <p>PGN : </p>
             <p>{pgn}</p>
             <p>PGN de l'ouverture : </p>
