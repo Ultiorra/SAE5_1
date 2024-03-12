@@ -104,41 +104,43 @@ const ApiExportPage = (user ) => {
             <div className="parsed-games-container">
                 {parsedGames.map((game, index) => (
                     game ?
-                    <Card key={index} className="parsed-game-card">
-                        <CardContent style={{ backgroundColor: '#f5f5f5' }}>
-                            <div
-                                style={{
-                                    width: '10px',
-                                    height: '10px',
-                                    backgroundColor: game.color === "white" ? 'white' : 'black',
-                                    borderRadius: '50%',
-                                    marginRight: '8px',
-                                }}
-                            ></div>
-                            <pre>{'Partie du ' + game.dateFormated + ' contre ' + game.ennemy}</pre>
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                onClick={() => pushDirectory('Partie du ' + game.dateFormated + ' contre ' + game.ennemy, game.pgn, game.color)}
-                            >
-                                Sauvegarder
-                            </Button>
-                            <Link
-                                to={`/directoriesboard/${game.pgn}`}
-                            >
-                                <Button
-                                    variant="contained"
-                                    color="primary"
-                                >
-                                    Rejouer
-                                </Button>
+                        <Card key={index} className="parsed-game-card">
+                            <CardContent style={{ backgroundColor: '#f5f5f5' }}>
+                                <div
+                                    style={{
+                                        width: '10px',
+                                        height: '10px',
+                                        backgroundColor: game.color === "white" ? 'white' : 'black',
+                                        borderRadius: '50%',
+                                        marginRight: '8px',
+                                    }}
+                                ></div>
+                                <pre>{'Partie du ' + game.dateFormated + ' contre ' + game.ennemy}</pre>
 
-                            </Link>
-                        </CardContent>
-                    </Card> : null
+                                <button
+                                    className="text-white bg-custom-yellow hover:bg-custom-yellow-dark focus:ring-4 focus:ring-custom-yellow-light font-medium rounded-lg text-sm px-3 py-2.5 me-2 mb-2 dark:bg-custom-yellow-dark dark:hover:bg-custom-yellow focus:outline-none dark:focus:ring-custom-yellow"
+                                    onClick={() => pushDirectory('Partie du ' + game.dateFormated + ' contre ' + game.ennemy, game.pgn, game.color)}
+                                >
+                                    Sauvegarder
+                                </button>
+                                <Link
+                                    to={`/directoriesboard/${game.pgn}`}
+                                >
+                                    <button
+                                        className="text-white bg-custom-yellow hover:bg-custom-yellow-dark focus:ring-4 focus:ring-custom-yellow-light font-medium rounded-lg text-sm px-3 py-2.5 me-2 mb-2 dark:bg-custom-yellow-dark dark:hover:bg-custom-yellow focus:outline-none dark:focus:ring-custom-yellow"
+                                    >
+                                        Rejouer
+                                    </button>
+
+                                </Link>
+
+                            </CardContent>
+                        </Card> : null
                 ))}
             </div>
         </Container>
+
+
     );
 };
 

@@ -12,6 +12,7 @@ import DirectoriesBoard from "./Components/DirectoriesBoard";
 import NotFoundPage from "./Components/NotFound";
 import ApiExport from "./Components/ApiExport";
 import ProfilEditPage from "./Components/ProfilEditPage";
+import './index.css';
 
 function App() {
     const  [isRegistration, setRegistration] = React.useState(false);

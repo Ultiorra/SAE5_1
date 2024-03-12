@@ -217,12 +217,11 @@ const Directories = (user, isConnected) => {
     return (
         <div>
             <h1>Directories de {currentUser.login}</h1>
-            <Button
-                variant="contained"
-                color="primary"
+            <button
+                className="text-white bg-custom-yellow hover:bg-custom-yellow-dark focus:ring-4 focus:ring-custom-yellow-light font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-custom-yellow-dark dark:hover:bg-custom-yellow focus:outline-none dark:focus:ring-custom-yellow"
                 onClick={ () => setModalOpen(true)}
             > Ajouter un répertoire
-            </Button>
+            </button>
             <div className="directories-container">
                 {directories.map((directory, index) => (
 
@@ -278,12 +277,11 @@ const Directories = (user, isConnected) => {
                             <Link
                                 to={`/directoriesboard/${directory.ouvertures}${directory.color}&id=${directory.id}`}
                             >
-                                <Button
-                                    variant="contained"
-                                    color="primary"
+                                <button
+                                    className="text-white bg-custom-yellow hover:bg-custom-yellow-dark focus:ring-4 focus:ring-custom-yellow-light font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-custom-yellow-dark dark:hover:bg-custom-yellow focus:outline-none dark:focus:ring-custom-yellow"
                                 >
                                     Se tester
-                                </Button>
+                                </button>
 
                             </Link>
                         </CardContent>
@@ -352,12 +350,11 @@ const Directories = (user, isConnected) => {
                             <Link
                                 to={`/directoriesboard/${directory.ouverture}${directory.couleur}&id=${directory.id}`}
                             >
-                                <Button
-                                    variant="contained"
-                                    color="primary"
+                                <button
+                                    className="text-white bg-custom-yellow hover:bg-custom-yellow-dark focus:ring-4 focus:ring-custom-yellow-light font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-custom-yellow-dark dark:hover:bg-custom-yellow focus:outline-none dark:focus:ring-custom-yellow"
                                 >
                                     Se tester
-                                </Button>
+                                </button>
 
                             </Link>
                         </CardContent>

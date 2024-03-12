@@ -27,6 +27,7 @@ const MyChessboard = ( user , isConnected) => {
     const [firstreturn, setFirstreturn] = useState(true);
     const [directoryName, setDirectoryName] = useState("");
     const [directoryColor, setDirectoryColor] = useState("");
+    const NavbarHeight = 65;
 
 
     // Fonction pour fermer la modal
@@ -71,7 +72,7 @@ const MyChessboard = ( user , isConnected) => {
             }
             console.log(chess.fen());
             setNode(tree.ajouteCoup(node , move.san, node.moveNbr +1 ));
-            setPgn(tree.exportPgn());
+            setPgn(tree.exportPgn().substring(7));
 
             setFirstreturn(true);
 
@@ -207,7 +208,7 @@ const MyChessboard = ( user , isConnected) => {
         }
     };
 
-    const customStyles = {
+    /*const customStyles = {
         overlay: {
             backgroundColor: 'rgba(0, 0, 0, 0.5)'
         },
@@ -228,7 +229,7 @@ const MyChessboard = ( user , isConnected) => {
             height: '500px',
             textAlign: 'center'
         }
-    };
+    };*/
 
     const reset = () => {
         console.log("reset")
@@ -246,60 +247,46 @@ const MyChessboard = ( user , isConnected) => {
     } , []);
 
     return (
-        <Grid container spacing={2}>
-            <Grid item xs={4}>
+        <div className="flex h-screen" style={{ height: `calc(100vh - ${NavbarHeight}px)` }}>
+            <div className="w-4/6">
+                <div style={{ maxWidth: '50vw', width: `calc(100vh - ${NavbarHeight}px)`, height: `calc(100vh - ${NavbarHeight}px)` }}>
+                <Chessboard
+                    position={chess.fen()}
+                    onPieceDrop={(sourceSquare, targetSquare) => handleDrop(sourceSquare, targetSquare)}
+                />
+                </div>
+            </div>
+            <div className="w-4/6">
+                <br/>
+                <button onClick={reset} className="text-white bg-custom-yellow hover:bg-custom-yellow-dark focus:ring-4 focus:ring-custom-yellow-light font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-custom-yellow-dark dark:hover:bg-custom-yellow focus:outline-none dark:focus:ring-custom-yellow">
+                    Reset
+                </button>
+                <button onClick={() => previousMove()} className="text-white bg-custom-yellow hover:bg-custom-yellow-dark focus:ring-4 focus:ring-custom-yellow-light font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-custom-yellow-dark dark:hover:bg-custom-yellow focus:outline-none dark:focus:ring-custom-yellow">
+                    {'<'}
+                </button>
+                {
+                    node.enfants?.map((child, index) => (
+                        <button onClick={() => nextMove(index)} className="text-white bg-custom-yellow hover:bg-custom-yellow-dark focus:ring-4 focus:ring-custom-yellow-light font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-custom-yellow-dark dark:hover:bg-custom-yellow focus:outline-none dark:focus:ring-custom-yellow">
+                            {child.move}
+                        </button>
+                    ))
+                }
 
-                    <Chessboard
-                        position={chess.fen()}
-                        onPieceDrop={(sourceSquare, targetSquare) => handleDrop(sourceSquare, targetSquare)}
-                    />
-            </Grid>
-            <Grid item xs={8} className="right-grid">
-                <br></br>
-                <Button onClick={reset}
-                        variant="contained"
-                        color="primary"
-                        style={{ marginRight: '10px' }}>Reset</Button>
-                <Button onClick={() => previousMove()}
-                        variant="contained"
-                        color="primary"
-                        style={{ marginRight: '10px' }}
-                >{'<'}
-                </Button>
-                { /*
-                <Button onClick={() => nextMove()}
-                        variant="contained"
-                        color="primary"
-                        style={{ marginRight: '10px' }}
-                >{'>'}  </Button>*/}
-                    {
-                        node.enfants?.map((child, index) => (
-                            <Button onClick={() => nextMove(index)}
-                                    variant="contained"
-                                    color="primary"
-                                    style={{ marginRight: '10px' }}
-                            >{child.move}
-                            </Button>
-                        ))
-
-                    }
-
-                <Button onClick={() => setModalOpen(true)}
-                        variant="contained"
-                        color="primary"
-                        style={{ marginRight: '10px' }}
+                <button onClick={() => setModalOpen(true)}
+                        className="text-white bg-custom-yellow hover:bg-custom-yellow-dark focus:ring-4 focus:ring-custom-yellow-light font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-custom-yellow-dark dark:hover:bg-custom-yellow focus:outline-none dark:focus:ring-custom-yellow"
                 >Create Directory
-                </Button>
-                <p className="pgn">PGN actuel : {pgn}</p>
-                {/*<p>{chess.history()}</p>*/}
-            </Grid>
-            <DirectoryForm
-                userId={user.user.id}
-                isOpen={modalOpen}
-                closeModal={closeModal}
-                initPgn={pgn}
-            />
-        </Grid>
-    );
+                </button>
+                <p className="text-lg text-gray-900 dark:text-white">PGN actuel : {pgn}</p>
+                <DirectoryForm
+                    userId={user.user.id}
+                    isOpen={modalOpen}
+                    closeModal={closeModal}
+                    initPgn={pgn}
+                />
+            </div>
+        </div>
+
+
+);
 };
 export default MyChessboard;
