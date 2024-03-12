@@ -296,7 +296,7 @@ const DirectoriesBoard = () => {
         var requestOptions = {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({reussi: 1, idrep: id, action: 5}),
+            body: JSON.stringify({reussi: erreur > 0 ? 0 : 1, idrep: id, action: 5}),
         }
         fetch(path + 'manage_directories.php', requestOptions)
             .then(response => response.json())

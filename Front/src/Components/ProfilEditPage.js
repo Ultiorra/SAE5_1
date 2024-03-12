@@ -1,7 +1,7 @@
 import React, {useEffect,  useState} from 'react';
 import {useNavigate} from "react-router-dom";
 import {toast} from "react-toastify";
-import {Button} from "@mui/material";
+import {Button, Typography} from "@mui/material";
 import "../css/ProfilePage.css";
 function ProfileEditPage({ user }) {
     const navigate = useNavigate();
@@ -74,7 +74,9 @@ function ProfileEditPage({ user }) {
 
     return (
         <div>
-            <h1 >Modifier le profil</h1>
+            <Typography variant="h2" gutterBottom>
+                Modifier le profil
+            </Typography>
             <form onSubmit={handleSubmit}>
                 <label>
                     Nom d'utilisateur:

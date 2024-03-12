@@ -88,7 +88,7 @@ const DirectoryForm = ({ userId, isOpen, closeModal, initPgn= null }) => {
         fetch(path + 'manage_directories.php', requestOption).then(response => {
             console.log(response.status)
             if (response.status === 200)
-                toast('CrÃ©ation de répertoire rÃ©ussie', {
+                toast('Création de répertoire réussie', {
                     type: 'success',
                     autoClose: 2000,
                     position: toast.POSITION.TOP_CENTER

@@ -67,24 +67,34 @@ function NavBar({isConnected, setConnected}) {
                             :
                             <ul className="flex flex-col font-medium mt-4 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-transparent dark:bg-gray-800 md:dark:bg-transparent dark:border-gray-700">
                                 <li>
-                                    <a href="/chessboard" className="block py-2 px-3 md:p-0 text-white rounded md:bg-transparent md:dark:bg-transparent" aria-current="page"><DashboardIcon/>Chessboard</a>
+                                    <a href="/chessboard"
+                                       className="block py-2 px-3 md:p-0 text-white rounded md:bg-transparent md:dark:bg-transparent"
+                                       aria-current="page"><DashboardIcon/>Chessboard</a>
                                 </li>
                                 <li>
-                                    <a href="/directories" className="block py-2 px-3 md:p-0 text-white rounded md:bg-transparent md:dark:bg-transparent" aria-current="page"><FolderIcon/>Directories</a>
+                                    <a href="/directories"
+                                       className="block py-2 px-3 md:p-0 text-white rounded md:bg-transparent md:dark:bg-transparent"
+                                       aria-current="page"><FolderIcon/>Directories</a>
                                 </li>
                                 <li>
-                                    <a href="/api/export" className="block py-2 px-3 md:p-0 text-white rounded md:bg-transparent md:dark:bg-transparent" aria-current="page"><HistoryIcon/>Lichess history</a>
+                                    <a href="/api/export"
+                                       className="block py-2 px-3 md:p-0 text-white rounded md:bg-transparent md:dark:bg-transparent"
+                                       aria-current="page"><HistoryIcon/>Lichess history</a>
                                 </li>
                                 <li>
-                                    <a href="/profile/edit" className="block py-2 px-3 md:p-0 text-white rounded md:bg-transparent md:dark:bg-transparent" aria-current="page"><AccountBoxIcon/>Profile</a>
+                                    <a href="/profile/edit"
+                                       className="block py-2 px-3 md:p-0 text-white rounded md:bg-transparent md:dark:bg-transparent"
+                                       aria-current="page"><AccountBoxIcon/>Profile</a>
                                 </li>
                                 <li>
-                                    <a href="/" className="block py-2 px-3 md:p-0 text-white rounded md:bg-transparent md:dark:bg-transparent" aria-current="page"><LogoutIcon/>Logout</a>
+                                    <a href="/"
+                                       className="block py-2 px-3 md:p-0 text-white rounded md:bg-transparent md:dark:bg-transparent"
+                                       aria-current="page"><LogoutIcon onClick={handleLogout}/>Logout</a>
                                 </li>
                             </ul>
                     }
                 </div>
-            </div>
+        </div>
         </nav>
     );
 };

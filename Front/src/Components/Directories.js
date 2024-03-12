@@ -216,7 +216,9 @@ const Directories = (user, isConnected) => {
 
     return (
         <div>
-            <h1>Directories de {currentUser.login}</h1>
+            <Typography variant="h2" gutterBottom>
+                Directories de {currentUser.login}
+            </Typography>
             <button
                 className="text-white bg-custom-yellow hover:bg-custom-yellow-dark focus:ring-4 focus:ring-custom-yellow-light font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-custom-yellow-dark dark:hover:bg-custom-yellow focus:outline-none dark:focus:ring-custom-yellow"
                 onClick={ () => setModalOpen(true)}
@@ -325,13 +327,13 @@ const Directories = (user, isConnected) => {
 
 
                                 {
-                                    directory.nb_tests === "0" ? <Typography>
-                                            0% de réussite
+                                    directory.nb_reussites === "0" ? <Typography>
+                                            Pas encore testé
                                         </Typography> :
                                         <Typography>
-                                            {Number.isInteger(directory.nb_success / directory.nb_tests)
-                                                ? `${(directory.nb_success / directory.nb_tests) * 100}% de réussite`
-                                                : `${((directory.nb_success / directory.nb_tests) * 100).toFixed(2)}% de réussite`}
+                                            {Number.isInteger(directory.nb_reussites / directory.nb_tests)
+                                                ? `${(directory.nb_reussites / directory.nb_tests) * 100}% de réussite`
+                                                : `${((parseInt(directory.nb_reussites) / parseInt(directory.nb_tests)) * 100).toFixed(2)}% de réussite`}
                                         </Typography>
                                 }
 
