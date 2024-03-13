@@ -96,11 +96,16 @@ const ApiExportPage = (user ) => {
 
     } , [editedUser]);
 
+    const navigateBoard = (game) => {
+        let path = `/directoriesboard/${game.pgn}`
+        navigate(path)
+    }
+
     return (
         <Container>
-            <Typography variant="h2" gutterBottom>
+            <h1 className="mb-4 text-4xl font-semibold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-5xl dark:text-white text-center">
                 Bienvenue sur l'historique de vos parties lichess
-            </Typography>
+            </h1>
             <div className="parsed-games-container">
                 {parsedGames.map((game, index) => (
                     game ?
@@ -116,23 +121,20 @@ const ApiExportPage = (user ) => {
                                     }}
                                 ></div>
                                 <pre>{'Partie du ' + game.dateFormated + ' contre ' + game.ennemy}</pre>
-
+                                <div className="flex flex-row items-center space-x-4">
                                 <button
                                     className="text-white bg-custom-yellow hover:bg-custom-yellow-dark focus:ring-4 focus:ring-custom-yellow-light font-medium rounded-lg text-sm px-3 py-2.5 me-2 mb-2 dark:bg-custom-yellow-dark dark:hover:bg-custom-yellow focus:outline-none dark:focus:ring-custom-yellow"
                                     onClick={() => pushDirectory('Partie du ' + game.dateFormated + ' contre ' + game.ennemy, game.pgn, game.color)}
                                 >
                                     Sauvegarder
                                 </button>
-                                <Link
-                                    to={`/directoriesboard/${game.pgn}`}
-                                >
                                     <button
+                                        onClick={() => navigateBoard(game)}
                                         className="text-white bg-custom-yellow hover:bg-custom-yellow-dark focus:ring-4 focus:ring-custom-yellow-light font-medium rounded-lg text-sm px-3 py-2.5 me-2 mb-2 dark:bg-custom-yellow-dark dark:hover:bg-custom-yellow focus:outline-none dark:focus:ring-custom-yellow"
                                     >
                                         Rejouer
                                     </button>
-
-                                </Link>
+                                </div>
 
                             </CardContent>
                         </Card> : null

@@ -256,7 +256,7 @@ const MyChessboard = ( user , isConnected) => {
                 />
                 </div>
             </div>
-            <div className="w-4/6">
+            <div className="w-4/6 mx-4">
                 <br/>
                 <button onClick={reset} className="text-white bg-custom-yellow hover:bg-custom-yellow-dark focus:ring-4 focus:ring-custom-yellow-light font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-custom-yellow-dark dark:hover:bg-custom-yellow focus:outline-none dark:focus:ring-custom-yellow">
                     Reset

@@ -216,9 +216,9 @@ const Directories = (user, isConnected) => {
 
     return (
         <div>
-            <Typography variant="h2" gutterBottom>
+            <h1 className="mb-4 text-4xl font-semibold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-5xl dark:text-white">
                 Directories de {currentUser.login}
-            </Typography>
+            </h1>
             <button
                 className="text-white bg-custom-yellow hover:bg-custom-yellow-dark focus:ring-4 focus:ring-custom-yellow-light font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-custom-yellow-dark dark:hover:bg-custom-yellow focus:outline-none dark:focus:ring-custom-yellow"
                 onClick={ () => setModalOpen(true)}

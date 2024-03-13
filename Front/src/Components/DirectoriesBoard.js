@@ -11,6 +11,7 @@ const DirectoriesBoard = () => {
     const [numberTry, setNumberTry] = useState(0);
     const [numberSuccess, setNumberSuccess] = useState(0);
     const path = "http://localhost/my-app/prochess/";
+    const NavbarHeight = 65;
 
     function updateDirectory() {
     }
@@ -482,20 +483,30 @@ const DirectoriesBoard = () => {
 
 
     return (
-        <div>
-            <div className="board">
-                <Chessboard
-                    position={chess.fen()}
-                    onPieceDrop={(sourceSquare, targetSquare) => handleDrop(sourceSquare, targetSquare)}
-                />
+        <div className="flex h-screen" style={{ height: `calc(100vh - ${NavbarHeight}px)` }}>
+            <div className="w-4/6">
+                <div style={{ maxWidth: '50vw', width: `calc(100vh - ${NavbarHeight}px)`, height: `calc(100vh - ${NavbarHeight}px)` }}>
+                    <Chessboard
+                        position={chess.fen()}
+                        onPieceDrop={(sourceSquare, targetSquare) => handleDrop(sourceSquare, targetSquare)}
+                    />
+                </div>
             </div>
-            <p>Erreur : {erreur}</p>
-            <p>Nombre de tentatives : {numberTry}</p>
-            <p>Nombre de réussites : {numberSuccess}</p>
-            <p>PGN : </p>
-            <p>{pgn}</p>
-            <p>PGN de l'ouverture : </p>
-            <p>{value2}</p>
+            <div className="w-4/6">
+                <p className="text-xl text-gray-900 dark:text-white">Erreur : {erreur}</p>
+                <br/>
+                <p className="text-xl text-gray-900 dark:text-white">Nombre de tentatives : {numberTry}</p>
+                <br/>
+                <p className="text-xl text-gray-900 dark:text-white">Nombre de réussites : {numberSuccess}</p>
+                <br/>
+                <p className="text-xl text-gray-900 dark:text-white">PGN : </p>
+                <br/>
+                <p className="text-xl text-gray-900 dark:text-white">{pgn}</p>
+                <br/>
+                <p className="text-xl text-gray-900 dark:text-white">PGN de l'ouverture : </p>
+                <br/>
+                <p className="text-xl text-gray-900 dark:text-white">{value2}</p>
+            </div>
 
             <Dialog
                 open={open}

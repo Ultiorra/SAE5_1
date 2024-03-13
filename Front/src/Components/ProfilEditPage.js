@@ -74,30 +74,30 @@ function ProfileEditPage({ user }) {
 
     return (
         <div>
-            <Typography variant="h2" gutterBottom>
+            <h1 className="mb-4 text-4xl font-semibold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-5xl dark:text-white text-center">
                 Modifier le profil
-            </Typography>
-            <form onSubmit={handleSubmit}>
-                <label>
-                    Nom d'utilisateur:
-                    <input type="text" name="login" value={editedUser.login} onChange={handleChange} />
-                </label>
-                <label>
-                    Email:
-                    <input type="email" name="email" value={editedUser.email} onChange={handleChange} />
-                </label>
+            </h1>
+            <form onSubmit={handleSubmit} className="max-w-sm mx-auto">
+                <div className="mb-5">
+                    <label htmlFor="login" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nom d'utilisateur :</label>
+                    <input type="text" name="login" value={editedUser.login} onChange={handleChange} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/>
+                </div>
+                <div className="mb-5">
+                    <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email :</label>
+                    <input type="email" name="email" value={editedUser.email} onChange={handleChange} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/>
+                </div>
+                <div className="mb-5">
+                    <label htmlFor="lichess_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nom Lichess :</label>
+                    <input type="text" name="lichess_name" value={editedUser.lichess_name} onChange={handleChange} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/>
+                </div>
 
-                <label>
-                    Nom Lichess:
-                    <input type="text" name="lichess_name" value={editedUser.lichess_name} onChange={handleChange} />
-                </label>
+                <div className="flex flex-row items-center space-x-4">
+                    <button type="button" onClick={handleOpenChangePasswordModal} className="text-white bg-custom-yellow hover:bg-custom-yellow-dark focus:ring-4 focus:ring-custom-yellow-light font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-custom-yellow-dark dark:hover:bg-custom-yellow focus:outline-none dark:focus:ring-custom-yellow">Modifier mot de passe</button>
 
-                <Button variant="contained"
-                        color="primary"  type="button" onClick={handleOpenChangePasswordModal}>Modifier mot de passe</Button>
+                    <button type="submit" className="text-white bg-custom-yellow hover:bg-custom-yellow-dark focus:ring-4 focus:ring-custom-yellow-light font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-custom-yellow-dark dark:hover:bg-custom-yellow focus:outline-none dark:focus:ring-custom-yellow">Enregistrer les modifications</button>
+                </div>
 
-                <Button   variant="contained"
-                          color="primary" type="submit">Enregistrer les modifications</Button>
-            </form>
+                </form>
 
             {showChangePasswordModal && (
                 <div className="modal">
