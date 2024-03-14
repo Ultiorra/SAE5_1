@@ -97,7 +97,13 @@ const ApiExportPage = (user ) => {
     } , [editedUser]);
 
     const navigateBoard = (game) => {
-        let path = `/directoriesboard/${game.pgn}`
+        let couleur;
+        if(game.color = "w"){
+            couleur = "0"
+        } else {
+            couleur = "1"
+        }
+        let path = `/directoriesboard/${game.pgn.split('#'[0])}${couleur}&id=${9999999999}`
         navigate(path)
     }
 
@@ -109,35 +115,36 @@ const ApiExportPage = (user ) => {
             <div className="parsed-games-container">
                 {parsedGames.map((game, index) => (
                     game ?
-                        <Card key={index} className="parsed-game-card">
-                            <CardContent style={{ backgroundColor: '#f5f5f5' }}>
-                                <div
-                                    style={{
-                                        width: '10px',
-                                        height: '10px',
-                                        backgroundColor: game.color === "white" ? 'white' : 'black',
-                                        borderRadius: '50%',
-                                        marginRight: '8px',
-                                    }}
-                                ></div>
-                                <pre>{'Partie du ' + game.dateFormated + ' contre ' + game.ennemy}</pre>
-                                <div className="flex flex-row items-center space-x-4">
-                                <button
-                                    className="text-white bg-custom-yellow hover:bg-custom-yellow-dark focus:ring-4 focus:ring-custom-yellow-light font-medium rounded-lg text-sm px-3 py-2.5 me-2 mb-2 dark:bg-custom-yellow-dark dark:hover:bg-custom-yellow focus:outline-none dark:focus:ring-custom-yellow"
-                                    onClick={() => pushDirectory('Partie du ' + game.dateFormated + ' contre ' + game.ennemy, game.pgn, game.color)}
-                                >
-                                    Sauvegarder
-                                </button>
-                                    <button
-                                        onClick={() => navigateBoard(game)}
-                                        className="text-white bg-custom-yellow hover:bg-custom-yellow-dark focus:ring-4 focus:ring-custom-yellow-light font-medium rounded-lg text-sm px-3 py-2.5 me-2 mb-2 dark:bg-custom-yellow-dark dark:hover:bg-custom-yellow focus:outline-none dark:focus:ring-custom-yellow"
-                                    >
-                                        Rejouer
-                                    </button>
-                                </div>
-
-                            </CardContent>
-                        </Card> : null
+                        <div key={index} className="parsed-game-card mb-4">
+                            <Card>
+                                <CardContent style={{ backgroundColor: '#f5f5f5' }}>
+                                    <div
+                                        style={{
+                                            width: '10px',
+                                            height: '10px',
+                                            backgroundColor: game.color === "white" ? 'white' : 'black',
+                                            borderRadius: '50%',
+                                            marginRight: '8px',
+                                        }}
+                                    ></div>
+                                    <pre>{'Partie du ' + game.dateFormated + ' contre ' + game.ennemy}</pre>
+                                    <div className="flex flex-row items-center space-x-4">
+                                        <button
+                                            className="text-white bg-custom-yellow hover:bg-custom-yellow-dark focus:ring-4 focus:ring-custom-yellow-light font-medium rounded-lg text-sm px-3 py-2.5 me-2 mb-2 dark:bg-custom-yellow-dark dark:hover:bg-custom-yellow focus:outline-none dark:focus:ring-custom-yellow"
+                                            onClick={() => pushDirectory('Partie du ' + game.dateFormated + ' contre ' + game.ennemy, game.pgn, game.color)}
+                                        >
+                                            Sauvegarder
+                                        </button>
+                                        <button
+                                            onClick={() => navigateBoard(game)}
+                                            className="text-white bg-custom-yellow hover:bg-custom-yellow-dark focus:ring-4 focus:ring-custom-yellow-light font-medium rounded-lg text-sm px-3 py-2.5 me-2 mb-2 dark:bg-custom-yellow-dark dark:hover:bg-custom-yellow focus:outline-none dark:focus:ring-custom-yellow"
+                                        >
+                                            Rejouer
+                                        </button>
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        </div> : null
                 ))}
             </div>
         </Container>

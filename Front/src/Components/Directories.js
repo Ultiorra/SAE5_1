@@ -128,41 +128,7 @@ const Directories = (user, isConnected) => {
     };
 
     const directories = [
-        {
-            name: 'Directory 1',
-            ouvertures: '1. e4 e5 2. Nc3  (2. d4 exd4 3. e5 Nc6 4. Nf3 )  (2. f4 exf4 3. g3 fxg3 4. hxg3 ) Nf6 3. Nf3 Nc6  \',',
-            nb_tests: 1,
-            nb_success: 1,
-            color: 0,
-        },
-        {
-            name: 'Directory 2',
-            ouvertures: '1. e4 e5  (d5 2. exd5 e5  (Qxd5 3. Nc3 Qe5+  (Qe6+ 4. Be2 Nc6 ) 4. Be2 ) 3. dxe6 Bxe6 4. d4 Bb4+ 5. Bd2 ) \',',
-            nb_tests: 2,
-            nb_success: 1,
-            color: 1,
-        },
-        {
-            name: 'Directory 3',
-            ouvertures: '1. f3 f5 2. Nc3 Nf6 3. e4 fxe4 4. fxe4 e5 5. Nf3 Nc6 6. d3 Bc5 7. d4 Bxd4 8. Nxd4 exd4\',',
-            nb_tests: 3,
-            nb_success: 1,
-            color: 0,
-        },
-        {
-            name: 'Directory 4',
-            ouvertures: '1. f3 f5 2. Nc3 Nf6 3. e4 fxe4 4. fxe4 e5 5. Nf3 Nc6 6. d3 Bc5 7. d4 Bxd4 8. Nxd4 exd4\',',
-            nb_tests: 4,
-            nb_success: 0,
-            color: 1,
-        },
-        {
-            name: 'Directory 5',
-            ouvertures: '1. f3 f5 2. Nc3 Nf6 3. e4 fxe4 4. fxe4 e5 5. Nf3 Nc6 6. d3 Bc5 7. d4 Bxd4 8. Nxd4 exd4\',',
-            nb_tests: 4,
-            nb_success: 0,
-            color: 0,
-        }
+
     ];
 
 
@@ -217,7 +183,7 @@ const Directories = (user, isConnected) => {
     return (
         <div>
             <h1 className="mb-4 text-4xl font-semibold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-5xl dark:text-white">
-                Directories de {currentUser.login}
+                Répertoires de {currentUser.login}
             </h1>
             <button
                 className="text-white bg-custom-yellow hover:bg-custom-yellow-dark focus:ring-4 focus:ring-custom-yellow-light font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-custom-yellow-dark dark:hover:bg-custom-yellow focus:outline-none dark:focus:ring-custom-yellow"
@@ -350,7 +316,7 @@ const Directories = (user, isConnected) => {
                                 </Typography>
                             </Box>
                             <Link
-                                to={`/directoriesboard/${directory.ouverture}${directory.couleur}&id=${directory.id}`}
+                                to={`/directoriesboard/${directory.ouverture.split('#'[0])}${directory.couleur}&id=${directory.id}`}
                             >
                                 <button
                                     className="text-white bg-custom-yellow hover:bg-custom-yellow-dark focus:ring-4 focus:ring-custom-yellow-light font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-custom-yellow-dark dark:hover:bg-custom-yellow focus:outline-none dark:focus:ring-custom-yellow"

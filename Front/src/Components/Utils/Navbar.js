@@ -53,7 +53,7 @@ function NavBar({isConnected, setConnected}) {
                 <button data-collapse-toggle="navbar-solid-bg" type="button" className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden focus:outline-none " aria-controls="navbar-solid-bg" aria-expanded="false">
                     <span className="sr-only">Open main menu</span>
                     <svg className="w-5 h-5  text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
+                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 1h15M1 7h15M1 13h15"/>
                     </svg>
                 </button>
                 <div className="hidden w-full md:block md:w-auto" id="navbar-solid-bg">
@@ -74,12 +74,12 @@ function NavBar({isConnected, setConnected}) {
                                 <li>
                                     <a href="/directories"
                                        className="block py-2 px-3 md:p-0 text-white rounded md:bg-transparent md:dark:bg-transparent"
-                                       aria-current="page"><FolderIcon/>Directories</a>
+                                       aria-current="page"><FolderIcon/>Répertoires</a>
                                 </li>
                                 <li>
                                     <a href="/api/export"
                                        className="block py-2 px-3 md:p-0 text-white rounded md:bg-transparent md:dark:bg-transparent"
-                                       aria-current="page"><HistoryIcon/>Lichess history</a>
+                                       aria-current="page"><HistoryIcon/>Historique Lichess</a>
                                 </li>
                                 <li>
                                     <a href="/profile/edit"
@@ -89,7 +89,7 @@ function NavBar({isConnected, setConnected}) {
                                 <li>
                                     <a href="/"
                                        className="block py-2 px-3 md:p-0 text-white rounded md:bg-transparent md:dark:bg-transparent"
-                                       aria-current="page"><LogoutIcon onClick={handleLogout}/>Logout</a>
+                                       aria-current="page"><LogoutIcon onClick={handleLogout}/>Déconnexion</a>
                                 </li>
                             </ul>
                     }

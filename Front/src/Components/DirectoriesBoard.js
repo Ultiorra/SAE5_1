@@ -251,7 +251,9 @@ const DirectoriesBoard = () => {
 
 
     const {value} = useParams();
+    console.log("params" + value)
     const [value2, setValue2] = useState(value.split("&")[0].slice(0, -2));
+    console.log("value 2",value2)
     const [id, setId] = useState(value.split("&")[1].split("=")[1]);
 
     let userColor = value.split("&")[0].slice(-1);
@@ -293,7 +295,7 @@ const DirectoriesBoard = () => {
     function openingSuccess() {
         setOpen(true);
 
-        updateDirectoryStatsStatic()
+        updateDirectoryStats()
     }
 
     function updateDirectoryStats() {
@@ -401,14 +403,13 @@ const DirectoriesBoard = () => {
                                 etat = 1;
                                 //setOpen(true);
                                 openingSuccess()
-                                console.log("fini")
                             }
                         }
 
                     }
 
                     if (parsedMoves[currentMoveIndex][i].includes(updatedChessCopy.pgn()) && etat === 0) {
-                        console.log("on passe ici")
+
                         if (userColor === "w") {
                             newPgn = parsedMoves[currentMoveIndex][i];
                         } else {
@@ -494,8 +495,6 @@ const DirectoriesBoard = () => {
             </div>
             <div className="w-4/6">
                 <p className="text-xl text-gray-900 dark:text-white">Erreur : {erreur}</p>
-                <br/>
-                <p className="text-xl text-gray-900 dark:text-white">Nombre de tentatives : {numberTry}</p>
                 <br/>
                 <p className="text-xl text-gray-900 dark:text-white">Nombre de réussites : {numberSuccess}</p>
                 <br/>

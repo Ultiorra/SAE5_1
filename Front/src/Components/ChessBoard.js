@@ -136,7 +136,7 @@ const MyChessboard = ( user , isConnected) => {
         if (node.parent) {
             setNode(node.parent);
             setChess(new Chess(node.parent.fen));
-            setPgn(tree.exportPgn());
+            setPgn(tree.exportPgn().substring(7));
         }/*
         if (firstreturn) {
             if (currentMoveIndex > 0) {
@@ -176,7 +176,7 @@ const MyChessboard = ( user , isConnected) => {
             const childNode = node.enfants[childIndex];
             setNode(childNode);
             setChess(new Chess(childNode.fen));
-            setPgn(tree.exportPgn());
+            setPgn(tree.exportPgn().substring(7));
         }
         /*
         if (currentMoveIndex < chessHistory.length - 1) {
@@ -259,7 +259,7 @@ const MyChessboard = ( user , isConnected) => {
             <div className="w-4/6 mx-4">
                 <br/>
                 <button onClick={reset} className="text-white bg-custom-yellow hover:bg-custom-yellow-dark focus:ring-4 focus:ring-custom-yellow-light font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-custom-yellow-dark dark:hover:bg-custom-yellow focus:outline-none dark:focus:ring-custom-yellow">
-                    Reset
+                    Réinitialiser
                 </button>
                 <button onClick={() => previousMove()} className="text-white bg-custom-yellow hover:bg-custom-yellow-dark focus:ring-4 focus:ring-custom-yellow-light font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-custom-yellow-dark dark:hover:bg-custom-yellow focus:outline-none dark:focus:ring-custom-yellow">
                     {'<'}
@@ -274,7 +274,7 @@ const MyChessboard = ( user , isConnected) => {
 
                 <button onClick={() => setModalOpen(true)}
                         className="text-white bg-custom-yellow hover:bg-custom-yellow-dark focus:ring-4 focus:ring-custom-yellow-light font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-custom-yellow-dark dark:hover:bg-custom-yellow focus:outline-none dark:focus:ring-custom-yellow"
-                >Create Directory
+                >Créer un répertoire
                 </button>
                 <p className="text-lg text-gray-900 dark:text-white">PGN actuel : {pgn}</p>
                 <DirectoryForm

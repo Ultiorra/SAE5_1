@@ -21,7 +21,7 @@ catch (Exception $e)
     die('Erreur : ' . $e->getMessage());
 }
 
-if (!isset($data->id) || !isset($data->login) || !isset($data->email)) {
+if (!isset($data->id) || !isset($data->login) || !isset($data->email) || !isset($data->lichess_name)) {
     //http_response_code(400);
     die("Remplissez correctement. Un ou plusieurs champs n\'est pas set\n");
 }
@@ -29,11 +29,7 @@ if (!isset($data->id) || !isset($data->login) || !isset($data->email)) {
 $id = $data->id;
 $pseudo = $data->login;
 $email = $data->email;
-if(!isset($data->lichess_name)) {
-    $lichess_name = null;
-}else {
-    $lichess_name = $data->lichess_name;
-}
+$lichess_name = $data->lichess_name;
 
 //check if user exists
 try {
@@ -48,12 +44,11 @@ try {
     }
     //update user
     else {
-        $updateUserStatement = $mysqlConnection->prepare('UPDATE user SET email = :email, lichess_name = :lichess_name, login = :login WHERE id = :id');
+        $updateUserStatement = $mysqlConnection->prepare('UPDATE user SET email = :email, lichess_name = :lichess_name WHERE login = :login');
         $updateUserStatement->execute([
             'email' => $email,
             'lichess_name' => $lichess_name,
             'login' => $pseudo,
-	    'id' => $id,
         ]) or die(print_r($mysqlConnection->errorInfo()));
         $response['status'] = "success";
         $response['message'] = "Utilisateur modifié";
@@ -62,4 +57,5 @@ try {
 } catch (Exception $e) {
     die('Erreur : ' . $e->getMessage());
 }
+
 ?>
